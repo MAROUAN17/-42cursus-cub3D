@@ -54,12 +54,12 @@ double normalize_rayAngle(double ray_angle)
 double	cast_rays(t_player *player)
 {
     int i;
-	t_point wall_coord1;
-	t_point wall_coord2;
     double angle_step;
 	double halfFov = player->p_fov_angle / 2;
 	double startAngle = player->playerAngle - halfFov;
 	double distance = 0;
+	t_point wall_coord1;
+	t_point wall_coord2;
 
     i = 0;
     angle_step = player->p_fov_angle / WIDTH;
@@ -71,10 +71,6 @@ double	cast_rays(t_player *player)
 		update_ray_facing(&player->rays[i]);
 		wall_coord1 = calculating_horizontal_intersections(player, &player->rays[i]);
 		wall_coord2 = calculating_vertical_intersections(player, &player->rays[i]);
-		printf("horizontal wall x -> %f\n", wall_coord1.x);
-		printf("horizontal wall y -> %f\n", wall_coord1.y);
-		printf("vertical wall x -> %f\n", wall_coord2.x);
-		printf("vertical wall y -> %f\n", wall_coord2.y);
 		distance = calculate_smallest_distance(player, &player->rays[i], &wall_coord1, &wall_coord2);
         draw_line(player->map_img, player->player_x, player->player_y,
 			player->rays[i].x, player->rays[i].y, 0xFF0000FF);
