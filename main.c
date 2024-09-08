@@ -32,29 +32,13 @@ char	**store_2d_array(char *map_path, int *map_height, int *map_width)
 	d_map = malloc(sizeof(char *) * (*map_height + 1));
 	while (i < *map_height)
 	{
-		d_map[i] = ft_strdup(get_next_line(fd));
+		d_map[i] = get_next_line(fd);
 		free(line);
 		i++;
 	}
 	d_map[i] = NULL;
 	close(fd);
 	return (d_map);
-}
-
-void draw_rectangle(mlx_image_t *img, int x, int y, int color, int p)
-{
-	int i = 0;
-	int j = 0;
-	while (i < p)
-	{
-		j = 0;
-		while (j < p)
-		{
-			mlx_put_pixel(img, x + j, y + i, color);
-			j++;
-		}
-		i++;
-	}
 }
 
 void render_2dmap(t_player *player, char **map)
@@ -99,7 +83,7 @@ int main(int ac, char **av)
 	player.player_x = -1;
 	player.player_y = -1;
 	int i = 0;
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true)))
+	if (!(mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false)))
 	{
 		free_2d_arr(player.map);
 		perror(strerror(mlx_errno));
@@ -121,8 +105,8 @@ int main(int ac, char **av)
 		i++;
 	}
 	player.playerAngle = M_PI / 2;
-	player.moveSpeed = 12.0;
-	player.rotationSpeed = degrees2rad(8);
+	player.moveSpeed = 5.0;
+	player.rotationSpeed = degrees2rad(4);
 	player.map = store_2d_array(av[1], &map_height, &map_width);
 	player.map_height = map_height;
 	player.map_width = map_width;

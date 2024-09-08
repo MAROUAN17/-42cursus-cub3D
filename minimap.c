@@ -1,10 +1,25 @@
 #include "./cub3d_header.h"
 
+void draw_rectangle(mlx_image_t *img, double x, double y, int color, double p)
+{
+	double i = 0;
+	double j = 0;
+	while (i < p)
+	{
+		j = 0;
+		while (j < p)
+		{
+			mlx_put_pixel(img, x + j, y + i, color);
+			j++;
+		}
+		i++;
+	}
+}
+
 void render_minimap(t_player *player)
 {
 	int     x = 0;
 	int     y = 0;
-    double  minimap_scale_factor = 0.2;
 
 	while (player->map[y])
 	{
@@ -12,7 +27,7 @@ void render_minimap(t_player *player)
 		while (player->map[y][x])
 		{
 			if (player->map[y][x] == '1')
-				draw_rectangle(player->map_img, (x * TILE_PX) * minimap_scale_factor, (y * TILE_PX) * minimap_scale_factor, 0x000000FF, TILE_PX * 0.2);
+				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0x000000FF, TILE_PX * MINIMAP_FACTOR);
 			else
 			{
 				if (player->player_x == -1 && player->player_y == -1 && player->map[y][x] == 'P')
@@ -20,7 +35,7 @@ void render_minimap(t_player *player)
 					player->player_x = x * TILE_PX;
 					player->player_y = y * TILE_PX;
 				}
-				draw_rectangle(player->map_img, (x * TILE_PX) * minimap_scale_factor, (y * TILE_PX) *   minimap_scale_factor, 0xFFFFFFFF, TILE_PX * 0.2);
+				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
 			}
 			x++;
 		}

@@ -9,6 +9,7 @@
         "complex": "c",
         "cub3d_header.h": "c",
         "limits.h": "c",
-        "__node_handle": "c"
+        "__node_handle": "c",
+        "math.h": "c"
     }
 }

@@ -10,7 +10,9 @@
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define TILE_PX 60
+#define UNIT 32.0
+#define TILE_PX (HEIGHT / (int)UNIT)
+#define MINIMAP_FACTOR (double)(((double)UNIT / (double)HEIGHT) + 0.2)
 
 typedef struct s_point {
 	double x;
@@ -74,7 +76,7 @@ void	render_empty(void *player);
 void	render_draw_line(void *v_player); 
 void	render_2dmap(t_player *player, char **map);
 void	render(void *v_player); 
-void	draw_rectangle(mlx_image_t *img, int x, int y, int color, int p);
+void	draw_rectangle(mlx_image_t *img, double x, double y, int color, double p);
 t_point	calculating_horizontal_intersections(t_player *player, t_ray *ray);
 t_point	calculating_vertical_intersections(t_player *player, t_ray *ray);
 t_point	finding_wall_horizontal(t_player *player, t_ray *ray, double xstep, double ystep);

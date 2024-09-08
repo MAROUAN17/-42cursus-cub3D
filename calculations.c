@@ -51,12 +51,18 @@ void draw_wall(t_player *player)
 	int i = 0;
 	double pWallHeight = 0;
 	double wall_width = 2;
+	double correct_wall_distance = 0;
 	int ystart = 0;
 	double d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
 
 	while (i < WIDTH)
 	{
-		pWallHeight = (TILE_PX * d_projection) / player->rays[i].distance_to_wall;
+		if (player->rays[i].distance_to_wall < 0)
+			player->rays[i].distance_to_wall = 0;
+		correct_wall_distance = player->rays[i].distance_to_wall * cos(player->rays[i].angle - player->playerAngle);
+		if (!correct_wall_distance)
+			correct_wall_distance = 0.1;
+		pWallHeight = (TILE_PX * d_projection) / correct_wall_distance;
 		ystart = (HEIGHT / 2) - ((int)pWallHeight / 2);
 		if (ystart < 0)
 			ystart = 0;
@@ -105,9 +111,10 @@ void	cast_rays(t_player *player)
 		update_ray_facing(&player->rays[i]);
 		wall_coord1 = calculating_horizontal_intersections(player, &player->rays[i]);
 		wall_coord2 = calculating_vertical_intersections(player, &player->rays[i]);
-		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i], &wall_coord1, &wall_coord2);
-		draw_line(player->map_img, 0.2 * player->player_x, 0.2 * player->player_y,
-		0.2 * player->rays[i].x, 0.2 * player->rays[i].y, 0xFF0000FF);
+		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i],
+			&wall_coord1, &wall_coord2);
+		draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
+		player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
         i++;
     }
 }
@@ -117,7 +124,7 @@ void	move(t_player *player, double angle)
 	double new_x = cos(angle) * player->moveSpeed;
 	double new_y = sin(angle) * player->moveSpeed;
 	if (player->map[(int)((player->player_y + new_y) / TILE_PX)][(int)((player->player_x + new_x) / TILE_PX)] != '1')
-	{	
+	{
 		player->player_x += new_x;
 		player->player_y += new_y;
 	}
@@ -130,17 +137,17 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 	player = (t_player *)v_player;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->w_key = 'W';
-	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->s_key = 'S';
-	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->a_key = 'A';
-	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->d_key = 'D';
-	else if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->turnDirection = 1;
-	else if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->turnDirection = -1;
-	else if (keydata.key == MLX_KEY_ESCAPE)
+	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(player->mlx);
 }
 
@@ -151,6 +158,7 @@ void render(void *v_player)
 	player = (t_player *)v_player;
 	mlx_delete_image(player->mlx, player->map_img);
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
+	// render_2dmap(player, player->map);
 	if (player->w_key == 'W')
 		move(player, player->playerAngle);
 	if (player->s_key == 'S')
@@ -169,6 +177,7 @@ void render(void *v_player)
 	draw_wall(player);
 	render_minimap(player);
 	cast_rays(player);
-	draw_rectangle(player->map_img, player->player_x * 0.2, player->player_y * 0.2, 0xFF0000FF, 30 * 0.2);
+	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
+		0xFF0000FF, 10 * MINIMAP_FACTOR);
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
 }
