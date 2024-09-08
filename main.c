@@ -99,8 +99,17 @@ int main(int ac, char **av)
 	player.player_x = -1;
 	player.player_y = -1;
 	int i = 0;
+	if (!(mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true)))
+	{
+		free_2d_arr(player.map);
+		perror(strerror(mlx_errno));
+		return (EXIT_FAILURE);
+	}
+	mlx_image_t *map_img = mlx_new_image(mlx, WIDTH, HEIGHT);
+	player.map_img = map_img;
 	while (i < WIDTH)
-	{	
+	{
+		rays[i].map_img = map_img;
 		rays[i].h_xintersept = 0;
 		rays[i].h_yintersept = 0;
 		rays[i].v_xintersept = 0;
@@ -111,30 +120,21 @@ int main(int ac, char **av)
 		rays[i].p_isFacingLeft = 0;
 		i++;
 	}
-	printf("here!!\n");
 	player.playerAngle = M_PI / 2;
-	printf("rotation angle -> %f\n", player.playerAngle);
 	player.moveSpeed = 12.0;
-	player.rotationSpeed = degrees2rad(5);
+	player.rotationSpeed = degrees2rad(8);
 	player.map = store_2d_array(av[1], &map_height, &map_width);
 	player.map_height = map_height;
 	player.map_width = map_width;
 	player.rays = rays;
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true)))
-	{
-		free_2d_arr(player.map);
-		perror(strerror(mlx_errno));
-		return (EXIT_FAILURE);
-	}
-	player.map_img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	player.mlx = mlx;
-	mlx_texture_t *texture = mlx_load_png("./textures/white_image.png");
-	player.white_img = mlx_texture_to_image(player.mlx, texture);
-	mlx_texture_t *texture2 = mlx_load_png("./textures/dot.png");
-	player.player_img = mlx_texture_to_image(player.mlx, texture2);
-	mlx_texture_t *texture3 = mlx_load_png("./textures/red_dot.png");
-	player.view_img = mlx_texture_to_image(player.mlx, texture3);
-	render_2dmap(&player, player.map);
+	// mlx_texture_t *texture = mlx_load_png("./textures/white_image.png");
+	// player.white_img = mlx_texture_to_image(player.mlx, texture);
+	// mlx_texture_t *texture2 = mlx_load_png("./textures/dot.png");
+	// player.player_img = mlx_texture_to_image(player.mlx, texture2);
+	// mlx_texture_t *texture3 = mlx_load_png("./textures/red_dot.png");
+	// player.view_img = mlx_texture_to_image(player.mlx, texture3);
+	// render_2dmap(&player, player.map);
 	// cast_rays(&player);
 	mlx_image_to_window(mlx, player.map_img, 0, 0);
 	mlx_key_hook(mlx, &move_player, &player);

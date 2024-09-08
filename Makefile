@@ -2,7 +2,7 @@ CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 CC = cc
 LIBMLX = MLX42
 SRCS =  main.c calculate_distance.c horizontal_intersection.c vertical_intersection.c finding_wall.c \
-	calculations.c  get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
+	calculations.c minimap.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 OBJS = ${SRCS:.c=.o}
 LIBFT = ./libft/libft.a
 SRCS_LIBFT = libft/ft_isprint.c libft/ft_isdigit.c libft/ft_isascii.c libft/ft_isalpha.c \
@@ -28,10 +28,10 @@ ${LIBFT}:
 libmlx:
 	@cmake ./${LIBMLX} -B ${LIBMLX}/build && make -C ${LIBMLX}/build -j4
 
-%.o: %.c
+%.o: %.c ./cub3d_header.h
 	${CC} ${CFLAGS} -o $@ -c $< ${HEADERS}
 
-${NAME}: ${OBJ_LIBFT} ${OBJS} ${LIBFT} ${NEXT_LINE_H} ./cub3d_header.h
+${NAME}: ${OBJ_LIBFT} ${OBJS} ${LIBFT} ${NEXT_LINE_H}
 	${CC} ${CFLAGS} ${OBJS} ${LIBS} ${LIBFT} ${HEADERS} -o ${NAME}
 
 clean:

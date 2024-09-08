@@ -5,8 +5,9 @@ double degrees2rad(double degrees)
 	return (degrees * (M_PI / 180.0));
 }
 
-void draw_line(mlx_image_t* img, double x1, double y1, double x2, double y2, uint32_t color) {
-    // Calculate differences
+void draw_line(mlx_image_t *img, double x1, double y1, double x2, double y2, int color)
+{
+	// Calculate differences
     double dx = x2 - x1;
     double dy = y2 - y1;
 
@@ -27,6 +28,41 @@ void draw_line(mlx_image_t* img, double x1, double y1, double x2, double y2, uin
         x += xIncrement;  // Increment x
         y += yIncrement;  // Increment y
     }
+}
+
+void draw_rectangle_3d(mlx_image_t *img, int x, int y, int color, int w, int p)
+{
+	int i = 0;
+	int j = 0;
+	while (i < w && i < WIDTH)
+	{
+		j = 0;
+		while (j < p && j < HEIGHT)
+		{
+			mlx_put_pixel(img, x + i, y + j, color);
+			j++;
+		}
+		i++;
+	}
+}
+
+void draw_wall(t_player *player)
+{
+	int i = 0;
+	double pWallHeight = 0;
+	double wall_width = 2;
+	int ystart = 0;
+	double d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
+
+	while (i < WIDTH)
+	{
+		pWallHeight = (TILE_PX * d_projection) / player->rays[i].distance_to_wall;
+		ystart = (HEIGHT / 2) - ((int)pWallHeight / 2);
+		if (ystart < 0)
+			ystart = 0;
+		draw_rectangle_3d(player->map_img, i, ystart, 0xFFFFFFFF, wall_width, pWallHeight);
+		i++;
+	}
 }
 
 void	update_ray_facing(t_ray *ray)
@@ -51,13 +87,12 @@ double normalize_rayAngle(double ray_angle)
 	return (ray_angle);
 }
 
-double	cast_rays(t_player *player)
+void	cast_rays(t_player *player)
 {
     int i;
     double angle_step;
 	double halfFov = player->p_fov_angle / 2;
 	double startAngle = player->playerAngle - halfFov;
-	double distance = 0;
 	t_point wall_coord1;
 	t_point wall_coord2;
 
@@ -65,19 +100,16 @@ double	cast_rays(t_player *player)
     angle_step = player->p_fov_angle / WIDTH;
     while (i < WIDTH)
     {
-		printf("----------------------------------------\n");
 		player->rays[i].angle = startAngle + (angle_step * i);
 		player->rays[i].angle = normalize_rayAngle(player->rays[i].angle);
 		update_ray_facing(&player->rays[i]);
 		wall_coord1 = calculating_horizontal_intersections(player, &player->rays[i]);
 		wall_coord2 = calculating_vertical_intersections(player, &player->rays[i]);
-		distance = calculate_smallest_distance(player, &player->rays[i], &wall_coord1, &wall_coord2);
-        draw_line(player->map_img, player->player_x, player->player_y,
-			player->rays[i].x, player->rays[i].y, 0xFF0000FF);
-		printf("----------------------------------------\n");
+		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i], &wall_coord1, &wall_coord2);
+		draw_line(player->map_img, 0.2 * player->player_x, 0.2 * player->player_y,
+		0.2 * player->rays[i].x, 0.2 * player->rays[i].y, 0xFF0000FF);
         i++;
     }
-	return (distance);
 }
 
 void	move(t_player *player, double angle)
@@ -97,23 +129,17 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 
 	player = (t_player *)v_player;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		move(player, player->playerAngle);
+		player->w_key = 'W';
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		move(player, player->playerAngle + M_PI);
+		player->s_key = 'S';
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		move(player, player->playerAngle - M_PI / 2);
+		player->a_key = 'A';
 	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		move(player, player->playerAngle + M_PI / 2);
-	else if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{	
-		player->turnDirection = 1;
-		player->playerAngle += player->rotationSpeed * player->turnDirection;
-	}
+		player->d_key = 'D';
 	else if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{	
+		player->turnDirection = 1;
+	else if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->turnDirection = -1;
-		player->playerAngle += player->rotationSpeed * player->turnDirection;
-	}
 	else if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(player->mlx);
 }
@@ -125,21 +151,24 @@ void render(void *v_player)
 	player = (t_player *)v_player;
 	mlx_delete_image(player->mlx, player->map_img);
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
-	// render
-	render_2dmap(player, player->map);
-	// draw_line(player->map_img, player->player_x * TILE_PX, player->player_y * TILE_PX,
-	// 	cos(player->playerAngle) * 20 + (player->player_x * TILE_PX), sin(player->playerAngle) * 20 + (player->player_y * TILE_PX), 0xFF0000FF);
-	draw_rectangle(player->map_img, player->player_x, player->player_y, 0xFF0000FF, 10);
-	double distance = cast_rays(player);
-	(void)distance;
-	// printf("wall x -> %f\n", wall.x);
-	// printf("wall y -> %f\n", wall.y);
-	// if (wall.x && wall.y)
-	// {
-	// 	double distance_wall = sqrt(pow(wall.x / TILE_PX - player->player_x / TILE_PX, 2)
-	// 		+ pow(wall.y / TILE_PX - player->player_y / TILE_PX, 2));
-	// 	printf("distance_wall -> %f\n", distance_wall);
-	// }
-	// cast_rays(player);
+	if (player->w_key == 'W')
+		move(player, player->playerAngle);
+	if (player->s_key == 'S')
+		move(player, player->playerAngle + M_PI);
+	if (player->a_key == 'A')
+		move(player, player->playerAngle - M_PI / 2);
+	if (player->d_key == 'D')
+		move(player, player->playerAngle + M_PI / 2);
+	if (player->turnDirection == 1 || player->turnDirection == -1)
+		player->playerAngle += player->rotationSpeed * player->turnDirection;
+	player->w_key = 0;
+	player->s_key = 0;
+	player->a_key = 0;
+	player->d_key = 0;
+	player->turnDirection = 0;
+	draw_wall(player);
+	render_minimap(player);
+	cast_rays(player);
+	draw_rectangle(player->map_img, player->player_x * 0.2, player->player_y * 0.2, 0xFF0000FF, 30 * 0.2);
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
 }
