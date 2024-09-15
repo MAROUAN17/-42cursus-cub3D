@@ -30,24 +30,9 @@ void draw_line(mlx_image_t *img, double x1, double y1, double x2, double y2, int
     }
 }
 
-void draw_rectangle_3d(mlx_image_t *img, int x, int y, int color, int w, int p)
-{
-	int i = 0;
-	int j = 0;
-	while (i < w && i < WIDTH)
-	{
-		j = 0;
-		while (j < p && j < HEIGHT)
-		{
-			mlx_put_pixel(img, x + i, y + j, color);
-			j++;
-		}
-		i++;
-	}
-}
-
 void draw_wall(t_player *player)
 {
+	int textOffsetX = 0;
 	int i = 0;
 	double pWallHeight = 0;
 	double wall_width = 2;
@@ -59,14 +44,38 @@ void draw_wall(t_player *player)
 	{
 		if (player->rays[i].distance_to_wall < 0)
 			player->rays[i].distance_to_wall = 0;
-		correct_wall_distance = player->rays[i].distance_to_wall * cos(player->rays[i].angle - player->playerAngle);
+		correct_wall_distance = fabs(player->rays[i].distance_to_wall * cos(player->rays[i].angle - player->playerAngle));
 		if (!correct_wall_distance)
-			correct_wall_distance = 0.1;
+			correct_wall_distance = 0.001;
 		pWallHeight = (TILE_PX * d_projection) / correct_wall_distance;
 		ystart = (HEIGHT / 2) - ((int)pWallHeight / 2);
 		if (ystart < 0)
 			ystart = 0;
-		draw_rectangle_3d(player->map_img, i, ystart, 0xFFFFFFFF, wall_width, pWallHeight);
+		draw_ceiling(player->map_img, i, ystart, 0x87CEEB, wall_width);
+		// if (player->rays[i].vertical_wall)
+		if (player->rays[i].vertical_wall)
+			textOffsetX = (int)fabs(player->rays[i].y) % TILE_PX;
+		else
+			textOffsetX = (int)fabs(player->rays[i].x) % TILE_PX;
+		// printf("y -> %d\n", (int)player->rays[i].y);
+		// printf("x -> %d\n", (int)player->rays[i].x);
+		// printf("textoffsetx -> %d\n", textOffsetX);
+		draw_rectangle_3d(player, player->map_img, i, ystart, wall_width, pWallHeight, textOffsetX);
+		// else
+			// draw_rectangle_3d(player, player->map_img, i, ystart, 0xFF0000FF, wall_width, pWallHeight);
+		if (ystart + pWallHeight < HEIGHT)
+			draw_floor(player->map_img, i, ystart + pWallHeight, 0x8B5A2B, wall_width);
+		i++;
+	}
+}
+
+void	draw_casted_rays(t_player *player)
+{
+	int i = 0;
+	while (i < WIDTH)
+	{
+		draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
+			player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
 		i++;
 	}
 }
@@ -113,8 +122,8 @@ void	cast_rays(t_player *player)
 		wall_coord2 = calculating_vertical_intersections(player, &player->rays[i]);
 		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i],
 			&wall_coord1, &wall_coord2);
-		draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-		player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
+		// draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
+		// player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
         i++;
     }
 }
@@ -136,17 +145,29 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 
 	player = (t_player *)v_player;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->w_key = 'W';
+		player->w_key = 1;
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->s_key = 'S';
+		player->s_key = 1;
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->a_key = 'A';
+		player->a_key = 1;
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->d_key = 'D';
+		player->d_key = 1;
 	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnDirection = 1;
+		player->turnLeft = 1;
 	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnDirection = -1;
+		player->turnRight = 1;
+	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_RELEASE))
+		player->w_key = 0;
+	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
+		player->s_key = 0;
+	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
+		player->a_key = 0;
+	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
+		player->d_key = 0;
+	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_RELEASE))
+		player->turnLeft = 0;
+	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_RELEASE))
+		player->turnRight = 0;
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(player->mlx);
 }
@@ -158,25 +179,22 @@ void render(void *v_player)
 	player = (t_player *)v_player;
 	mlx_delete_image(player->mlx, player->map_img);
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
-	// render_2dmap(player, player->map);
-	if (player->w_key == 'W')
+	if (player->w_key)
 		move(player, player->playerAngle);
-	if (player->s_key == 'S')
+	if (player->s_key)
 		move(player, player->playerAngle + M_PI);
-	if (player->a_key == 'A')
+	if (player->a_key)
 		move(player, player->playerAngle - M_PI / 2);
-	if (player->d_key == 'D')
+	if (player->d_key)
 		move(player, player->playerAngle + M_PI / 2);
-	if (player->turnDirection == 1 || player->turnDirection == -1)
-		player->playerAngle += player->rotationSpeed * player->turnDirection;
-	player->w_key = 0;
-	player->s_key = 0;
-	player->a_key = 0;
-	player->d_key = 0;
-	player->turnDirection = 0;
+	if (player->turnLeft)
+		player->playerAngle += player->rotationSpeed * 1;
+	if (player->turnRight)
+		player->playerAngle += player->rotationSpeed * -1;
+	cast_rays(player);
 	draw_wall(player);
 	render_minimap(player);
-	cast_rays(player);
+	draw_casted_rays(player);
 	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
 		0xFF0000FF, 10 * MINIMAP_FACTOR);
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);

@@ -32,6 +32,8 @@ typedef struct s_ray {
 	int			p_isFacingRight;
 	int			p_isFacingLeft;
 	double		distance_to_wall;
+	int			horizontal_wall;
+	int			vertical_wall;
 	mlx_image_t	*map_img;
 }					t_ray;
 
@@ -51,10 +53,12 @@ typedef struct player_struct {
 	double		p_fov_angle;
 	double		player_x;
 	double		player_y;
-	double		turnDirection;
+	double		turnLeft;
+	double		turnRight;
 	double		playerAngle;
 	double		moveSpeed;
 	double		rotationSpeed;
+	mlx_texture_t	*walls_texture;
 	t_ray		*rays;
 }					t_player;
 
@@ -83,3 +87,6 @@ t_point	finding_wall_horizontal(t_player *player, t_ray *ray, double xstep, doub
 t_point	finding_wall_vertical(t_player *player, t_ray *ray, double xstep, double ystep);
 void	draw_walls(t_player *player, int x, int y);
 void 	render_minimap(t_player *player);
+void	draw_rectangle_3d(t_player *player, mlx_image_t *img, int x, int y, int w, int p, int textOffsetX);
+void	draw_ceiling(mlx_image_t *img, int x, int y, int color, int w);
+void	draw_floor(mlx_image_t *img, int x, int y, int color, int w);

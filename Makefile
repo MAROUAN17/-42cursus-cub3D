@@ -1,7 +1,7 @@
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 CC = cc
 LIBMLX = MLX42
-SRCS =  main.c calculate_distance.c horizontal_intersection.c vertical_intersection.c finding_wall.c \
+SRCS =  main.c walls_utils.c calculate_distance.c horizontal_intersection.c vertical_intersection.c finding_wall.c \
 	calculations.c minimap.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 OBJS = ${SRCS:.c=.o}
 LIBFT = ./libft/libft.a

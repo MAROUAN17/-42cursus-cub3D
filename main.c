@@ -102,16 +102,19 @@ int main(int ac, char **av)
 		rays[i].p_isFacingUp = 0;
 		rays[i].p_isFacingRight = 0;
 		rays[i].p_isFacingLeft = 0;
+		rays[i].horizontal_wall = 0;
+		rays[i].vertical_wall = 0;
 		i++;
 	}
 	player.playerAngle = M_PI / 2;
-	player.moveSpeed = 5.0;
+	player.moveSpeed = 3.0;
 	player.rotationSpeed = degrees2rad(4);
 	player.map = store_2d_array(av[1], &map_height, &map_width);
 	player.map_height = map_height;
 	player.map_width = map_width;
 	player.rays = rays;
 	player.mlx = mlx;
+	player.walls_texture = mlx_load_png("./textures/Wall Texture Package/Stucco Wall_Tan.png");
 	// mlx_texture_t *texture = mlx_load_png("./textures/white_image.png");
 	// player.white_img = mlx_texture_to_image(player.mlx, texture);
 	// mlx_texture_t *texture2 = mlx_load_png("./textures/dot.png");
