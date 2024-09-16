@@ -114,7 +114,7 @@ int main(int ac, char **av)
 	player.map_width = map_width;
 	player.rays = rays;
 	player.mlx = mlx;
-	player.walls_texture = mlx_load_png("./textures/Wall Texture Package/Stucco Wall_Tan.png");
+	player.walls_texture = mlx_load_png("./textures/wall.png");
 	// mlx_texture_t *texture = mlx_load_png("./textures/white_image.png");
 	// player.white_img = mlx_texture_to_image(player.mlx, texture);
 	// mlx_texture_t *texture2 = mlx_load_png("./textures/dot.png");
@@ -143,6 +143,7 @@ int main(int ac, char **av)
 	// }
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
+	mlx_delete_texture(player.walls_texture);
 	free_2d_arr(player.map);
 	return (EXIT_SUCCESS);
 }

@@ -60,7 +60,8 @@ void draw_wall(t_player *player)
 		// printf("y -> %d\n", (int)player->rays[i].y);
 		// printf("x -> %d\n", (int)player->rays[i].x);
 		// printf("textoffsetx -> %d\n", textOffsetX);
-		draw_rectangle_3d(player, player->map_img, i, ystart, wall_width, pWallHeight, textOffsetX);
+		// printf("ystart -> %d\n", correct_wall_distance / 2);
+		draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX);
 		// else
 			// draw_rectangle_3d(player, player->map_img, i, ystart, 0xFF0000FF, wall_width, pWallHeight);
 		if (ystart + pWallHeight < HEIGHT)
@@ -178,6 +179,7 @@ void render(void *v_player)
 
 	player = (t_player *)v_player;
 	mlx_delete_image(player->mlx, player->map_img);
+	player->map_img = NULL;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
 	if (player->w_key)
 		move(player, player->playerAngle);
