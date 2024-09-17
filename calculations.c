@@ -61,7 +61,7 @@ void draw_wall(t_player *player)
 		// printf("x -> %d\n", (int)player->rays[i].x);
 		// printf("textoffsetx -> %d\n", textOffsetX);
 		// printf("ystart -> %d\n", correct_wall_distance / 2);
-		draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX);
+		draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX, player->rays[i].texture);
 		// else
 			// draw_rectangle_3d(player, player->map_img, i, ystart, 0xFF0000FF, wall_width, pWallHeight);
 		if (ystart + pWallHeight < HEIGHT)
@@ -123,6 +123,7 @@ void	cast_rays(t_player *player)
 		wall_coord2 = calculating_vertical_intersections(player, &player->rays[i]);
 		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i],
 			&wall_coord1, &wall_coord2);
+		player->rays[i].texture = get_texture(player, player->rays[i].vertical_wall, player->rays[i].x, player->rays[i].y);
 		// draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
 		// player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
         i++;

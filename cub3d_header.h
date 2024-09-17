@@ -34,6 +34,7 @@ typedef struct s_ray {
 	double		distance_to_wall;
 	int			horizontal_wall;
 	int			vertical_wall;
+	mlx_texture_t	*texture;
 	mlx_image_t	*map_img;
 }					t_ray;
 
@@ -59,6 +60,12 @@ typedef struct player_struct {
 	double		moveSpeed;
 	double		rotationSpeed;
 	mlx_texture_t	*walls_texture;
+	mlx_texture_t	*north_texture;
+	mlx_texture_t	*south_texture;
+	mlx_texture_t	*west_texture;
+	mlx_texture_t	*east_texture;
+	int				floor_color;
+	int				ceiling_color;
 	t_ray		*rays;
 }					t_player;
 
@@ -87,6 +94,11 @@ t_point	finding_wall_horizontal(t_player *player, t_ray *ray, double xstep, doub
 t_point	finding_wall_vertical(t_player *player, t_ray *ray, double xstep, double ystep);
 void	draw_walls(t_player *player, int x, int y);
 void 	render_minimap(t_player *player);
-void	draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int textOffsetX);
+void	draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int textOffsetX, mlx_texture_t *texture);
 void	draw_ceiling(mlx_image_t *img, int x, int y, int color, int w);
 void	draw_floor(mlx_image_t *img, int x, int y, int color, int w);
+char	**store_2d_array(t_player *player, char *map_path, int *map_height, int *map_width);
+void	*free_memory(char **map, int r);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		get_textures(t_player *player, char *map_path);
+mlx_texture_t *get_texture(t_player *player, int is_vert, double x, double y);

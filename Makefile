@@ -2,8 +2,9 @@ CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 CC = cc
 LIBMLX = MLX42
 SRCS =  main.c walls_utils.c calculate_distance.c horizontal_intersection.c vertical_intersection.c finding_wall.c \
-	calculations.c minimap.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
-OBJS = ${SRCS:.c=.o}
+	calculations.c minimap.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c parse_map.c \
+	free_utils.c
+OBJS = ${addprefix obj/, ${SRCS:.c=.o}}
 LIBFT = ./libft/libft.a
 SRCS_LIBFT = libft/ft_isprint.c libft/ft_isdigit.c libft/ft_isascii.c libft/ft_isalpha.c \
 	libft/ft_isalnum.c libft/ft_bzero.c libft/ft_strlen.c libft/ft_memset.c libft/ft_memcpy.c \
@@ -28,14 +29,16 @@ ${LIBFT}:
 libmlx:
 	@cmake ./${LIBMLX} -B ${LIBMLX}/build && make -C ${LIBMLX}/build -j4
 
-%.o: %.c ./cub3d_header.h
+obj/%.o: %.c ./cub3d_header.h
+	@mkdir -p ${dir $@}
 	${CC} ${CFLAGS} -o $@ -c $< ${HEADERS}
 
 ${NAME}: ${OBJ_LIBFT} ${OBJS} ${LIBFT} ${NEXT_LINE_H}
 	${CC} ${CFLAGS} ${OBJS} ${LIBS} ${LIBFT} ${HEADERS} -o ${NAME}
 
 clean:
-	rm -rf $(OBJS)
+	rm -rf obj
+	rm -rf ${OBJS}
 	rm -rf ${LIBMLX}/build
 	make clean -C ./libft
 
