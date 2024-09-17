@@ -1,10 +1,10 @@
 #include "./cub3d_header.h"
 
-t_point	finding_wall_horizontal(t_player *player, t_ray *ray, double xstep, double ystep)
+t_point	finding_wall_horizontal(t_player *player, t_ray *ray, float xstep, float ystep)
 {
 	t_point wall;
-	double xcheck = 0;
-	double ycheck = 0;
+	float xcheck = 0;
+	float ycheck = 0;
 
 	while (ray->h_xintersept >= 0 && ray->h_yintersept >= 0
 		&& ray->h_xintersept <= WIDTH
@@ -33,11 +33,11 @@ t_point	finding_wall_horizontal(t_player *player, t_ray *ray, double xstep, doub
 	return (wall);
 }
 
-t_point	finding_wall_vertical(t_player *player, t_ray *ray, double xstep, double ystep)
+t_point	finding_wall_vertical(t_player *player, t_ray *ray, float xstep, float ystep)
 {
 	t_point wall;
-	double xcheck = 0;
-	double ycheck = 0;
+	float xcheck = 0;
+	float ycheck = 0;
 
 	while (ray->v_xintersept >= 0 && ray->v_yintersept >= 0
 		&& ray->v_yintersept <= HEIGHT

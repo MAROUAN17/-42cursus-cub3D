@@ -107,14 +107,15 @@ int main(int ac, char **av)
 		i++;
 	}
 	player.playerAngle = M_PI / 2;
-	player.moveSpeed = 3.0;
+	player.moveSpeed = 4.0;
 	player.rotationSpeed = degrees2rad(4);
 	player.map = store_2d_array(av[1], &map_height, &map_width);
 	player.map_height = map_height;
 	player.map_width = map_width;
 	player.rays = rays;
 	player.mlx = mlx;
-	player.walls_texture = mlx_load_png("./textures/wall.png");
+	player.walls_texture = mlx_load_png("./textures/zelij.png");
+	player.door_texture = mlx_load_png("./textures/retro_door_pack/Door_01_Orange");
 	// mlx_texture_t *texture = mlx_load_png("./textures/white_image.png");
 	// player.white_img = mlx_texture_to_image(player.mlx, texture);
 	// mlx_texture_t *texture2 = mlx_load_png("./textures/dot.png");
@@ -126,8 +127,8 @@ int main(int ac, char **av)
 	mlx_image_to_window(mlx, player.map_img, 0, 0);
 	mlx_key_hook(mlx, &move_player, &player);
 	mlx_loop_hook(mlx, &render, &player);
-	// double n_point_y = find_closest_horizontal_yintersec(player.player_y);
-	// double n_point_x = find_closest_horizontal_xintersec(player.player_x, player.player_y, n_point_y);
+	// float n_point_y = find_closest_horizontal_yintersec(player.player_y);
+	// float n_point_x = find_closest_horizontal_xintersec(player.player_x, player.player_y, n_point_y);
 	// int xstep = calculate_xstep();
 	// printf("player x -> %d\n", player.player_x);
 	// printf("player y -> %d\n", player.player_y);

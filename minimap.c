@@ -1,9 +1,9 @@
 #include "./cub3d_header.h"
 
-void draw_rectangle(mlx_image_t *img, double x, double y, int color, double p)
+void draw_rectangle(mlx_image_t *img, float x, float y, int color, float p)
 {
-	double i = 0;
-	double j = 0;
+	float i = 0;
+	float j = 0;
 	while (i < p)
 	{
 		j = 0;
