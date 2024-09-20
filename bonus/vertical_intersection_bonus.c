@@ -1,4 +1,4 @@
-#include "./cub3d_header.h"
+#include "cub3d_header_b.h"
 
 float	calculate_ystep(float ray_angle)
 {

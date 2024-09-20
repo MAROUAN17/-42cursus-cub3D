@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <math.h>
 #include <limits.h>
-#include "MLX42/include/MLX42/MLX42.h"
+#include "../MLX42/include/MLX42/MLX42.h"
 
 #define HEIGHT 1000
 #define WIDTH 1800
@@ -18,6 +18,12 @@ typedef struct s_point {
 	float x;
 	float y;
 }			t_point;
+
+typedef struct s_sprite {
+	double x;
+	double y;
+	mlx_image_t images[8];
+}				t_sprite;
 
 typedef struct s_ray {
 	float		x;
@@ -34,6 +40,7 @@ typedef struct s_ray {
 	float		distance_to_wall;
 	int			horizontal_wall;
 	int			vertical_wall;
+	mlx_texture_t	*texture;
 	mlx_image_t	*map_img;
 }					t_ray;
 
@@ -59,8 +66,14 @@ typedef struct player_struct {
 	float		moveSpeed;
 	float		rotationSpeed;
 	mlx_texture_t	*walls_texture;
-	mlx_texture_t	*door_texture;
-	t_ray		*rays;
+	mlx_texture_t	*north_texture;
+	mlx_texture_t	*south_texture;
+	mlx_texture_t	*west_texture;
+	mlx_texture_t	*east_texture;
+	int				floor_color;
+	int				ceiling_color;
+	t_ray			*rays;
+	t_sprite		*sprite;
 }					t_player;
 
 void	*ft_memset(void *b, int c, size_t len);
@@ -88,6 +101,11 @@ t_point	finding_wall_horizontal(t_player *player, t_ray *ray, float xstep, float
 t_point	finding_wall_vertical(t_player *player, t_ray *ray, float xstep, float ystep);
 void	draw_walls(t_player *player, int x, int y);
 void 	render_minimap(t_player *player);
-void	draw_rectangle_3d(t_player *player, int x, float y, int w, int p, int textOffsetX);
+void	draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int textOffsetX, mlx_texture_t *texture);
 void	draw_ceiling(mlx_image_t *img, int x, int y, int color, int w);
 void	draw_floor(mlx_image_t *img, int x, int y, int color, int w);
+char	**store_2d_array(t_player *player, char *map_path, int *map_height, int *map_width);
+void	*free_memory(char **map, int r);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		get_textures(t_player *player, char *map_path);
+mlx_texture_t *get_texture(t_player *player, int is_vert, double x, double y);

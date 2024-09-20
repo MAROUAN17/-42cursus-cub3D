@@ -1,4 +1,4 @@
-#include "./cub3d_header.h"
+#include "cub3d_header.h"
 
 float calculate_smallest_distance(t_player *player, t_ray *ray, t_point *wall1, t_point *wall2)
 {

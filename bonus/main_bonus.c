@@ -1,4 +1,4 @@
-#include "cub3d_header.h"
+#include "cub3d_header_b.h"
 
 void free_2d_arr(char **map)
 {
@@ -11,34 +11,6 @@ void free_2d_arr(char **map)
 		i++;
 	}
 	free(map);
-}
-
-char	**store_2d_array(char *map_path, int *map_height, int *map_width)
-{
-	int		fd;
-	char	*line;
-	char	**d_map;
-	int		i = 0;
-
-	fd = open(map_path, O_RDONLY);
-	while ((line = get_next_line(fd)))
-	{
-		*map_width = ft_strlen(line);
-		free(line);
-		(*map_height)++;
-	}
-	close(fd);
-	fd = open(map_path, O_RDONLY);
-	d_map = malloc(sizeof(char *) * (*map_height + 1));
-	while (i < *map_height)
-	{
-		d_map[i] = get_next_line(fd);
-		free(line);
-		i++;
-	}
-	d_map[i] = NULL;
-	close(fd);
-	return (d_map);
 }
 
 void render_2dmap(t_player *player, char **map)
@@ -75,6 +47,7 @@ int main(int ac, char **av)
 	int			map_height;
 	t_player	player;
 	t_ray		rays[WIDTH];
+	t_sprite	sprite;
 
 	(void)ac;
 	player.p_fov_angle = degrees2rad(60);
@@ -107,15 +80,22 @@ int main(int ac, char **av)
 		i++;
 	}
 	player.playerAngle = M_PI / 2;
-	player.moveSpeed = 4.0;
+	player.moveSpeed = 6.0;
 	player.rotationSpeed = degrees2rad(4);
-	player.map = store_2d_array(av[1], &map_height, &map_width);
+	// get_textures(&player, av[1]);
+	player.map = store_2d_array(&player, av[1], &map_height, &map_width);
 	player.map_height = map_height;
 	player.map_width = map_width;
 	player.rays = rays;
 	player.mlx = mlx;
-	player.walls_texture = mlx_load_png("./textures/zelij.png");
-	player.door_texture = mlx_load_png("./textures/retro_door_pack/Door_01_Orange");
+	sprite.x = 420;
+	sprite.y = 720;
+	player.sprite = &sprite;
+	player.walls_texture = mlx_load_png("./textures/test.png");
+	// player.north_texture = mlx_load_png("./textures/bochi.png");
+	// player.south_texture = mlx_load_png("./textures/bochi2.png");
+	// player.west_texture = mlx_load_png("./textures/osaka.png");
+	// player.east_texture = mlx_load_png("./textures/osaka2.png");
 	// mlx_texture_t *texture = mlx_load_png("./textures/white_image.png");
 	// player.white_img = mlx_texture_to_image(player.mlx, texture);
 	// mlx_texture_t *texture2 = mlx_load_png("./textures/dot.png");

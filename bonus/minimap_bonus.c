@@ -1,4 +1,4 @@
-#include "./cub3d_header.h"
+#include "cub3d_header_b.h"
 
 void draw_rectangle(mlx_image_t *img, float x, float y, int color, float p)
 {

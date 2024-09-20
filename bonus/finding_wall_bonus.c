@@ -1,4 +1,4 @@
-#include "./cub3d_header.h"
+#include "cub3d_header_b.h"
 
 t_point	finding_wall_horizontal(t_player *player, t_ray *ray, float xstep, float ystep)
 {
