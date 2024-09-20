@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:28:27 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/19 12:03:20 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:00:16 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,24 +108,24 @@ char	**store_2d_array(t_player *player, char *map_path, int *map_height, int *ma
 	if (skip_n == -1)
 		return (NULL);
 	if (count_height(map_path, map_height, map_width, skip_n) == 0)
-		return (NULL);
+		return (print_err("Error\nInvalid Map!\n"), NULL);
 	fd = open(map_path, O_RDONLY);
-	if (fd == -1)
-		return (NULL);
+	if (fd == -1 || *map_height < 2)
+		return (print_err("Error\nInvalid Map!\n"), NULL);
 	skip_lines(skip_n, fd);
 	d_map = malloc(sizeof(char *) * (*map_height + 1));
 	if (!d_map)
-		return (NULL);
+		return (perror("Error\nMap"), NULL);
 	while (i < *map_height)
 	{
 		d_map[i] = get_next_line(fd);
 		if (!d_map[i] || !fill_gaps(&d_map[i], *map_width))
-			return (free_memory(d_map, i), NULL);
+			return (free_memory(d_map, i), perror("Error\nMap"), NULL);
 		i++;
 	}
 	d_map[i] = NULL;
 	close(fd);
-	if (check_map_valid(d_map) == 0 || *map_height < 2)
-		return (print_err("Error\nInvalid Map!\n"), free_2d_array(d_map), NULL);
+	if (check_map_valid(d_map, player) == 0)
+		return (free_2d_array(d_map), NULL);
 	return (d_map);
 }

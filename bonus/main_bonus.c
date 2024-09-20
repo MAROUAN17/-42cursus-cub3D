@@ -1,4 +1,16 @@
-#include "cub3d_header.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
+/*   Updated: 2024/09/20 15:28:58 by oait-laa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d_header_b.h"
 
 void free_2d_arr(char **map)
 {
@@ -47,6 +59,7 @@ int main(int ac, char **av)
 	int			map_height;
 	t_player	player;
 	t_ray		rays[WIDTH];
+	t_sprite	sprite;
 
 	(void)ac;
 	player.p_fov_angle = degrees2rad(60);
@@ -64,6 +77,7 @@ int main(int ac, char **av)
 		perror(strerror(mlx_errno));
 		return (EXIT_FAILURE);
 	}
+
 	mlx_image_t *map_img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	player.map_img = map_img;
 	while (i < WIDTH)
@@ -81,7 +95,7 @@ int main(int ac, char **av)
 		rays[i].vertical_wall = 0;
 		i++;
 	}
-	player.playerAngle = M_PI / 2;
+	// player.playerAngle = M_PI / 2;
 	player.moveSpeed = 6.0;
 	player.rotationSpeed = degrees2rad(4);
 	// get_textures(&player, av[1]);
@@ -89,9 +103,12 @@ int main(int ac, char **av)
 	player.map_width = map_width;
 	player.rays = rays;
 	player.mlx = mlx;
-	// player.walls_texture = mlx_load_png("./textures/wall.png");
+	sprite.x = 420;
+	sprite.y = 720;
+	player.sprite = &sprite;
+	player.walls_texture = mlx_load_png("./textures/test.png");
 	// player.north_texture = mlx_load_png("./textures/bochi.png");
-	// player.south_texture = &mlx_load_xpm42("./textures/bochi.xpm42")->texture;
+	// player.south_texture = mlx_load_png("./textures/bochi2.png");
 	// player.west_texture = mlx_load_png("./textures/osaka.png");
 	// player.east_texture = mlx_load_png("./textures/osaka2.png");
 	// mlx_texture_t *texture = mlx_load_png("./textures/white_image.png");
@@ -105,8 +122,8 @@ int main(int ac, char **av)
 	mlx_image_to_window(mlx, player.map_img, 0, 0);
 	mlx_key_hook(mlx, &move_player, &player);
 	mlx_loop_hook(mlx, &render, &player);
-	// double n_point_y = find_closest_horizontal_yintersec(player.player_y);
-	// double n_point_x = find_closest_horizontal_xintersec(player.player_x, player.player_y, n_point_y);
+	// float n_point_y = find_closest_horizontal_yintersec(player.player_y);
+	// float n_point_x = find_closest_horizontal_xintersec(player.player_x, player.player_y, n_point_y);
 	// int xstep = calculate_xstep();
 	// printf("player x -> %d\n", player.player_x);
 	// printf("player y -> %d\n", player.player_y);
@@ -122,7 +139,7 @@ int main(int ac, char **av)
 	// }
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
-	// mlx_delete_texture(player.walls_texture);
+	mlx_delete_texture(player.walls_texture);
 	free_2d_arr(player.map);
 	return (EXIT_SUCCESS);
 }

@@ -1,9 +1,9 @@
-#include "./cub3d_header.h"
+#include "cub3d_header.h"
 
-double calculate_smallest_distance(t_player *player, t_ray *ray, t_point *wall1, t_point *wall2)
+float calculate_smallest_distance(t_player *player, t_ray *ray, t_point *wall1, t_point *wall2)
 {
-	double distance1 = 0;
-	double distance2 = 0;
+	float distance1 = 0;
+	float distance2 = 0;
 
 	distance1 = sqrt(pow(wall1->x - player->player_x, 2) + pow(wall1->y - player->player_y, 2));
 	distance2 = sqrt(pow(wall2->x - player->player_x, 2) + pow(wall2->y - player->player_y, 2));

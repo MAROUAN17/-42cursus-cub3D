@@ -1,4 +1,16 @@
-#include "./cub3d_header.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   walls_utils_bonus.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/20 14:02:31 by oait-laa          #+#    #+#             */
+/*   Updated: 2024/09/20 15:29:27 by oait-laa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d_header_b.h"
 
 int get_rgba(int r, int g, int b, int a)
 {
@@ -12,6 +24,8 @@ int is_wall(t_player *player, int x, int y)
 
 	p_x = x / TILE_PX;
 	p_y = y / TILE_PX;
+	if (p_y < 0 || p_x < 0)
+		return (1);
 	return (player->map[p_y][p_x] == '1');
 }
 
@@ -37,6 +51,10 @@ void draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int text
 {
 	int i = 0;
 	int j = 0;
+	int Dbottom = 0;
+	int textOffsetY = 0;
+	int index = 0;
+	int color = 0;
 	// if (p > HEIGHT)
 	// 	p = HEIGHT;
 	while (i < w && i < WIDTH)
@@ -46,18 +64,17 @@ void draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int text
 		{
 			// printf("wall height -> %d\n", p);
 			// printf("ystart -> %d\n", (p / 2) - (HEIGHT / 2));
-			int Dbottom = (y + j) + ((p / 2) - (HEIGHT / 2));
-			int textOffsetY = Dbottom * ((double)texture->height / p);
-			unsigned int index = ((textOffsetY * texture->width) + textOffsetX) * 4;
+			Dbottom = (y + j) + ((p / 2) - (HEIGHT / 2));
+			textOffsetY = Dbottom * ((double)texture->height / p);
+			index = ((textOffsetY * texture->width) + textOffsetX) * 4;
 			// printf("index -> %d\n", index);
 			// printf("map img -> %p\n", player->map_img);
 			// printf("pixels pointer -> %p\n", texture->pixels);
 			// printf("texture->pixels[index] -> %d\n", texture->pixels[index]);
-			int color = get_rgba(texture->pixels[index],
+			color = get_rgba(texture->pixels[index],
 				texture->pixels[index + 1], texture->pixels[index + 2],
 				texture->pixels[index + 3]);
 			mlx_put_pixel(player->map_img, x + i, y + j, color);
-			// mlx_put_pixel(img, x + i, y + j, color);
 			j++;
 		}
 		i++;

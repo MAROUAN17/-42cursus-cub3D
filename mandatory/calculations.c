@@ -1,30 +1,32 @@
 #include "cub3d_header.h"
 
-double degrees2rad(double degrees)
+float degrees2rad(float degrees)
 {
 	return (degrees * (M_PI / 180.0));
 }
 
-void draw_line(mlx_image_t *img, double x1, double y1, double x2, double y2, int color)
+void draw_line(mlx_image_t *img, float x1, float y1, float x2, float y2, int color)
 {
 	// Calculate differences
-    double dx = x2 - x1;
-    double dy = y2 - y1;
+    float dx = x2 - x1;
+    float dy = y2 - y1;
 
     // Determine the number of steps needed
-    double steps = fmax(fabs(dx), fabs(dy));
+    float steps = fmax(fabs(dx), fabs(dy));
 
     // Calculate increments per step
-    double xIncrement = dx / steps;
-    double yIncrement = dy / steps;
+    float xIncrement = dx / steps;
+    float yIncrement = dy / steps;
 
     // Starting point
-    double x = x1;
-    double y = y1;
+    float x = x1;
+    float y = y1;
 
     // Draw the line
     for (int i = 0; i <= steps; i++) {
-        mlx_put_pixel(img, (int)round(x), (int)round(y), color); // Plot rounded points
+		// printf("x -> %d | y -> %d\n", (int)round(x), (int)round(y));
+		if (x > 0 && y > 0)
+        	mlx_put_pixel(img, (int)round(x), (int)round(y), color); // Plot rounded points
         x += xIncrement;  // Increment x
         y += yIncrement;  // Increment y
     }
@@ -34,11 +36,11 @@ void draw_wall(t_player *player)
 {
 	int textOffsetX = 0;
 	int i = 0;
-	double pWallHeight = 0;
-	double wall_width = 2;
-	double correct_wall_distance = 0;
+	float pWallHeight = 0;
+	float wall_width = 2;
+	float correct_wall_distance = 0;
 	int ystart = 0;
-	double d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
+	float d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
 
 	while (i < WIDTH)
 	{
@@ -54,16 +56,10 @@ void draw_wall(t_player *player)
 		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
 		// if (player->rays[i].vertical_wall)
 		if (player->rays[i].vertical_wall)
-			textOffsetX = (int)fabs(player->rays[i].y) % TILE_PX;
+			textOffsetX = (int)player->rays[i].y % TILE_PX;
 		else
-			textOffsetX = (int)fabs(player->rays[i].x) % TILE_PX;
-		// printf("y -> %d\n", (int)player->rays[i].y);
-		// printf("x -> %d\n", (int)player->rays[i].x);
-		// printf("textoffsetx -> %d\n", textOffsetX);
-		// printf("ystart -> %d\n", correct_wall_distance / 2);
+			textOffsetX = (int)player->rays[i].x % TILE_PX;
 		draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX, player->rays[i].texture);
-		// else
-			// draw_rectangle_3d(player, player->map_img, i, ystart, 0xFF0000FF, wall_width, pWallHeight);
 		if (ystart + pWallHeight < HEIGHT)
 			draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, wall_width);
 		i++;
@@ -95,7 +91,7 @@ void	update_ray_facing(t_ray *ray)
 	ray->p_isFacingLeft = !ray->p_isFacingRight;
 }
 
-double normalize_rayAngle(double ray_angle)
+float normalize_rayAngle(float ray_angle)
 {
 	ray_angle = remainder(ray_angle, 2 * M_PI);
 	if (ray_angle < 0)
@@ -106,9 +102,9 @@ double normalize_rayAngle(double ray_angle)
 void	cast_rays(t_player *player)
 {
     int i;
-    double angle_step;
-	double halfFov = player->p_fov_angle / 2;
-	double startAngle = player->playerAngle - halfFov;
+    float angle_step;
+	float halfFov = player->p_fov_angle / 2;
+	float startAngle = player->playerAngle - halfFov;
 	t_point wall_coord1;
 	t_point wall_coord2;
 
@@ -143,10 +139,10 @@ int	check_corner(t_player *player, double new_x, double new_y)
 	return (0);
 }
 
-void	move(t_player *player, double angle)
+void	move(t_player *player, float angle)
 {
-	double new_x = cos(angle) * player->moveSpeed;
-	double new_y = sin(angle) * player->moveSpeed;
+	float new_x = cos(angle) * player->moveSpeed;
+	float new_y = sin(angle) * player->moveSpeed;
 	int	check_y;
 	int	check_x;
 
@@ -158,6 +154,8 @@ void	move(t_player *player, double angle)
 	check_y = (player->player_y + new_y) / TILE_PX;
 	check_x = (player->player_x + new_x) / TILE_PX;
 	if (player->map[check_y][check_x] != '1')
+
+	if (player->map[(int)((player->player_y + new_y) / TILE_PX)][(int)((player->player_x + new_x) / TILE_PX)] != '1')
 	{
 		player->player_x += new_x;
 		player->player_y += new_y;
