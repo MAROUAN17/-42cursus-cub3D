@@ -1,0 +1,94 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_elements.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
+/*   Updated: 2024/09/19 14:03:35 by oait-laa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d_header.h"
+
+int	check_top_bot_borders(char *line, char *comp_line)
+{
+	int	i;
+
+	i = 0;
+	if (!line || !comp_line)
+		return (0);
+	// printf("line -> |%s|\n", line);
+	while (line[i])
+	{
+		if (line[i] != '1' && line[i] != ' ')
+			return (0);
+		if (line[i] == ' ' && comp_line[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	skip_sp(char *line, int *i)
+{
+	int j;
+
+	j = *i;
+	while (line[j] == ' ')
+		j++;
+	// printf("c -> %c\n", line[*i]);
+	if (line[j] == '\0')
+		return (1);
+	*i = j;
+	if (line[j] != '1')
+		return (0);
+	return (1);
+}
+
+int	check_valid_line(char *line, char *top_line)
+{
+	int	i;
+
+	i = 0;
+	if (skip_sp(line, &i) == 0)
+		return (0);
+	while (line[i])
+	{
+		if (line[i] != '1' && line[i] != ' '
+			&& line[i] != '0' && line[i] != 'N' && line[i] != 'S'
+			&& line[i] != 'W' && line[i] != 'E')
+			return (0);
+		if (line[i] == ' ' && top_line[i] != '1' && top_line[i] != ' ')
+			return (0);
+		if ((line[i] == ' ' && line[i - 1] != '1' && line[i - 1] != ' ') || (line[i] == ' ' && skip_sp(line, &i) == 0))
+			return (0);
+		i++;
+	}
+	i--;
+	while (line[i] == ' ' && i > 0)
+		i--;
+	if (line[i] != '1')
+		return (0);
+	return (1);
+}
+
+int	check_map_valid(char **map)
+{
+	int	i;
+
+	i = 0;
+	if (check_top_bot_borders(map[0], map[1]) == 0)
+		return (0);
+	i++;
+	while (map[i])
+	{
+		if (check_valid_line(map[i], map[i - 1]) == 0)
+			return (0);
+		i++;
+	}
+	if (check_top_bot_borders(map[i - 1], map[i - 2]) == 0)
+		return (0);
+	return (1);
+}

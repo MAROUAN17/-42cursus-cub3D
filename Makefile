@@ -3,7 +3,7 @@ CC = cc
 LIBMLX = MLX42
 SRCS =  main.c walls_utils.c calculate_distance.c horizontal_intersection.c vertical_intersection.c finding_wall.c \
 	calculations.c minimap.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c parse_map.c \
-	free_utils.c
+	free_utils.c parse_color.c parse_textures.c parse_elements.c
 OBJS = ${addprefix obj/, ${SRCS:.c=.o}}
 LIBFT = ./libft/libft.a
 SRCS_LIBFT = libft/ft_isprint.c libft/ft_isdigit.c libft/ft_isascii.c libft/ft_isalpha.c \

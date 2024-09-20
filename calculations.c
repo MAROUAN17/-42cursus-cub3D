@@ -51,7 +51,7 @@ void draw_wall(t_player *player)
 		ystart = (HEIGHT / 2) - ((int)pWallHeight / 2);
 		if (ystart < 0)
 			ystart = 0;
-		draw_ceiling(player->map_img, i, ystart, 0x87CEEB, wall_width);
+		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
 		// if (player->rays[i].vertical_wall)
 		if (player->rays[i].vertical_wall)
 			textOffsetX = (int)fabs(player->rays[i].y) % TILE_PX;
@@ -65,7 +65,7 @@ void draw_wall(t_player *player)
 		// else
 			// draw_rectangle_3d(player, player->map_img, i, ystart, 0xFF0000FF, wall_width, pWallHeight);
 		if (ystart + pWallHeight < HEIGHT)
-			draw_floor(player->map_img, i, ystart + pWallHeight, 0x8B5A2B, wall_width);
+			draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, wall_width);
 		i++;
 	}
 }
@@ -130,11 +130,34 @@ void	cast_rays(t_player *player)
     }
 }
 
+int	check_corner(t_player *player, double new_x, double new_y)
+{
+	int	check_y;
+	int	check_x;
+	(void)new_x;
+
+	check_y = (player->player_y + new_y) / TILE_PX;
+	check_x = (player->player_x) / TILE_PX;
+	if (player->map[check_y][check_x] != '1')
+		return (1);
+	return (0);
+}
+
 void	move(t_player *player, double angle)
 {
 	double new_x = cos(angle) * player->moveSpeed;
 	double new_y = sin(angle) * player->moveSpeed;
-	if (player->map[(int)((player->player_y + new_y) / TILE_PX)][(int)((player->player_x + new_x) / TILE_PX)] != '1')
+	int	check_y;
+	int	check_x;
+
+	if (!check_corner(player, new_x, new_y))
+	{
+		new_x = 0;
+		new_y = 0;
+	}
+	check_y = (player->player_y + new_y) / TILE_PX;
+	check_x = (player->player_x + new_x) / TILE_PX;
+	if (player->map[check_y][check_x] != '1')
 	{
 		player->player_x += new_x;
 		player->player_y += new_y;

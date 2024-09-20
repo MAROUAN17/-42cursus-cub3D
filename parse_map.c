@@ -6,129 +6,38 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:28:27 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/17 11:31:51 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:03:20 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_header.h"
 
-int	set_color(int *color, char *line)
+int	set_color(int *color, char *line, int *flag)
 {
 	int i;
+	int comma_count;
+	char **sep_str;
 
 	i = 0;
 	line += 2;
+	comma_count = count_comma(line);
+	if (comma_count != 2)
+		return (print_err("Error\nInvalid Color!\n"), 0);
 	while(*line == ' ')
 		line++;
-	if (*color == 0)
+	if (*flag == 0)
 	{
-		// line[ft_strlen(line) - 1] = '\0';
-		printf("|%s|\n", line);
-		// texture = mlx_load_png(line);
-		// if (!texture)
-		// 	return (0);
+		(*flag)++;
+		sep_str = ft_split(line, ',');
+		if (!sep_str)
+			return (perror("Error\n"), 0);
+		if (count_2d_len(sep_str) != 3 || !translate_rgb(sep_str, color))
+			return (free_2d_array(sep_str), print_err("Error\nInvalid Color!\n"), 0);
 		return (1);
 	}
 	else
-		return (0);
+		return (print_err("Error\nDuplicated Color!\n"), 0);
 }
-int	set_texture(mlx_texture_t **texture, char *line)
-{
-	int i;
-
-	i = 0;
-	line += 3;
-	while(*line == ' ')
-		line++;
-	if (*texture == NULL)
-	{
-		// line[ft_strlen(line) - 1] = '\0';
-		// printf("|%s|\n", line);
-		*texture = mlx_load_png(line);
-		if (!*texture)
-			return (0);
-		return (1);
-	}
-	else
-		return (0);
-}
-int	check_identifier(t_player *player, char *line)
-{
-	if (ft_strncmp(line, "NO ", 3) == 0)
-		return (set_texture(&player->north_texture, line));
-	else if (ft_strncmp(line, "SO ", 3) == 0)
-		return (set_texture(&player->south_texture, line));
-	else if (ft_strncmp(line, "WE ", 3) == 0)
-		return (set_texture(&player->west_texture, line));
-	else if (ft_strncmp(line, "EA ", 3) == 0)
-		return (set_texture(&player->east_texture, line));
-	else if (ft_strncmp(line, "F ", 2) == 0)
-		return (set_color(&player->floor_color, line));
-	else if (ft_strncmp(line, "C ", 2) == 0)
-		return (set_color(&player->ceiling_color, line));
-	else if (*line != '\0')
-		return (2);
-	return (1);
-}
-
-int	get_textures(t_player *player, char *map_path)
-{
-	int fd;
-	char *line;
-	char *tmp_ptr;
-	int	count;
-	int identifier;
-
-	count = 0;
-	player->north_texture = NULL;
-	player->south_texture = NULL;
-	player->east_texture = NULL;
-	player->west_texture = NULL;
-	player->floor_color = 0;
-	player->ceiling_color = 0;
-	fd = open(map_path, O_RDONLY);
-	line = get_next_line(fd);
-	if (fd == -1 || !line)
-		return (free(line), 0);
-	while (line)
-	{
-		tmp_ptr = line;
-		while(*tmp_ptr == ' ')
-			tmp_ptr++;
-		identifier = check_identifier(player, tmp_ptr);
-		if (identifier == 0)
-			return (free(line), close(fd), -1);
-		else if (identifier == 2)
-			return (free(line), close(fd), count);
-		free(line);
-		count++;
-		line = get_next_line(fd);
-	}
-	return (1);
-}
-
-void	count_height(char *map_path, int *map_height, int *map_width)
-{
-	int		fd;
-	char	*line;
-
-	fd = open(map_path, O_RDONLY);
-	line = get_next_line(fd);
-	if (fd == -1 || !line) 
-	{
-		free(line);
-		return ;
-	}
-	while (line)
-	{
-		*map_width = ft_strlen(line);
-		free(line);
-		(*map_height)++;
-		line = get_next_line(fd);
-	}
-	close(fd);
-}
-
 int	skip_lines(int n, int fd)
 {
 	int i;
@@ -141,7 +50,49 @@ int	skip_lines(int n, int fd)
 		if (!line)
 			return (0);
 		free(line);
-		i++;	
+		i++;
+	}
+	return (1);
+}
+
+int	count_height(char *map_path, int *map_height, int *map_width, int skip_n)
+{
+	int		fd;
+	char	*line;
+	int		width;
+
+	fd = open(map_path, O_RDONLY);
+	line = get_next_line(fd);
+	if (fd == -1 || !line) 
+	{
+		free(line);
+		return (0);
+	}
+	skip_lines(skip_n, fd);
+	while (line)
+	{
+		width = ft_strlen(line);
+		if (width > *map_width)
+			*map_width = width;
+		free(line);
+		(*map_height)++;
+		line = get_next_line(fd);
+	}
+	close(fd);
+	return (1);
+}
+
+int	fill_gaps(char **line, int width)
+{
+	char *tmp;
+
+	while ((int)ft_strlen(*line) < width)
+	{
+		tmp = *line;
+		*line = ft_strjoin(tmp, " ");
+		if (!*line)
+			return (free(tmp), 0);
+		free(tmp);
 	}
 	return (1);
 }
@@ -149,26 +100,15 @@ int	skip_lines(int n, int fd)
 char	**store_2d_array(t_player *player, char *map_path, int *map_height, int *map_width)
 {
 	int		fd;
-	char	*line;
 	char	**d_map;
 	int		i = 0;
 	int		skip_n;
-	// int j = 0;
 
 	skip_n = get_textures(player, map_path);
-	fd = open(map_path, O_RDONLY);
-	skip_lines(skip_n, fd);
-	line = get_next_line(fd);
-	if (fd == -1 || !line)
-		return (free(line), NULL);
-	while (line)
-	{
-		*map_width = ft_strlen(line);
-		free(line);
-		(*map_height)++;
-		line = get_next_line(fd);
-	}
-	close(fd);
+	if (skip_n == -1)
+		return (NULL);
+	if (count_height(map_path, map_height, map_width, skip_n) == 0)
+		return (NULL);
 	fd = open(map_path, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
@@ -179,13 +119,13 @@ char	**store_2d_array(t_player *player, char *map_path, int *map_height, int *ma
 	while (i < *map_height)
 	{
 		d_map[i] = get_next_line(fd);
-		if (!d_map[i])
+		if (!d_map[i] || !fill_gaps(&d_map[i], *map_width))
 			return (free_memory(d_map, i), NULL);
-		printf("map -> %s\n", d_map[i]);
-		free(line);
 		i++;
 	}
 	d_map[i] = NULL;
 	close(fd);
+	if (check_map_valid(d_map) == 0 || *map_height < 2)
+		return (print_err("Error\nInvalid Map!\n"), free_2d_array(d_map), NULL);
 	return (d_map);
 }
