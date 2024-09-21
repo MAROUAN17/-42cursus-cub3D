@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 15:37:58 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/21 10:24:06 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ float normalize_rayAngle(float ray_angle)
 	ray_angle = remainder(ray_angle, 2 * M_PI);
 	if (ray_angle < 0)
 		ray_angle = (2 * M_PI) + ray_angle;
+	if (fabs(tan(ray_angle)) < 0.000001)
+		ray_angle += 0.0001;
 	return (ray_angle);
 }
 
