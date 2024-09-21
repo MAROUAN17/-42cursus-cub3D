@@ -46,7 +46,7 @@ libmlx:
 ${NAME}: ${OBJ_LIBFT} ${OBJS} ${LIBFT} ${NEXT_LINE_H}
 	${CC} ${CFLAGS} ${OBJS} ${LIBS} ${LIBFT} ${HEADERS} -o ${NAME}
 
-bonus: ${OBJ_LIBFT} ${OBJS_B} ${LIBFT} ${NEXT_LINE_H}
+bonus: libmlx ${OBJ_LIBFT} ${OBJS_B} ${LIBFT} ${NEXT_LINE_H}
 	${CC} ${CFLAGS} ${OBJS_B} ${LIBS} ${LIBFT} ${HEADERS} -o ${NAME_B}
 
 clean:
