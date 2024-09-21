@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   calculations_bonus.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
+/*   Updated: 2024/09/20 15:37:58 by oait-laa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d_header_b.h"
 
 float degrees2rad(float degrees)
@@ -24,7 +36,8 @@ void draw_line(mlx_image_t *img, float x1, float y1, float x2, float y2, int col
 
     // Draw the line
     for (int i = 0; i <= steps; i++) {
-        mlx_put_pixel(img, (int)round(x), (int)round(y), color); // Plot rounded points
+		if (x > 0 && y > 0)
+    		mlx_put_pixel(img, (int)round(x), (int)round(y), color); // Plot rounded points
         x += xIncrement;  // Increment x
         y += yIncrement;  // Increment y
     }
@@ -51,7 +64,7 @@ void draw_wall(t_player *player)
 		ystart = (HEIGHT / 2) - ((int)pWallHeight / 2);
 		if (ystart < 0)
 			ystart = 0;
-		draw_ceiling(player->map_img, i, ystart, 0x87CEEB, wall_width);
+		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
 		// if (player->rays[i].vertical_wall)
 		if (player->rays[i].vertical_wall)
 			textOffsetX = (int)player->rays[i].y % TILE_PX;
@@ -59,7 +72,7 @@ void draw_wall(t_player *player)
 			textOffsetX = (int)player->rays[i].x % TILE_PX;
 		draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX, player->rays[i].texture);
 		if (ystart + pWallHeight < HEIGHT)
-			draw_floor(player->map_img, i, ystart + pWallHeight, 0x8B5A2B, wall_width);
+			draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, wall_width);
 		i++;
 	}
 }
@@ -124,10 +137,35 @@ void	cast_rays(t_player *player)
     }
 }
 
+int	check_corner(t_player *player, double new_x, double new_y)
+{
+	int	check_y;
+	int	check_x;
+	(void)new_x;
+
+	check_y = (player->player_y + new_y) / TILE_PX;
+	check_x = (player->player_x) / TILE_PX;
+	if (player->map[check_y][check_x] != '1')
+		return (1);
+	return (0);
+}
+
 void	move(t_player *player, float angle)
 {
 	float new_x = cos(angle) * player->moveSpeed;
 	float new_y = sin(angle) * player->moveSpeed;
+	int	check_y;
+	int	check_x;
+
+	if (!check_corner(player, new_x, new_y))
+	{
+		new_x = 0;
+		new_y = 0;
+	}
+	check_y = (player->player_y + new_y) / TILE_PX;
+	check_x = (player->player_x + new_x) / TILE_PX;
+	if (player->map[check_y][check_x] != '1')
+
 	if (player->map[(int)((player->player_y + new_y) / TILE_PX)][(int)((player->player_x + new_x) / TILE_PX)] != '1')
 	{
 		player->player_x += new_x;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
+/*   Updated: 2024/09/20 15:28:58 by oait-laa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d_header_b.h"
 
 void free_2d_arr(char **map)
@@ -27,7 +39,7 @@ void render_2dmap(t_player *player, char **map)
 				draw_rectangle(player->map_img, x * TILE_PX, y * TILE_PX, 0x000000FF, TILE_PX);
 			else
 			{
-				if (player->player_x == -1 && player->player_y == -1 && map[y][x] == 'P')
+				if (player->player_x == -1 && player->player_y == -1 && (player->map[y][x] == 'N' || player->map[y][x] == 'S' || player->map[y][x] == 'W' || player->map[y][x] == 'E'))
 				{	
 					player->player_x = x * TILE_PX;
 					player->player_y = y * TILE_PX;
@@ -55,6 +67,9 @@ int main(int ac, char **av)
 	map_height = 0;
 	player.player_x = -1;
 	player.player_y = -1;
+	player.map = store_2d_array(&player, av[1], &map_height, &map_width);
+	if (!player.map)
+		return (1);
 	int i = 0;
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false)))
 	{
@@ -62,6 +77,7 @@ int main(int ac, char **av)
 		perror(strerror(mlx_errno));
 		return (EXIT_FAILURE);
 	}
+
 	mlx_image_t *map_img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	player.map_img = map_img;
 	while (i < WIDTH)
@@ -79,11 +95,10 @@ int main(int ac, char **av)
 		rays[i].vertical_wall = 0;
 		i++;
 	}
-	player.playerAngle = M_PI / 2;
+	// player.playerAngle = M_PI / 2;
 	player.moveSpeed = 6.0;
 	player.rotationSpeed = degrees2rad(4);
 	// get_textures(&player, av[1]);
-	player.map = store_2d_array(&player, av[1], &map_height, &map_width);
 	player.map_height = map_height;
 	player.map_width = map_width;
 	player.rays = rays;

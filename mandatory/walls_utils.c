@@ -12,11 +12,17 @@ int is_wall(t_player *player, int x, int y)
 
 	p_x = x / TILE_PX;
 	p_y = y / TILE_PX;
+	if (p_y < 0 || p_x < 0)
+		return (0);
+	// printf("p_y -> %d\n", p_y);
+	// printf("p_x -> %d\n", p_x);
 	return (player->map[p_y][p_x] == '1');
 }
 
 mlx_texture_t *get_texture(t_player *player, int is_vert, double x, double y)
 {
+	// printf("p_y -> %f\n", y);
+	// printf("p_x -> %f\n", x);
 	if (is_vert)
 	{
 		if (is_wall(player, x - 1, y))

@@ -15,6 +15,7 @@ t_point	finding_wall_horizontal(t_player *player, t_ray *ray, float xstep, float
 			ycheck = ray->h_yintersept - 1;
 		else
 			ycheck = ray->h_yintersept;
+		// printf("y -> %d | x -> %d\n", (int)(ycheck / TILE_PX), (int)(xcheck / TILE_PX));
 		if ((int)(ycheck / TILE_PX) < player->map_height
 			&& (int)(ycheck / TILE_PX) >= 0
 			&& (int)(xcheck / TILE_PX) < player->map_width

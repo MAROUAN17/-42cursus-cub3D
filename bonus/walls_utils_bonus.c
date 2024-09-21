@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   walls_utils_bonus.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/20 14:02:31 by oait-laa          #+#    #+#             */
+/*   Updated: 2024/09/20 15:29:27 by oait-laa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d_header_b.h"
 
 int get_rgba(int r, int g, int b, int a)
@@ -12,6 +24,8 @@ int is_wall(t_player *player, int x, int y)
 
 	p_x = x / TILE_PX;
 	p_y = y / TILE_PX;
+	if (p_y < 0 || p_x < 0)
+		return (1);
 	return (player->map[p_y][p_x] == '1');
 }
 
