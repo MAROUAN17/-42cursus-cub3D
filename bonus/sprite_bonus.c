@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/23 12:40:13 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:32:07 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ void visibleSprite(t_player *player)
 
 void    calculate_sprite_projection_and_render(t_player *player)
 {
+    static int texIndex;
     double d_projection = (WIDTH / 2) / (tan(degrees2rad(FOV_ANGLE / 2)));
-    double pSpriteHeight = (d_projection * player->sprite->texture->height) / player->sprite->distance;
-    double pSpriteWidth = (d_projection * player->sprite->texture->width) / player->sprite->distance;
+    double pSpriteHeight = (d_projection * player->sprite->texture[0]->height) / player->sprite->distance;
+    double pSpriteWidth = (d_projection * player->sprite->texture[0]->width) / player->sprite->distance;
     int ystart = (HEIGHT / 2) - (pSpriteHeight / 2);
     if (ystart < 0)
         ystart = 0;
@@ -57,7 +58,7 @@ void    calculate_sprite_projection_and_render(t_player *player)
     int tmpx = spriteXstart;
     while (spriteXstart < spriteXend)
     {
-        int texelWidth = (player->sprite->texture->width / pSpriteWidth);
+        double texelWidth = (player->sprite->texture[0]->width / pSpriteWidth);
         int textOffsetX = (spriteXstart - tmpx) * texelWidth;
         ystart = tmpy;
         while (ystart < yend)
@@ -65,13 +66,18 @@ void    calculate_sprite_projection_and_render(t_player *player)
             if (ystart < HEIGHT && spriteXstart < WIDTH && spriteXstart > 0 && ystart > 0
                 && player->sprite->distance < player->rays[spriteXstart].distance_to_wall)
             {
+                if (0 == 4) 
+                    texIndex = 0;
                 int DTop = ystart + (pSpriteHeight / 2) - (HEIGHT / 2);
-			    int textOffsetY = DTop * (player->sprite->texture->height / pSpriteHeight);
-                int index = ((textOffsetY * player->sprite->texture->width) + textOffsetX) * 4;
-			    int color = get_rgba(player->sprite->texture->pixels[index],
-				    player->sprite->texture->pixels[index + 1], player->sprite->texture->pixels[index + 2],
-				    player->sprite->texture->pixels[index + 3]);
-                mlx_put_pixel(player->map_img, spriteXstart, ystart, color);
+			    int textOffsetY = DTop * (player->sprite->texture[0]->height / pSpriteHeight);
+                int index = ((textOffsetY * player->sprite->texture[0]->width) + textOffsetX) * 4;
+			    int color = get_rgba(player->sprite->texture[0]->pixels[index],
+				    player->sprite->texture[0]->pixels[index + 1], player->sprite->texture[0]->pixels[index + 2],
+				    player->sprite->texture[0]->pixels[index + 3]);
+                if (color != 0) {
+                    mlx_put_pixel(player->map_img, spriteXstart, ystart, color);
+                    texIndex++;
+                }
             }
             ystart++;
         }

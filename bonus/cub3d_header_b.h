@@ -26,7 +26,7 @@ typedef struct s_sprite {
 	int		visible;
 	double	angle;
 	double	distance;
-	mlx_texture_t *texture;    
+	mlx_texture_t *texture[5];    
 }				t_sprite;
 
 typedef struct s_ray {

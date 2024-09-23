@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/23 12:38:18 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:20:16 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,12 @@ int main(int ac, char **av)
 	player.rays = rays;
 	player.mlx = mlx;
 	sprite.visible = 0;
-	sprite.texture = mlx_load_png("./textures/goldCoin/goldCoin1.png");
+	// sprite.texture = mlx_load_png("./textures/goldCoin/goldCoin1.png");
+	sprite.texture[0] = mlx_load_png("./textures/MonedaD1.png");
+	sprite.texture[1] = mlx_load_png("./textures/MonedaD2.png");
+	sprite.texture[2] = mlx_load_png("./textures/MonedaD3.png");
+	sprite.texture[3] = mlx_load_png("./textures/MonedaD4.png");
+	sprite.texture[4] = mlx_load_png("./textures/MonedaD5.png");
 	player.sprite = &sprite;
 	// player.north_texture = mlx_load_png("./textures/bochi.png");
 	// player.south_texture = mlx_load_png("./textures/bochi2.png");
