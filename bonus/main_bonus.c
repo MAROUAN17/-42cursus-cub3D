@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 15:28:58 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/23 12:38:18 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ void render_2dmap(t_player *player, char **map)
 		{
 			if (map[y][x] == '1')
 				draw_rectangle(player->map_img, x * TILE_PX, y * TILE_PX, 0x000000FF, TILE_PX);
+			else if (map[y][x] == 'I')
+			{
+				player->sprite->x = x * TILE_PX;
+				player->sprite->x = y * TILE_PX;
+			}
 			else
 			{
 				if (player->player_x == -1 && player->player_y == -1 && (player->map[y][x] == 'N' || player->map[y][x] == 'S' || player->map[y][x] == 'W' || player->map[y][x] == 'E'))
@@ -103,10 +108,9 @@ int main(int ac, char **av)
 	player.map_width = map_width;
 	player.rays = rays;
 	player.mlx = mlx;
-	sprite.x = 420;
-	sprite.y = 720;
+	sprite.visible = 0;
+	sprite.texture = mlx_load_png("./textures/goldCoin/goldCoin1.png");
 	player.sprite = &sprite;
-	player.walls_texture = mlx_load_png("./textures/test.png");
 	// player.north_texture = mlx_load_png("./textures/bochi.png");
 	// player.south_texture = mlx_load_png("./textures/bochi2.png");
 	// player.west_texture = mlx_load_png("./textures/osaka.png");
@@ -139,7 +143,6 @@ int main(int ac, char **av)
 	// }
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
-	mlx_delete_texture(player.walls_texture);
 	free_2d_arr(player.map);
 	return (EXIT_SUCCESS);
 }

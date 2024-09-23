@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 15:37:58 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/23 12:22:59 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void draw_wall(t_player *player)
 	int textOffsetX = 0;
 	int i = 0;
 	float pWallHeight = 0;
-	float wall_width = 2;
+	float wall_width = 1;
 	float correct_wall_distance = 0;
 	int ystart = 0;
 	float d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
@@ -65,7 +65,6 @@ void draw_wall(t_player *player)
 		if (ystart < 0)
 			ystart = 0;
 		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
-		// if (player->rays[i].vertical_wall)
 		if (player->rays[i].vertical_wall)
 			textOffsetX = (int)player->rays[i].y % TILE_PX;
 		else
@@ -156,7 +155,6 @@ void	move(t_player *player, float angle)
 	float new_y = sin(angle) * player->moveSpeed;
 	int	check_y;
 	int	check_x;
-
 	if (!check_corner(player, new_x, new_y))
 	{
 		new_x = 0;
@@ -206,6 +204,12 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 		mlx_close_window(player->mlx);
 }
 
+void rotate_player(t_player *player, double rotationAngle)
+{
+	player->playerAngle += rotationAngle;
+	player->playerAngle = normalize_rayAngle(player->playerAngle);
+}
+
 void render(void *v_player)
 {
 	t_player	*player;
@@ -223,16 +227,24 @@ void render(void *v_player)
 	if (player->d_key)
 		move(player, player->playerAngle + M_PI / 2);
 	if (player->turnLeft)
-		player->playerAngle += player->rotationSpeed * 1;
+		rotate_player(player, player->rotationSpeed * 1);
 	if (player->turnRight)
-		player->playerAngle += player->rotationSpeed * -1;
+		rotate_player(player, player->rotationSpeed * -1);
 	cast_rays(player);
 	draw_wall(player);
 	render_minimap(player);
 	draw_casted_rays(player);
+	visibleSprite(player);
 	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
 		0xFF0000FF, 10 * MINIMAP_FACTOR);
-	draw_rectangle(player->map_img, player->sprite->x * MINIMAP_FACTOR, player->sprite->y * MINIMAP_FACTOR,
-		0x00FF00FF, 10 * MINIMAP_FACTOR);
+	if (player->sprite->visible)
+	{	
+		draw_rectangle(player->map_img, player->sprite->x * MINIMAP_FACTOR, player->sprite->y * MINIMAP_FACTOR,
+			0x00FF00FF, 10 * MINIMAP_FACTOR);
+		calculate_sprite_projection_and_render(player);
+	}
+	else
+		draw_rectangle(player->map_img, player->sprite->x * MINIMAP_FACTOR, player->sprite->y * MINIMAP_FACTOR,
+			0x0044444F, 10 * MINIMAP_FACTOR);
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
 }

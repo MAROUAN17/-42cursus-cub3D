@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:31 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 15:29:27 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:04:42 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,9 @@ void draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int text
 		j = 0;
 		while (j < p && y + j < HEIGHT)
 		{
-			// printf("wall height -> %d\n", p);
-			// printf("ystart -> %d\n", (p / 2) - (HEIGHT / 2));
 			Dbottom = (y + j) + ((p / 2) - (HEIGHT / 2));
 			textOffsetY = Dbottom * ((double)texture->height / p);
 			index = ((textOffsetY * texture->width) + textOffsetX) * 4;
-			// printf("index -> %d\n", index);
-			// printf("map img -> %p\n", player->map_img);
-			// printf("pixels pointer -> %p\n", texture->pixels);
-			// printf("texture->pixels[index] -> %d\n", texture->pixels[index]);
 			color = get_rgba(texture->pixels[index],
 				texture->pixels[index + 1], texture->pixels[index + 2],
 				texture->pixels[index + 3]);

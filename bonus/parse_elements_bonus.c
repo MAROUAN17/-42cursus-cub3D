@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_elements_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 15:22:11 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/21 12:05:17 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	skip_sp(char *line, int *i)
 
 int	check_line_chars(char *line, int *p_counter, int i, t_player *player)
 {
-	if (line[i] != '1' && line[i] != ' '
+	if (line[i] != 'I' && line[i] != '1' && line[i] != ' '
 		&& line[i] != '0' && line[i] != 'N' && line[i] != 'S'
 		&& line[i] != 'W' && line[i] != 'E')
 		return (0);

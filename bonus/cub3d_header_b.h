@@ -6,13 +6,14 @@
 #include <math.h>
 #include <limits.h>
 #include "../MLX42/include/MLX42/MLX42.h"
+// (HEIGHT / (int)UNIT) (past formula)
 
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
 #define UNIT 32.0
-#define TILE_PX (HEIGHT / (int)UNIT)
-#define MINIMAP_FACTOR (float)(((float)UNIT / (float)HEIGHT) + 0.2)
+#define TILE_PX 32
+#define MINIMAP_FACTOR (float)(((float)UNIT / (float)HEIGHT) + 0.1)
 
 typedef struct s_point {
 	float x;
@@ -20,9 +21,12 @@ typedef struct s_point {
 }			t_point;
 
 typedef struct s_sprite {
-	double x;
-	double y;
-	mlx_image_t images[8];
+	double	x;
+	double	y;
+	int		visible;
+	double	angle;
+	double	distance;
+	mlx_texture_t *texture;    
 }				t_sprite;
 
 typedef struct s_ray {
@@ -125,3 +129,6 @@ int		set_color(int *color, char *line, int *flag);
 int		get_textures(t_player *player, char *map_path);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		check_map_valid(char **map, t_player *player);
+void	visibleSprite(t_player *player);
+double	calculate_distance_sprites(t_player *player);
+void	calculate_sprite_projection_and_render(t_player *player);
