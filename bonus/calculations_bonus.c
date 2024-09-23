@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/23 15:29:27 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:30:28 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,16 +223,6 @@ void render(void *v_player)
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
 	if (texIndex == 51)
 		texIndex = 0;
-	if (texIndex >= 0 && texIndex <= 10)
-		player->sprite->texture[0] = mlx_load_png("./textures/MonedaD1.png");
-	else if (texIndex > 10 && texIndex <= 20)
-		player->sprite->texture[0] = mlx_load_png("./textures/MonedaD2.png");
-	else if (texIndex > 20 && texIndex <= 30)
-		player->sprite->texture[0] = mlx_load_png("./textures/MonedaD3.png");
-	else if (texIndex > 30 && texIndex <= 40)
-		player->sprite->texture[0] = mlx_load_png("./textures/MonedaD4.png");
-	else if (texIndex > 40 && texIndex <= 50)
-		player->sprite->texture[0] = mlx_load_png("./textures/MonedaD5.png");
 	if (player->w_key)
 		move(player, player->playerAngle);
 	if (player->s_key)
@@ -245,23 +235,13 @@ void render(void *v_player)
 		rotate_player(player, player->rotationSpeed * 1);
 	if (player->turnRight)
 		rotate_player(player, player->rotationSpeed * -1);
-	
 	cast_rays(player);
 	draw_wall(player);
 	render_minimap(player);
 	draw_casted_rays(player);
-	visibleSprite(player);
 	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
 		0xFF0000FF, 10 * MINIMAP_FACTOR);
-	if (player->sprite->visible)
-	{	
-		draw_rectangle(player->map_img, player->sprite->x * MINIMAP_FACTOR, player->sprite->y * MINIMAP_FACTOR,
-			0x00FF00FF, 10 * MINIMAP_FACTOR);
-		calculate_sprite_projection_and_render(player);
-		texIndex++;
-	}
-	else
-		draw_rectangle(player->map_img, player->sprite->x * MINIMAP_FACTOR, player->sprite->y * MINIMAP_FACTOR,
-			0x0044444F, 10 * MINIMAP_FACTOR);
+	render_sprites(player, texIndex);
+	texIndex++;
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
 }

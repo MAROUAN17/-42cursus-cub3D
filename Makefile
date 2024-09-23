@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 CC = cc
 LIBMLX = ./MLX42
 SRCS =  mandatory/main.c mandatory/walls_utils.c mandatory/calculate_distance.c mandatory/horizontal_intersection.c mandatory/vertical_intersection.c mandatory/finding_wall.c \
@@ -41,13 +41,13 @@ libmlx:
 %.o: %.c ./cub3d_header.h
 	${CC} ${CFLAGS} -o $@ -c $< ${HEADERS}
 
-/bonus/%_bonus.o: /bonus/%_bonus.c /bonus/cub3d_header_b.h
+bonus/%_bonus.o: bonus/%_bonus.c bonus/cub3d_header_b.h
 	${CC} ${CFLAGS} -o $@ -c $< ${HEADERS}
 
 ${NAME}: ${OBJ_LIBFT} ${OBJS} ${LIBFT} ${NEXT_LINE_H}
 	${CC} ${CFLAGS} ${OBJS} ${LIBS} ${LIBFT} ${HEADERS} -o ${NAME}
 
-bonus: libmlx ${OBJ_LIBFT} ${OBJS_B} ${LIBFT} ${NEXT_LINE_H}
+bonus: libmlx ${OBJ_LIBFT} ${OBJS_B} ${LIBFT} ${NEXT_LINE_H} bonus/cub3d_header_b.h
 	${CC} ${CFLAGS} ${OBJS_B} ${LIBS} ${LIBFT} ${HEADERS} -o ${NAME_B}
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/21 12:08:38 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:26:52 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void render_minimap(t_player *player)
 {
 	int     x = 0;
 	int     y = 0;
+	int		index = 0;
 
 	while (player->map[y])
 	{
@@ -42,9 +43,10 @@ void render_minimap(t_player *player)
 				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0x000000FF, TILE_PX * MINIMAP_FACTOR);
 			else if (player->map[y][x] == 'I')
 			{
-				player->sprite->x = x * TILE_PX;
-				player->sprite->y = y * TILE_PX;
+				player->sprite[index].x = x * TILE_PX;
+				player->sprite[index].y = y * TILE_PX;
 				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
+				index++;
 			}
 			else
 			{

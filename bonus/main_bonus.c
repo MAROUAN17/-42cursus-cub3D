@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/23 15:23:23 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:46:08 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int main(int ac, char **av)
 	int			map_height;
 	t_player	player;
 	t_ray		rays[WIDTH];
-	t_sprite	sprite;
+	t_sprite	sprite[NUM_SPRITE];
 
 	(void)ac;
 	player.p_fov_angle = degrees2rad(60);
@@ -108,9 +108,16 @@ int main(int ac, char **av)
 	player.map_width = map_width;
 	player.rays = rays;
 	player.mlx = mlx;
-	sprite.visible = 0;
-	// sprite.texture = mlx_load_png("./textures/goldCoin/goldCoin1.png");
-	player.sprite = &sprite;
+	int j = 0;
+	while (j < NUM_SPRITE)
+	{
+		sprite[j].x = 0;
+		sprite[j].y = 0;
+		sprite[j].texture = mlx_load_png("./textures/MonedaD1.png");
+		sprite[j].visible = 0;
+		j++;
+	}
+	player.sprite = sprite;
 	// player.north_texture = mlx_load_png("./textures/bochi.png");
 	// player.south_texture = mlx_load_png("./textures/bochi2.png");
 	// player.west_texture = mlx_load_png("./textures/osaka.png");

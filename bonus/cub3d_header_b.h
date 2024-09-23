@@ -8,6 +8,7 @@
 #include "../MLX42/include/MLX42/MLX42.h"
 // (HEIGHT / (int)UNIT) (past formula)
 
+#define NUM_SPRITE 4
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
@@ -26,7 +27,7 @@ typedef struct s_sprite {
 	int		visible;
 	double	angle;
 	double	distance;
-	mlx_texture_t *texture[5];    
+	mlx_texture_t *texture;
 }				t_sprite;
 
 typedef struct s_ray {
@@ -121,7 +122,7 @@ char	**ft_split(char const *s, char c);
 void	free_2d_array(char **array);
 int		ft_atoi(const char *str);
 int 	get_rgba(int r, int g, int b, int a);
-void	print_err(char *line);
+void	print_err(char *line); 
 int		translate_rgb(char **sep_str, int *color);
 int		count_comma(char *line);
 int		count_2d_len(char **sep_str);
@@ -129,6 +130,7 @@ int		set_color(int *color, char *line, int *flag);
 int		get_textures(t_player *player, char *map_path);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		check_map_valid(char **map, t_player *player);
-void	visibleSprite(t_player *player);
+void	visibleSprite(t_player *player, int index);
 double	calculate_distance_sprites(t_player *player);
-void	calculate_sprite_projection_and_render(t_player *player);
+void	calculate_sprite_projection_and_render(t_player *player, int index);
+void	render_sprites(t_player *player, int texIndex);
