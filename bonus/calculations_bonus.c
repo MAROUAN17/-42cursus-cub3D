@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/24 11:04:15 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:35:46 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,16 +101,6 @@ void	update_ray_facing(t_ray *ray)
 	ray->p_isFacingLeft = !ray->p_isFacingRight;
 }
 
-float normalize_rayAngle(float ray_angle)
-{
-	ray_angle = remainder(ray_angle, 2 * M_PI);
-	if (ray_angle < 0)
-		ray_angle = (2 * M_PI) + ray_angle;
-	if (fabs(tan(ray_angle)) < 0.000001)
-		ray_angle += 0.0001;
-	return (ray_angle);
-}
-
 void	cast_rays(t_player *player)
 {
     int i;
@@ -132,108 +122,40 @@ void	cast_rays(t_player *player)
 		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i],
 			&wall_coord1, &wall_coord2);
 		player->rays[i].texture = get_texture(player, player->rays[i].vertical_wall, player->rays[i].x, player->rays[i].y);
-		// draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-		// player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
         i++;
     }
 }
 
-int	check_corner(t_player *player, double new_x, double new_y)
+void my_scrollhook(double xdelta, double ydelta, void* param)
 {
-	int	check_y;
-	int	check_x;
-	(void)new_x;
-
-	check_y = (player->player_y + new_y) / TILE_PX;
-	check_x = (player->player_x) / TILE_PX;
-	if (player->map[check_y][check_x] != '1')
-		return (1);
-	return (0);
-}
-
-void	move(t_player *player, float angle)
-{
-	float new_x = cos(angle) * player->moveSpeed;
-	float new_y = sin(angle) * player->moveSpeed;
-	int	check_y;
-	int	check_x;
-	if (!check_corner(player, new_x, new_y))
-	{
-		new_x = 0;
-		new_y = 0;
-	}
-	check_y = (player->player_y + new_y) / TILE_PX;
-	check_x = (player->player_x + new_x) / TILE_PX;
-	if (player->map[check_y][check_x] != '1')
-
-	if (player->map[(int)((player->player_y + new_y) / TILE_PX)][(int)((player->player_x + new_x) / TILE_PX)] != '1')
-	{
-		player->player_x += new_x;
-		player->player_y += new_y;
-	}
-}
-
-void	move_player(mlx_key_data_t keydata, void *v_player)
-{
-	t_player	*player;
-
-	player = (t_player *)v_player;
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->w_key = 1;
-	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->s_key = 1;
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->a_key = 1;
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->d_key = 1;
-	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnLeft = 1;
-	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnRight = 1;
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_RELEASE))
-		player->w_key = 0;
-	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
-		player->s_key = 0;
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
-		player->a_key = 0;
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
-		player->d_key = 0;
-	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_RELEASE))
-		player->turnLeft = 0;
-	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_RELEASE))
-		player->turnRight = 0;
-	if (keydata.key == MLX_KEY_ESCAPE)
-		mlx_close_window(player->mlx);
-}
-
-void rotate_player(t_player *player, double rotationAngle)
-{
-	player->playerAngle += rotationAngle;
-	player->playerAngle = normalize_rayAngle(player->playerAngle);
+	(void)param;
+	(void)ydelta;
+	if (xdelta < 0)
+		printf("left\n");
+	else if (xdelta > 0)
+		printf("right\n");
 }
 
 void render(void *v_player)
 {
 	static int texIndex;
-	static int j;
 	t_player	*player;
 
 	player = (t_player *)v_player;
 	mlx_delete_image(player->mlx, player->map_img);
 	player->map_img = NULL;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
-	if (j == NUM_SPRITE)
-		j = 0;
+	mouse_rotation(player);
 	if (texIndex == 51)
 		texIndex = 0;
 	if (player->w_key)
-		move(player, player->playerAngle);
+		check_change_position(player, player->playerAngle);
 	if (player->s_key)
-		move(player, player->playerAngle + M_PI);
+		check_change_position(player, player->playerAngle + M_PI);
 	if (player->a_key)
-		move(player, player->playerAngle - M_PI / 2);
+		check_change_position(player, player->playerAngle - M_PI / 2);
 	if (player->d_key)
-		move(player, player->playerAngle + M_PI / 2);
+		check_change_position(player, player->playerAngle + M_PI / 2);
 	if (player->turnLeft)
 		rotate_player(player, player->rotationSpeed * 1);
 	if (player->turnRight)

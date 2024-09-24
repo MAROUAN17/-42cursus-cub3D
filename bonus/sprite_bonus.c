@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/24 11:24:52 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:37:07 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	change_sprite_index(t_player *player, int texIndex)
 	while (i < NUM_SPRITE)
 	{
 		if (texIndex >= 0 && texIndex <= 10)
-			player->sprite[i].texture = mlx_load_png("./textures/MonedaD1.png");
+			player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
 		else if (texIndex > 10 && texIndex <= 20)
-			player->sprite[i].texture = mlx_load_png("./textures/MonedaD2.png");
+			player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
 		else if (texIndex > 20 && texIndex <= 30)
-			player->sprite[i].texture = mlx_load_png("./textures/MonedaD3.png");
-		else if (texIndex > 35 && texIndex <= 40)
-			player->sprite[i].texture = mlx_load_png("./textures/MonedaD4.png");
+			player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
+		else if (texIndex > 30 && texIndex <= 40)
+			player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
 		else if (texIndex > 40 && texIndex <= 50)
-			player->sprite[i].texture = mlx_load_png("./textures/MonedaD5.png");
+			player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
 		i++;
 	}
 }
@@ -46,7 +46,7 @@ double calculate_distance_sprites(t_player *player, int index)
     double distance;
 
     distance = sqrt(pow(player->sprite[index].x - player->player_x, 2) + pow(player->sprite[index].y - player->player_y, 2));
-    return (distance);
+    return (distance); 
 }
 
 void visibleSprite(t_player *player, int index)

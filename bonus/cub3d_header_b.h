@@ -28,6 +28,7 @@ typedef struct s_sprite {
 	double	angle;
 	double	distance;
 	mlx_texture_t *texture;
+	mlx_texture_t **an_textures;
 }				t_sprite;
 
 typedef struct s_ray {
@@ -134,3 +135,9 @@ void	visibleSprite(t_player *player, int index);
 double	calculate_distance_sprites(t_player *player, int index);
 void	calculate_sprite_projection_and_render(t_player *player, int index);
 void	render_sprites(t_player *player, int texIndex);
+void	check_change_position(t_player *player, float angle);
+void	move_player(mlx_key_data_t keydata, void *v_player);
+void	rotate_player(t_player *player, double rotationAngle);
+float	normalize_rayAngle(float ray_angle);
+int		check_corner(t_player *player, double new_x, double new_y);
+void	mouse_rotation(t_player *player);
