@@ -94,7 +94,7 @@ int main(int ac, char **av)
 	player.moveSpeed = 6.0;
 	player.rotationSpeed = degrees2rad(4);
 	// get_textures(&player, av[1]);
-
+	printf("heigth -> %d | width -> %d\n", map_height, map_width);
 	player.map_height = map_height;
 	player.map_width = map_width;
 	player.rays = rays;

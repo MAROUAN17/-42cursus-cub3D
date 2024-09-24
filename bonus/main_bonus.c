@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 15:28:58 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/21 13:39:22 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int main(int ac, char **av)
 	sprite.x = 420;
 	sprite.y = 720;
 	player.sprite = &sprite;
-	player.walls_texture = mlx_load_png("./textures/test.png");
+	// player.walls_texture = mlx_load_png("./textures/test.png");
 	// player.north_texture = mlx_load_png("./textures/bochi.png");
 	// player.south_texture = mlx_load_png("./textures/bochi2.png");
 	// player.west_texture = mlx_load_png("./textures/osaka.png");
@@ -139,7 +139,6 @@ int main(int ac, char **av)
 	// }
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
-	mlx_delete_texture(player.walls_texture);
 	free_2d_arr(player.map);
 	return (EXIT_SUCCESS);
 }

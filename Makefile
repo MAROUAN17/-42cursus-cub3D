@@ -3,13 +3,13 @@ CC = cc
 LIBMLX = ./MLX42
 SRCS =  mandatory/main.c mandatory/walls_utils.c mandatory/calculate_distance.c mandatory/horizontal_intersection.c mandatory/vertical_intersection.c mandatory/finding_wall.c \
 	mandatory/calculations.c mandatory/minimap.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c mandatory/parse_map.c \
-	mandatory/free_utils.c mandatory/parse_color.c mandatory/parse_textures.c mandatory/parse_elements.c
-OBJS = ${SRCS:.c=.o}
+	mandatory/free_utils.c mandatory/parse_color.c mandatory/parse_textures.c mandatory/parse_elements.c mandatory/parse_utils.c
+OBJS = ${addprefix mandatory/obj/, ${SRCS:.c=.o}}
 
 SRCS_B =  bonus/main_bonus.c bonus/walls_utils_bonus.c bonus/calculate_distance_bonus.c bonus/horizontal_intersection_bonus.c bonus/vertical_intersection_bonus.c bonus/finding_wall_bonus.c \
 	bonus/calculations_bonus.c bonus/minimap_bonus.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c bonus/parse_map_bonus.c \
-	bonus/free_utils_bonus.c bonus/parse_color_bonus.c bonus/parse_textures_bonus.c bonus/parse_elements_bonus.c
-OBJS_B = ${SRCS_B:.c=.o}
+	bonus/free_utils_bonus.c bonus/parse_color_bonus.c bonus/parse_textures_bonus.c bonus/parse_elements_bonus.c bonus/parse_utils_bonus.c
+OBJS_B = ${addprefix bonus/b_obj/, ${SRCS_B:.c=.o}}
 
 LIBFT = ./libft/libft.a
 SRCS_LIBFT = libft/ft_isprint.c libft/ft_isdigit.c libft/ft_isascii.c libft/ft_isalpha.c \
@@ -37,10 +37,12 @@ ${LIBFT}:
 libmlx:
 	@cmake ${LIBMLX} -B ${LIBMLX}/build && make -C ${LIBMLX}/build -j4
 
-%.o: %.c ./cub3d_header.h
+mandatory/obj/%.o: %.c ./mandatory/cub3d_header.h
+	@mkdir -p $(dir $@)
 	${CC} ${CFLAGS} -o $@ -c $< ${HEADERS}
 
-%_bonus.o: %_bonus.c ./cub3d_header_b.h
+bonus/b_obj/%.o: %.c ./bonus/cub3d_header_b.h
+	@mkdir -p $(dir $@)
 	${CC} ${CFLAGS} -o $@ -c $< ${HEADERS}
 
 ${NAME}: ${OBJ_LIBFT} ${OBJS} ${LIBFT} ${NEXT_LINE_H}
@@ -50,7 +52,8 @@ bonus: libmlx ${OBJ_LIBFT} ${OBJS_B} ${LIBFT} ${NEXT_LINE_H}
 	${CC} ${CFLAGS} ${OBJS_B} ${LIBS} ${LIBFT} ${HEADERS} -o ${NAME_B}
 
 clean:
-	rm -rf obj
+	rm -rf mandatory/obj
+	rm -rf bonus/b_obj
 	rm -rf ${OBJS} ${OBJS_B}
 	rm -rf ${LIBMLX}/build
 	make clean -C ./libft

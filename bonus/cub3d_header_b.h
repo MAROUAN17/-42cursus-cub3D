@@ -10,9 +10,12 @@
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define UNIT 32.0
-#define TILE_PX (HEIGHT / (int)UNIT)
-#define MINIMAP_FACTOR (float)(((float)UNIT / (float)HEIGHT) + 0.2)
+#define UNIT 64.0
+// #define UNIT 32.0
+// #define TILE_PX (HEIGHT / (int)UNIT)
+#define TILE_PX (UNIT)
+// #define MINIMAP_FACTOR (float)(((float)UNIT / (float)HEIGHT) + 0.2)
+#define MINIMAP_FACTOR 0.1
 
 typedef struct s_point {
 	float x;
@@ -125,3 +128,4 @@ int		set_color(int *color, char *line, int *flag);
 int		get_textures(t_player *player, char *map_path);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		check_map_valid(char **map, t_player *player);
+mlx_texture_t 	*resize_texture(mlx_texture_t *texture, int new_width, int new_height);

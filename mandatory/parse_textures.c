@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:20:22 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/19 10:02:48 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:35:29 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	get_file_type(char *line)
 	}
 	if (len < 4)
 		return (0);
-	// printf("|%s|\n", line + len - 4);
 	if (ft_strncmp(line + len - 3, ".png", 5) == 0)
 		return (1);
 	else if (ft_strncmp(line + len - 5, ".xpm42", 7) == 0)
@@ -48,6 +47,7 @@ int	set_texture(mlx_texture_t **texture, xpm_t **xpm, char *line)
 		{
 			*xpm = NULL;
 			*texture = mlx_load_png(line);
+			*texture = resize_texture(*texture, UNIT, UNIT);
 			if (!*texture)
 				return (print_err("Error\nInvalid Textures!\n"), 0);
 		}
@@ -56,7 +56,10 @@ int	set_texture(mlx_texture_t **texture, xpm_t **xpm, char *line)
 			*xpm = mlx_load_xpm42(line);
 			if (!*xpm)
 				return (print_err("Error\nInvalid Textures!\n"), 0);
-			*texture = &(*xpm)->texture;
+			// *texture = &(*xpm)->texture;
+			*texture = resize_texture(&(*xpm)->texture, UNIT, UNIT);
+			if (!*texture)
+				return (0);
 		}
 		else
 			return (print_err("Error\nInvalid Textures!\n"), 0);

@@ -7,6 +7,7 @@ float calculate_smallest_distance(t_player *player, t_ray *ray, t_point *wall1, 
 
 	distance1 = sqrt(pow(wall1->x - player->player_x, 2) + pow(wall1->y - player->player_y, 2));
 	distance2 = sqrt(pow(wall2->x - player->player_x, 2) + pow(wall2->y - player->player_y, 2));
+	printf("dis 1 -> %f | 2 -> %f\n", distance1, distance2);
 	if (distance2 < distance1)
 	{
 		ray->x = wall2->x;

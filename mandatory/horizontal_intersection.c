@@ -34,10 +34,12 @@ t_point calculating_horizontal_intersections(t_player *player, t_ray *ray)
     if (ray->p_isFacingDown)
         ray->h_yintersept += TILE_PX;
     ray->h_xintersept = find_closest_horizontal_xintersec(player, ray->h_yintersept, ray->angle);
+	// printf("h_x -> %f | h_y -> %f\n", ray->h_xintersept / TILE_PX, ray->h_yintersept / TILE_PX);
     ystep = TILE_PX;
     if (ray->p_isFacingUp)
         ystep *= -1;
     xstep = calculate_xstep(ray->angle);
+	printf("x_step -> %f | y_step -> %f\n", xstep, ystep);
     if ((ray->p_isFacingLeft && xstep > 0) || (ray->p_isFacingRight && xstep < 0))
         xstep *= -1;
     wall = finding_wall_horizontal(player, ray, xstep, ystep);
