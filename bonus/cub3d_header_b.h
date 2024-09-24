@@ -29,6 +29,7 @@ typedef struct s_sprite {
 	double	distance;
 	mlx_texture_t *texture;
 	mlx_texture_t **an_textures;
+	int		collected;
 }				t_sprite;
 
 typedef struct s_ray {
@@ -84,6 +85,7 @@ typedef struct player_struct {
 	int				ceiling_color;
 	t_ray			*rays;
 	t_sprite		*sprite;
+	int				nbr_collected;
 }					t_player;
 
 void	*ft_memset(void *b, int c, size_t len);
@@ -141,3 +143,7 @@ void	rotate_player(t_player *player, double rotationAngle);
 float	normalize_rayAngle(float ray_angle);
 int		check_corner(t_player *player, double new_x, double new_y);
 void	mouse_rotation(t_player *player);
+void	initialize_player_struct(t_player *player, char *map_path, int *map_width, int *map_height);
+void	initialize_rays_struct(t_player *player, t_ray *rays);
+void	initialize_sprites_struct(t_player *player, t_sprite *sprite, mlx_texture_t **textures);
+void	free_2d_arr(char **map);
