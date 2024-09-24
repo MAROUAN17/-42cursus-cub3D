@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/23 16:46:08 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:27:10 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int main(int ac, char **av)
 	}
 	// player.playerAngle = M_PI / 2;
 	player.moveSpeed = 6.0;
-	player.rotationSpeed = degrees2rad(4);
+	player.rotationSpeed = degrees2rad(2.5);
 	// get_textures(&player, av[1]);
 	player.map_height = map_height;
 	player.map_width = map_width;

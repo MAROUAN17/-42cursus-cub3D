@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/23 17:30:33 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:24:52 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void render_sprites_minimap(t_player *player, int sprIndex)
 			0x0044444F, 10 * MINIMAP_FACTOR);
 }
 
-double calculate_distance_sprites(t_player *player)
+double calculate_distance_sprites(t_player *player, int index)
 {
     double distance;
 
-    distance = sqrt(pow(player->sprite->x - player->player_x, 2) + pow(player->sprite->y - player->player_y, 2));
+    distance = sqrt(pow(player->sprite[index].x - player->player_x, 2) + pow(player->sprite[index].y - player->player_y, 2));
     return (distance);
 }
 
@@ -58,8 +58,7 @@ void visibleSprite(t_player *player, int index)
     if (spritePlayer < -M_PI)
         spritePlayer += 2 * M_PI;
     player->sprite[index].angle = fabs(spritePlayer);
-    player->sprite[index].distance = calculate_distance_sprites(player);
-    calculate_distance_sprites(player);
+    player->sprite[index].distance = calculate_distance_sprites(player, index);
     if (player->sprite[index].angle < degrees2rad(FOV_ANGLE / 2))
         player->sprite[index].visible = 1;
     else
@@ -118,8 +117,8 @@ void render_sprites(t_player *player, int texIndex)
 		render_sprites_minimap(player, j);
 		visibleSprite(player, j);
 		change_sprite_index(player, texIndex);
-		if (player->sprite[j].visible)
-			calculate_sprite_projection_and_render(player, j);
+        if (player->sprite[j].visible)
+		    calculate_sprite_projection_and_render(player, j);
 		j++;
 	}
 }

@@ -131,6 +131,6 @@ int		get_textures(t_player *player, char *map_path);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		check_map_valid(char **map, t_player *player);
 void	visibleSprite(t_player *player, int index);
-double	calculate_distance_sprites(t_player *player);
+double	calculate_distance_sprites(t_player *player, int index);
 void	calculate_sprite_projection_and_render(t_player *player, int index);
 void	render_sprites(t_player *player, int texIndex);
