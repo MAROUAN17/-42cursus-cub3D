@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/22 10:29:51 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:19:23 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void draw_wall(t_player *player)
 	int textOffsetX = 0;
 	int i = 0;
 	float pWallHeight = 0;
-	float wall_width = 2;
+	float wall_width = 1;
 	float correct_wall_distance = 0;
 	int ystart = 0;
 	float d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
@@ -65,7 +65,6 @@ void draw_wall(t_player *player)
 		if (ystart < 0)
 			ystart = 0;
 		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
-		// if (player->rays[i].vertical_wall)
 		if (player->rays[i].vertical_wall)
 			textOffsetX = (int)player->rays[i].y % player->rays[i].texture->width;
 		else
@@ -102,16 +101,6 @@ void	update_ray_facing(t_ray *ray)
 	ray->p_isFacingLeft = !ray->p_isFacingRight;
 }
 
-float normalize_rayAngle(float ray_angle)
-{
-	ray_angle = remainder(ray_angle, 2 * M_PI);
-	if (ray_angle < 0)
-		ray_angle = (2 * M_PI) + ray_angle;
-	if (fabs(tan(ray_angle)) < 0.000001)
-		ray_angle += 0.0001;
-	return (ray_angle);
-}
-
 void	cast_rays(t_player *player)
 {
     int i;
@@ -133,108 +122,51 @@ void	cast_rays(t_player *player)
 		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i],
 			&wall_coord1, &wall_coord2);
 		player->rays[i].texture = get_texture(player, player->rays[i].vertical_wall, player->rays[i].x, player->rays[i].y);
-		// draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-		// player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
         i++;
     }
 }
 
-int	check_corner(t_player *player, double new_x, double new_y)
+void my_scrollhook(double xdelta, double ydelta, void* param)
 {
-	int	check_y;
-	int	check_x;
-	(void)new_x;
-
-	check_y = (player->player_y + new_y) / TILE_PX;
-	check_x = (player->player_x) / TILE_PX;
-	if (player->map[check_y][check_x] != '1')
-		return (1);
-	return (0);
-}
-
-void	move(t_player *player, float angle)
-{
-	float new_x = cos(angle) * player->moveSpeed;
-	float new_y = sin(angle) * player->moveSpeed;
-	int	check_y;
-	int	check_x;
-
-	if (!check_corner(player, new_x, new_y))
-	{
-		new_x = 0;
-		new_y = 0;
-	}
-	check_y = (player->player_y + new_y) / TILE_PX;
-	check_x = (player->player_x + new_x) / TILE_PX;
-	if (player->map[check_y][check_x] != '1')
-
-	if (player->map[(int)((player->player_y + new_y) / TILE_PX)][(int)((player->player_x + new_x) / TILE_PX)] != '1')
-	{
-		player->player_x += new_x;
-		player->player_y += new_y;
-	}
-}
-
-void	move_player(mlx_key_data_t keydata, void *v_player)
-{
-	t_player	*player;
-
-	player = (t_player *)v_player;
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->w_key = 1;
-	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->s_key = 1;
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->a_key = 1;
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->d_key = 1;
-	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnLeft = 1;
-	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnRight = 1;
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_RELEASE))
-		player->w_key = 0;
-	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
-		player->s_key = 0;
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
-		player->a_key = 0;
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
-		player->d_key = 0;
-	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_RELEASE))
-		player->turnLeft = 0;
-	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_RELEASE))
-		player->turnRight = 0;
-	if (keydata.key == MLX_KEY_ESCAPE)
-		mlx_close_window(player->mlx);
+	(void)param;
+	(void)ydelta;
+	if (xdelta < 0)
+		printf("left\n");
+	else if (xdelta > 0)
+		printf("right\n");
 }
 
 void render(void *v_player)
 {
+	static int texIndex;
 	t_player	*player;
 
 	player = (t_player *)v_player;
 	mlx_delete_image(player->mlx, player->map_img);
 	player->map_img = NULL;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
+	mouse_rotation(player);
+	if (texIndex == 51)
+		texIndex = 0;
 	if (player->w_key)
-		move(player, player->playerAngle);
+		check_change_position(player, player->playerAngle);
 	if (player->s_key)
-		move(player, player->playerAngle + M_PI);
+		check_change_position(player, player->playerAngle + M_PI);
 	if (player->a_key)
-		move(player, player->playerAngle - M_PI / 2);
+		check_change_position(player, player->playerAngle - M_PI / 2);
 	if (player->d_key)
-		move(player, player->playerAngle + M_PI / 2);
+		check_change_position(player, player->playerAngle + M_PI / 2);
 	if (player->turnLeft)
-		player->playerAngle += player->rotationSpeed * 1;
+		rotate_player(player, player->rotationSpeed * 1);
 	if (player->turnRight)
-		player->playerAngle += player->rotationSpeed * -1;
+		rotate_player(player, player->rotationSpeed * -1);
 	cast_rays(player);
 	draw_wall(player);
 	render_minimap(player);
 	draw_casted_rays(player);
 	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
 		0xFF0000FF, 10 * MINIMAP_FACTOR);
-	draw_rectangle(player->map_img, player->sprite->x * MINIMAP_FACTOR, player->sprite->y * MINIMAP_FACTOR,
-		0x00FF00FF, 10 * MINIMAP_FACTOR);
+	render_sprites(player, texIndex);
+	texIndex++;
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
 }

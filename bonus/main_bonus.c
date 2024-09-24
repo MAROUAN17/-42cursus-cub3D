@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/21 13:39:22 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:20:36 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ void render_2dmap(t_player *player, char **map)
 		{
 			if (map[y][x] == '1')
 				draw_rectangle(player->map_img, x * TILE_PX, y * TILE_PX, 0x000000FF, TILE_PX);
+			else if (map[y][x] == 'I')
+			{
+				player->sprite->x = x * TILE_PX;
+				player->sprite->x = y * TILE_PX;
+			}
 			else
 			{
 				if (player->player_x == -1 && player->player_y == -1 && (player->map[y][x] == 'N' || player->map[y][x] == 'S' || player->map[y][x] == 'W' || player->map[y][x] == 'E'))
@@ -59,7 +64,8 @@ int main(int ac, char **av)
 	int			map_height;
 	t_player	player;
 	t_ray		rays[WIDTH];
-	t_sprite	sprite;
+	t_sprite	sprite[NUM_SPRITE];
+	mlx_texture_t	*textures[5];
 
 	(void)ac;
 	player.p_fov_angle = degrees2rad(60);
@@ -97,16 +103,28 @@ int main(int ac, char **av)
 	}
 	// player.playerAngle = M_PI / 2;
 	player.moveSpeed = 6.0;
-	player.rotationSpeed = degrees2rad(4);
+	player.rotationSpeed = degrees2rad(2.5);
 	// get_textures(&player, av[1]);
 	player.map_height = map_height;
 	player.map_width = map_width;
 	player.rays = rays;
 	player.mlx = mlx;
-	sprite.x = 420;
-	sprite.y = 720;
-	player.sprite = &sprite;
-	// player.walls_texture = mlx_load_png("./textures/test.png");
+	textures[0] = mlx_load_png("./textures/MonedaD1.png");
+	textures[1] = mlx_load_png("./textures/MonedaD2.png");
+	textures[2] = mlx_load_png("./textures/MonedaD3.png");
+	textures[3] = mlx_load_png("./textures/MonedaD4.png");
+	textures[4] = mlx_load_png("./textures/MonedaD5.png");
+	int j = 0;
+	while (j < NUM_SPRITE)
+	{
+		sprite[j].x = 0;
+		sprite[j].y = 0;
+	// 	sprite[j].texture = mlx_load_png("./textures/MonedaD1.png");
+		sprite[j].visible = 0;
+		sprite[j].an_textures = textures; 
+		j++;
+	}
+	player.sprite = sprite;
 	// player.north_texture = mlx_load_png("./textures/bochi.png");
 	// player.south_texture = mlx_load_png("./textures/bochi2.png");
 	// player.west_texture = mlx_load_png("./textures/osaka.png");

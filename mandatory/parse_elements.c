@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_elements.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 15:04:23 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/21 10:22:37 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,6 @@ int	check_map_valid(char **map, t_player *player)
 		return (print_err("Error\nMultiple PLayers!\n"), 0);
 	else if (p_counter == 0)
 		return (print_err("Error\nNo PLayer?!\n"), 0);
-	printf("andle -> %f\n", player->playerAngle);
+	// printf("andle -> %f\n", player->playerAngle);
 	return (1);
 }
