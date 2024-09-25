@@ -143,7 +143,4 @@ void	rotate_player(t_player *player, double rotationAngle);
 float	normalize_rayAngle(float ray_angle);
 int		check_corner(t_player *player, double new_x, double new_y);
 void	mouse_rotation(t_player *player);
-void	initialize_player_struct(t_player *player, char *map_path, int *map_width, int *map_height);
-void	initialize_rays_struct(t_player *player, t_ray *rays);
-void	initialize_sprites_struct(t_player *player, t_sprite *sprite, mlx_texture_t **textures);
-void	free_2d_arr(char **map);
+mlx_texture_t 	*resize_texture(mlx_texture_t *texture, int new_width, int new_height);

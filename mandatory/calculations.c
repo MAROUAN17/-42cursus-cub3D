@@ -37,7 +37,7 @@ void draw_wall(t_player *player)
 	int textOffsetX = 0;
 	int i = 0;
 	float pWallHeight = 0;
-	float wall_width = 2;
+	float wall_width = 1;
 	float correct_wall_distance = 0;
 	int ystart = 0;
 	float d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
@@ -56,9 +56,9 @@ void draw_wall(t_player *player)
 		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
 		// if (player->rays[i].vertical_wall)
 		if (player->rays[i].vertical_wall)
-			textOffsetX = (int)player->rays[i].y % TILE_PX;
+			textOffsetX = (int)player->rays[i].y % player->rays[i].texture->width;
 		else
-			textOffsetX = (int)player->rays[i].x % TILE_PX;
+			textOffsetX = (int)player->rays[i].x % player->rays[i].texture->width;
 		draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX, player->rays[i].texture);
 		if (ystart + pWallHeight < HEIGHT)
 			draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, wall_width);
@@ -69,7 +69,7 @@ void draw_wall(t_player *player)
 void	draw_casted_rays(t_player *player)
 {
 	int i = 0;
-	while (i < WIDTH)
+	while (i < WIDTH - 1)
 	{
 		draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
 			player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
@@ -116,17 +116,12 @@ void	cast_rays(t_player *player)
     {
 		player->rays[i].angle = startAngle + (angle_step * i);
 		player->rays[i].angle = normalize_rayAngle(player->rays[i].angle);
-		// printf("angle -> %f\n", player->rays[i].angle);
 		update_ray_facing(&player->rays[i]);
 		wall_coord1 = calculating_horizontal_intersections(player, &player->rays[i]);
 		wall_coord2 = calculating_vertical_intersections(player, &player->rays[i]);
 		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i],
 			&wall_coord1, &wall_coord2);
-		// if (player->rays[i].x < 0 || player->rays[i].y < 0)
-		// 	printf("negatif\n");
 		player->rays[i].texture = get_texture(player, player->rays[i].vertical_wall, player->rays[i].x, player->rays[i].y);
-		// draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-		// player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
         i++;
     }
 }
@@ -148,17 +143,17 @@ void	move(t_player *player, float angle)
 {
 	float new_x = cos(angle) * player->moveSpeed;
 	float new_y = sin(angle) * player->moveSpeed;
-	int	check_y;
-	int	check_x;
+	// int	check_y;
+	// int	check_x;
 
 	if (!check_corner(player, new_x, new_y))
 	{
 		new_x = 0;
 		new_y = 0;
 	}
-	check_y = (player->player_y + new_y) / TILE_PX;
-	check_x = (player->player_x + new_x) / TILE_PX;
-	if (player->map[check_y][check_x] != '1')
+	// check_y = (player->player_y + new_y) / TILE_PX;
+	// check_x = (player->player_x + new_x) / TILE_PX;
+	// if (player->map[check_y][check_x] != '1')
 
 	if (player->map[(int)((player->player_y + new_y) / TILE_PX)][(int)((player->player_x + new_x) / TILE_PX)] != '1')
 	{

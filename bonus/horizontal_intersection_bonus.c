@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:00 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/24 16:15:12 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/25 11:03:22 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ t_point calculating_horizontal_intersections(t_player *player, t_ray *ray)
     xstep = calculate_xstep(ray->angle);
     if ((ray->p_isFacingLeft && xstep > 0) || (ray->p_isFacingRight && xstep < 0))
         xstep *= -1;
+	// if (xstep < 0)
+	// 	printf("negatiiiif\n");
     wall = finding_wall_horizontal(player, ray, xstep, ystep);
     return (wall);
 }

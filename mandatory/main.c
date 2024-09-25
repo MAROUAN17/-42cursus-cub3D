@@ -65,7 +65,6 @@ int main(int ac, char **av)
 	player.map = store_2d_array(&player, av[1], &map_height, &map_width);
 	if (!player.map)
 		return (1);
-	// printf("color -> %d\n", player.ceiling_color);
 	int i = 0;
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false)))
 	{
@@ -94,9 +93,8 @@ int main(int ac, char **av)
 	player.moveSpeed = 6.0;
 	player.rotationSpeed = degrees2rad(4);
 	// get_textures(&player, av[1]);
-
-	player.map_height = map_height;
-	player.map_width = map_width;
+	player.map_height = map_height * TILE_PX;
+	player.map_width = map_width * TILE_PX;
 	player.rays = rays;
 	player.mlx = mlx;
 	// player.walls_texture = mlx_load_png("./textures/test.png");

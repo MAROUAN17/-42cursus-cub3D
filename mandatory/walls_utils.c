@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 10:25:52 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/21 10:25:53 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/25 13:13:53 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int is_wall(t_player *player, int x, int y)
 
 	p_x = x / TILE_PX;
 	p_y = y / TILE_PX;
-	// if (p_y < 0 || p_x < 0)
-	// 	return (0);
 	// printf("p_y -> %d\n", p_y);
 	// printf("p_x -> %d\n", p_x);
+	if (p_y < 0 || p_x < 0 || p_y >= player->map_height || p_x >= player->map_width)
+		return (0);
 	return (player->map[p_y][p_x] == '1');
 }
 
@@ -55,7 +55,7 @@ void draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int text
 {
 	int i = 0;
 	int j = 0;
-	int Dbottom = 0;
+	int DTop = 0;
 	int textOffsetY = 0;
 	int index = 0;
 	int color = 0;
@@ -68,8 +68,8 @@ void draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int text
 		{
 			// printf("wall height -> %d\n", p);
 			// printf("ystart -> %d\n", (p / 2) - (HEIGHT / 2));
-			Dbottom = (y + j) + ((p / 2) - (HEIGHT / 2));
-			textOffsetY = Dbottom * ((double)texture->height / p);
+			DTop = (y + j) + ((p / 2) - (HEIGHT / 2));
+			textOffsetY = DTop * ((double)texture->height / p);
 			index = ((textOffsetY * texture->width) + textOffsetX) * 4;
 			// printf("index -> %d\n", index);
 			// printf("map img -> %p\n", player->map_img);

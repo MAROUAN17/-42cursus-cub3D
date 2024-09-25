@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/24 16:28:20 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/25 11:03:03 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ void draw_wall(t_player *player)
 			ystart = 0;
 		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
 		if (player->rays[i].vertical_wall)
-			textOffsetX = (int)player->rays[i].y % TILE_PX;
+			textOffsetX = (int)player->rays[i].y % player->rays[i].texture->width;
 		else
-			textOffsetX = (int)player->rays[i].x % TILE_PX;
+			textOffsetX = (int)player->rays[i].x % player->rays[i].texture->width;
 		draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX, player->rays[i].texture);
 		if (ystart + pWallHeight < HEIGHT)
 			draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, wall_width);
