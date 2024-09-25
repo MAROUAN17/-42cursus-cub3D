@@ -7,10 +7,11 @@
 #include <limits.h>
 #include "../MLX42/include/MLX42/MLX42.h"
 
+// (HEIGHT / (int)UNIT)
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define UNIT 32
+#define UNIT 128
 // #define UNIT 32.0
 // #define TILE_PX 64
 #define TILE_PX UNIT
@@ -30,6 +31,8 @@ typedef struct s_ray {
 	float		h_yintersept;
 	float		v_xintersept;
 	float		v_yintersept;
+	float		xstep;
+	float		ystep;
 	int			p_isFacingDown;
 	int			p_isFacingUp;
 	int			p_isFacingRight;

@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/24 11:37:07 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:34:52 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void visibleSprite(t_player *player, int index)
         player->sprite[index].visible = 0;
 }
 
-
 void    calculate_sprite_projection_and_render(t_player *player, int index)
 {
     double d_projection = (WIDTH / 2) / (tan(degrees2rad(FOV_ANGLE / 2)));
@@ -99,7 +98,7 @@ void    calculate_sprite_projection_and_render(t_player *player, int index)
 			    int color = get_rgba(player->sprite[index].texture->pixels[indexC],
 				    player->sprite[index].texture->pixels[indexC + 1], player->sprite[index].texture->pixels[indexC + 2],
 				    player->sprite[index].texture->pixels[indexC + 3]);
-                if (color != 0)
+                if (color != 0 && player->sprite[index].collected == 0)
                     mlx_put_pixel(player->map_img, spriteXstart, ystart, color);
             }
             ystart++;
@@ -114,11 +113,19 @@ void render_sprites(t_player *player, int texIndex)
 
 	while (j < NUM_SPRITE)
 	{
-		render_sprites_minimap(player, j);
-		visibleSprite(player, j);
-		change_sprite_index(player, texIndex);
-        if (player->sprite[j].visible)
-		    calculate_sprite_projection_and_render(player, j);
+        if (player->sprite[j].collected == 0)
+        {
+            render_sprites_minimap(player, j);
+            visibleSprite(player, j);
+            change_sprite_index(player, texIndex);
+            if (player->sprite[j].visible)
+                calculate_sprite_projection_and_render(player, j);
+            if (player->sprite[j].distance < 20 && player->sprite[j].collected == 0)
+            {
+                player->sprite[j].collected = 1;
+                player->nbr_collected++;
+            }
+        }
 		j++;
 	}
 }

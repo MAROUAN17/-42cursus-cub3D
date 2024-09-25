@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/24 16:21:48 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:34:19 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int main(int ac, char **av)
 	// mlx_texture_t	*door_textures[4];
 
 	(void)ac;
-	player.p_fov_angle = degrees2rad(60);
 	map_width = 0;
 	map_height = 0;
 	player.player_x = -1;
@@ -117,49 +116,14 @@ int main(int ac, char **av)
 	textures[2] = mlx_load_png("./textures/MonedaD3.png");
 	textures[3] = mlx_load_png("./textures/MonedaD4.png");
 	textures[4] = mlx_load_png("./textures/MonedaD5.png");
-	int j = 0;
-	while (j < NUM_SPRITE)
-	{
-		sprite[j].x = 0;
-		sprite[j].y = 0;
-	// 	sprite[j].texture = mlx_load_png("./textures/MonedaD1.png");
-		sprite[j].visible = 0;
-		sprite[j].an_textures = textures; 
-		j++;
-	}
-	player.sprite = sprite;
-	// player.north_texture = mlx_load_png("./textures/bochi.png");
-	// player.south_texture = mlx_load_png("./textures/bochi2.png");
-	// player.west_texture = mlx_load_png("./textures/osaka.png");
-	// player.east_texture = mlx_load_png("./textures/osaka2.png");
-	// mlx_texture_t *texture = mlx_load_png("./textures/white_image.png");
-	// player.white_img = mlx_texture_to_image(player.mlx, texture);
-	// mlx_texture_t *texture2 = mlx_load_png("./textures/dot.png");
-	// player.player_img = mlx_texture_to_image(player.mlx, texture2);
-	// mlx_texture_t *texture3 = mlx_load_png("./textures/red_dot.png");
-	// player.view_img = mlx_texture_to_image(player.mlx, texture3);
-	// render_2dmap(&player, player.map);
-	// cast_rays(&player);
-	mlx_image_to_window(mlx, player.map_img, 0, 0);
-	mlx_key_hook(mlx, &move_player, &player);
-	mlx_loop_hook(mlx, &render, &player);
-	// float n_point_y = find_closest_horizontal_yintersec(player.player_y);
-	// float n_point_x = find_closest_horizontal_xintersec(player.player_x, player.player_y, n_point_y);
-	// int xstep = calculate_xstep();
-	// printf("player x -> %d\n", player.player_x);
-	// printf("player y -> %d\n", player.player_y);
-	// printf("closest horizontal intersection point x -> %f\n", n_point_x);
-	// printf("closest horizontal intersection point y -> %f\n", n_point_y);
-	// printf("xstep -> %d\n", xstep);
-	// mlx_image_t *img = mlx_new_image(mlx, map_width * TILE_PX, map_height * TILE_PX);
-	// if (mlx_image_to_window(mlx, img, 0, 0) == -1)
-	// {
-	// 	mlx_close_window(mlx);
-	// 	perror(strerror(mlx_errno));
-	// 	return (EXIT_FAILURE);
-	// }
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	initialize_player_struct(&player, av[1], &map_width, &map_height);    
+	initialize_rays_struct(&player, rays);
+	initialize_sprites_struct(&player, sprite, textures);
+	mlx_image_to_window(player.mlx, player.map_img, 0, 0);
+	mlx_key_hook(player.mlx, &move_player, &player);
+	mlx_loop_hook(player.mlx, &render, &player);
+	mlx_loop(player.mlx);
+	mlx_terminate(player.mlx);
 	free_2d_arr(player.map);
 	return (EXIT_SUCCESS);
 }

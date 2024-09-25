@@ -69,7 +69,7 @@ void draw_wall(t_player *player)
 void	draw_casted_rays(t_player *player)
 {
 	int i = 0;
-	while (i < WIDTH)
+	while (i < WIDTH - 1)
 	{
 		draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
 			player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
@@ -116,24 +116,12 @@ void	cast_rays(t_player *player)
     {
 		player->rays[i].angle = startAngle + (angle_step * i);
 		player->rays[i].angle = normalize_rayAngle(player->rays[i].angle);
-		// printf("angle -> %f\n", player->rays[i].angle);
 		update_ray_facing(&player->rays[i]);
 		wall_coord1 = calculating_horizontal_intersections(player, &player->rays[i]);
-		// if (i == WIDTH / 2)
-		// 	printf("wall1 x -> %f | y -> %f\n", wall_coord1.x, wall_coord1.y);
 		wall_coord2 = calculating_vertical_intersections(player, &player->rays[i]);
-		// if (i == WIDTH / 2)
-		// 	printf("wall2 x -> %f | y -> %f\n", wall_coord2.x, wall_coord2.y);
 		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i],
 			&wall_coord1, &wall_coord2);
-		
-		// printf("ray x -> %f | y -> %f | vert -> %d\n", player->rays[i].x, player->rays[i].y, player->rays[i].vertical_wall);
-		// if (player->rays[i].x < 0 || player->rays[i].y < 0)
-		// 	printf("negatif\n");
 		player->rays[i].texture = get_texture(player, player->rays[i].vertical_wall, player->rays[i].x, player->rays[i].y);
-		// player->rays[i].texture = 
-		// draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-		// player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
         i++;
     }
 }

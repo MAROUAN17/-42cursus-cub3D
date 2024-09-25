@@ -31,7 +31,7 @@ void render_minimap(t_player *player)
 			else
 			{
 				if (player->player_x == -1 && player->player_y == -1 && (player->map[y][x] == 'N' || player->map[y][x] == 'S' || player->map[y][x] == 'W' || player->map[y][x] == 'E'))
-				{	
+				{
 					player->player_x = x * TILE_PX;
 					player->player_y = y * TILE_PX;
 				}
