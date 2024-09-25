@@ -6,13 +6,13 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 11:49:57 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/25 14:47:50 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:00:45 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_header_b.h"
 
-void	set_new_pixels(mlx_texture_t *texture, mlx_texture_t *new_texture, double x_ratio, double y_ratio)
+void	set_new_pixels(mlx_texture_t *texture, mlx_texture_t *new_texture, float x_ratio, float y_ratio)
 {
 	int	x;
 	int	y;
@@ -41,12 +41,9 @@ void	set_new_pixels(mlx_texture_t *texture, mlx_texture_t *new_texture, double x
 mlx_texture_t *resize_texture(mlx_texture_t *texture, int new_width, int new_height)
 {
     mlx_texture_t *new_texture;
-	double x_ratio;
-	double y_ratio;
+	float x_ratio;
+	float y_ratio;
 
-	// texture->width = (texture->width / (int)TILE_PX) * TILE_PX;
-    // texture->height = (texture->height / (int)TILE_PX) * TILE_PX;
-	// printf("width -> %d\n", texture->width);
 	if (!texture)
 		return (NULL);
 	new_texture = malloc(sizeof(mlx_texture_t));
@@ -58,8 +55,8 @@ mlx_texture_t *resize_texture(mlx_texture_t *texture, int new_width, int new_hei
 	if (!new_texture->pixels)
 		return (free(new_texture), perror("Error\nTexture"), NULL);
 
-    x_ratio = (double)texture->width / new_width;
-    y_ratio = (double)texture->height / new_height;
+    x_ratio = (float)texture->width / new_width;
+    y_ratio = (float)texture->height / new_height;
 
     set_new_pixels(texture, new_texture, x_ratio, y_ratio);
 

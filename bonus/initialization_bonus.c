@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:46:04 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/25 14:42:53 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:54:39 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ void initialize_sprites_struct(t_player *player, t_sprite *sprite, mlx_texture_t
     j = 0;
 	while (j < NUM_SPRITE)
 	{
+		sprite[j].pSpriteWidth = 0;
+		sprite[j].pSpriteHeight = 0;
+		sprite[j].spriteXstart = 0;
+		sprite[j].spriteXend = 0;
 		sprite[j].collected = 0;
 		sprite[j].x = 0;
 		sprite[j].y = 0;

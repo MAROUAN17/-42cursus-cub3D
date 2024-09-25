@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/25 14:44:25 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:55:18 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,6 @@ void free_2d_arr(char **map)
 		i++;
 	}
 	free(map);
-}
-
-void render_2dmap(t_player *player, char **map)
-{
-	int x = 0;
-	int y = 0;
-
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (map[y][x] == '1')
-				draw_rectangle(player->map_img, x * TILE_PX, y * TILE_PX, 0x000000FF, TILE_PX);
-			else if (map[y][x] == 'I')
-			{
-				player->sprite->x = x * TILE_PX;
-				player->sprite->x = y * TILE_PX;
-			}
-			else
-			{
-				if (player->player_x == -1 && player->player_y == -1 && (player->map[y][x] == 'N' || player->map[y][x] == 'S' || player->map[y][x] == 'W' || player->map[y][x] == 'E'))
-				{	
-					player->player_x = x * TILE_PX;
-					player->player_y = y * TILE_PX;
-				}
-				draw_rectangle(player->map_img, x * TILE_PX, y * TILE_PX, 0xFFFFFFFF, TILE_PX);
-			}
-			x++;
-		}
-		y++;
-	}
 }
 
 int main(int ac, char **av)

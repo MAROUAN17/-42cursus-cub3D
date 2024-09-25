@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/24 11:19:34 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:59:56 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,22 @@ void draw_rectangle(mlx_image_t *img, float x, float y, int color, float p)
 	}
 }
 
+void save_sprite_coordinates(t_player *player, int index, int x, int y)
+{
+	player->sprite[index].x = x * TILE_PX;
+	player->sprite[index].y = y * TILE_PX;
+	draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
+}
+
+void	check_save_player_coordinates(t_player *player, int x, int y)
+{
+	if (player->player_x == -1 && player->player_y == -1 && (player->map[y][x] == 'N' || player->map[y][x] == 'S' || player->map[y][x] == 'W' || player->map[y][x] == 'E'))
+	{	
+		player->player_x = x * TILE_PX;
+		player->player_y = y * TILE_PX;
+	}
+}
+
 void render_minimap(t_player *player)
 {
 	int     x = 0;
@@ -42,19 +58,13 @@ void render_minimap(t_player *player)
 			if (player->map[y][x] == '1')
 				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0x000000FF, TILE_PX * MINIMAP_FACTOR);
 			else if (player->map[y][x] == 'I')
-			{
-				player->sprite[index].x = x * TILE_PX;
-				player->sprite[index].y = y * TILE_PX;
-				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
+			{	
+				save_sprite_coordinates(player, index, x, y);
 				index++;
 			}
 			else
 			{
-				if (player->player_x == -1 && player->player_y == -1 && (player->map[y][x] == 'N' || player->map[y][x] == 'S' || player->map[y][x] == 'W' || player->map[y][x] == 'E'))
-				{	
-					player->player_x = x * TILE_PX;
-					player->player_y = y * TILE_PX;
-				}
+				check_save_player_coordinates(player, x, y);
 				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
 			}
 			x++;

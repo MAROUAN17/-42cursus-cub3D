@@ -6,13 +6,13 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/24 14:37:01 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:47:50 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub3d_header_b.h"
 
-int	check_corner(t_player *player, double new_x, double new_y)
+int	check_corner(t_player *player, float new_x, float new_y)
 {
 	int	check_y;
 	int	check_x;
@@ -90,7 +90,7 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 		mlx_close_window(player->mlx);
 }
 
-void rotate_player(t_player *player, double rotationAngle)
+void rotate_player(t_player *player, float rotationAngle)
 {
 	player->playerAngle += rotationAngle;
 	player->playerAngle = normalize_rayAngle(player->playerAngle);

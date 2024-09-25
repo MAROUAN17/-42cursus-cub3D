@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:31 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/24 15:23:18 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:47:50 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int is_wall(t_player *player, int x, int y)
 	return (player->map[p_y][p_x] == '1');
 }
 
-mlx_texture_t *get_texture(t_player *player, int is_vert, double x, double y)
+mlx_texture_t *get_texture(t_player *player, int is_vert, float x, float y)
 {
 	if (is_vert)
 	{
@@ -47,7 +47,7 @@ mlx_texture_t *get_texture(t_player *player, int is_vert, double x, double y)
 	}
 }
 
-void draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int textOffsetX, mlx_texture_t *texture)
+void draw_rectangle_3d(t_player *player, int x, float y, int w, int p, int textOffsetX, mlx_texture_t *texture)
 {
 	int i = 0;
 	int j = 0;
@@ -63,7 +63,7 @@ void draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int text
 		while (j < p && y + j < HEIGHT)
 		{
 			Dbottom = (y + j) + ((p / 2) - (HEIGHT / 2));
-			textOffsetY = Dbottom * ((double)texture->height / p);
+			textOffsetY = Dbottom * ((float)texture->height / p);
 			index = ((textOffsetY * texture->width) + textOffsetX) * 4;
 			color = get_rgba(texture->pixels[index],
 				texture->pixels[index + 1], texture->pixels[index + 2],
