@@ -54,7 +54,6 @@ void draw_wall(t_player *player)
 		if (ystart < 0)
 			ystart = 0;
 		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
-		// if (player->rays[i].vertical_wall)
 		if (player->rays[i].vertical_wall)
 			textOffsetX = (int)player->rays[i].y % player->rays[i].texture->width;
 		else
@@ -66,16 +65,16 @@ void draw_wall(t_player *player)
 	}
 }
 
-void	draw_casted_rays(t_player *player)
-{
-	int i = 0;
-	while (i < WIDTH - 1)
-	{
-		draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-			player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
-		i++;
-	}
-}
+// void	draw_casted_rays(t_player *player)
+// {
+// 	int i = 0;
+// 	while (i < WIDTH)
+// 	{
+// 		draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
+// 			player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
+// 		i++;
+// 	}
+// }
 
 void	update_ray_facing(t_ray *ray)
 {
@@ -217,9 +216,9 @@ void render(void *v_player)
 		player->playerAngle += player->rotationSpeed * -1;
 	cast_rays(player);
 	draw_wall(player);
-	render_minimap(player);
-	draw_casted_rays(player);
-	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-		0xFF0000FF, 10 * MINIMAP_FACTOR);
+	// render_minimap(player);
+	// draw_casted_rays(player);
+	// draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
+	// 	0xFF0000FF, 10 * MINIMAP_FACTOR);
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
 }

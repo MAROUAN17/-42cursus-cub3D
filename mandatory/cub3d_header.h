@@ -7,15 +7,10 @@
 #include <limits.h>
 #include "../MLX42/include/MLX42/MLX42.h"
 
-// (HEIGHT / (int)TILE_PX)
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-// #define TILE_PX 32.0
-// #define TILE_PX 64
 #define TILE_PX 300
-// #define MINIMAP_FACTOR (float)(((float)TILE_PX / (float)HEIGHT) + 0.1)
-#define MINIMAP_FACTOR 0.1
 
 typedef struct s_point {
 	float x;
@@ -124,3 +119,7 @@ char			*ft_strjoin(char const *s1, char const *s2);
 int				check_map_valid(char **map, t_player *player);
 mlx_texture_t 	*resize_texture(mlx_texture_t *texture, int new_width, int new_height);
 int 			is_wall(t_player *player, int x, int y);
+void			initialize_player_struct(t_player *player, char *map_path, int *map_width, int *map_height);
+void			initialize_rays_struct(t_player *player, t_ray *rays);
+void free_2d_arr(char **map);
+void save_player_coordinates(t_player *player);
