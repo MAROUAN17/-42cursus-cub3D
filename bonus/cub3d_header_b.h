@@ -13,7 +13,7 @@
 #define WIDTH 1800
 #define FOV_ANGLE 60
 #define UNIT 32.0
-#define TILE_PX 32
+#define TILE_PX (int)UNIT
 #define MINIMAP_FACTOR (float)(((float)UNIT / (float)HEIGHT) + 0.1)
 
 typedef struct s_point {
@@ -84,6 +84,8 @@ typedef struct player_struct {
 	int				ceiling_color;
 	t_ray			*rays;
 	t_sprite		*sprite;
+	mlx_texture_t	*door_textures[4];
+	int		        open_door;
 }					t_player;
 
 void	*ft_memset(void *b, int c, size_t len);
@@ -142,3 +144,4 @@ float	normalize_rayAngle(float ray_angle);
 int		check_corner(t_player *player, double new_x, double new_y);
 void	mouse_rotation(t_player *player);
 mlx_texture_t 	*resize_texture(mlx_texture_t *texture, int new_width, int new_height);
+int 	is_wall(t_player *player, int x, int y);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/24 14:37:01 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:24:14 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	check_change_position(t_player *player, float angle)
 	}
 	check_y = (player->player_y + new_y) / TILE_PX;
 	check_x = (player->player_x + new_x) / TILE_PX;
-	if (player->map[check_y][check_x] != '1')
+	// if (player->map[check_y][check_x] != '1')
 
-	if (player->map[(int)((player->player_y + new_y) / TILE_PX)][(int)((player->player_x + new_x) / TILE_PX)] != '1')
+	if (player->map[check_y][check_x] != '1' && (player->map[check_y][check_x] != 'D' || player->open_door))
 	{
 		player->player_x += new_x;
 		player->player_y += new_y;
@@ -62,6 +62,8 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 	t_player	*player;
 
 	player = (t_player *)v_player;
+	if (keydata.key == MLX_KEY_SPACE && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+		player->open_door = !player->open_door;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->w_key = 1;
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))

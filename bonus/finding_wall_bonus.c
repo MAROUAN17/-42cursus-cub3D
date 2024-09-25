@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:55 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 14:01:56 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/25 13:57:01 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ t_point	finding_wall_horizontal(t_player *player, t_ray *ray, float xstep, float
 			&& (int)(ycheck / TILE_PX) >= 0
 			&& (int)(xcheck / TILE_PX) < player->map_width
 			&& (int)(xcheck / TILE_PX) >= 0
-			&& player->map[(int)(ycheck / TILE_PX)][(int)(xcheck / TILE_PX)] == '1')
+			&& (player->map[(int)(ycheck / TILE_PX)][(int)(xcheck / TILE_PX)] == '1'
+				|| (player->map[(int)(ycheck / TILE_PX)][(int)(xcheck / TILE_PX)] == 'D'
+					&& (is_wall(player, xcheck, ycheck + 1)))))
 		{
 			wall.x = ray->h_xintersept;
 			wall.y = ray->h_yintersept;
@@ -64,7 +66,8 @@ t_point	finding_wall_vertical(t_player *player, t_ray *ray, float xstep, float y
 			&& (int)(ycheck / TILE_PX) >= 0
 			&& (int)(xcheck / TILE_PX) < player->map_width
 			&& (int)(xcheck / TILE_PX) >= 0
-			&& player->map[(int)(ycheck / TILE_PX)][(int)(xcheck / TILE_PX)] == '1')
+			&& (player->map[(int)(ycheck / TILE_PX)][(int)(xcheck / TILE_PX)] == '1'
+				|| player->map[(int)(ycheck / TILE_PX)][(int)(xcheck / TILE_PX)] == 'D'))
 		{
 			wall.x = ray->v_xintersept;
 			wall.y = ray->v_yintersept;

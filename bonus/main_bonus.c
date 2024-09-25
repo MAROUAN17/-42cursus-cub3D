@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/24 15:20:36 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:21:48 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int main(int ac, char **av)
 	t_ray		rays[WIDTH];
 	t_sprite	sprite[NUM_SPRITE];
 	mlx_texture_t	*textures[5];
+	// mlx_texture_t	*door_textures[4];
 
 	(void)ac;
 	player.p_fov_angle = degrees2rad(60);
@@ -109,6 +110,8 @@ int main(int ac, char **av)
 	player.map_width = map_width;
 	player.rays = rays;
 	player.mlx = mlx;
+	player.door_textures[0] = resize_texture(mlx_load_png("./textures/Door1.png"), UNIT, UNIT);
+	player.open_door = 0;
 	textures[0] = mlx_load_png("./textures/MonedaD1.png");
 	textures[1] = mlx_load_png("./textures/MonedaD2.png");
 	textures[2] = mlx_load_png("./textures/MonedaD3.png");
