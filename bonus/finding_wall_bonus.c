@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:55 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/25 14:42:27 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:08:14 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ t_point	finding_wall_horizontal(t_player *player, t_ray *ray, float xstep, float
 			ycheck = ray->h_yintersept - 1;
 		else
 			ycheck = ray->h_yintersept;
-		if ((int)(ycheck) < player->map_height
+		if ((int)(ycheck) <= player->map_height
 			&& (int)(ycheck) >= 0
-			&& (int)(xcheck) < player->map_width
+			&& (int)(xcheck) <= player->map_width
 			&& (int)(xcheck) >= 0
 			&& player->map[(int)(ycheck / TILE_PX)][(int)(xcheck / TILE_PX)] == '1')
 		{
@@ -60,9 +60,9 @@ t_point	finding_wall_vertical(t_player *player, t_ray *ray, float xstep, float y
 		else
 			xcheck = ray->v_xintersept;
 		ycheck = ray->v_yintersept;
-		if ((int)(ycheck) < player->map_height
+		if ((int)(ycheck) <= player->map_height
 			&& (int)(ycheck) >= 0
-			&& (int)(xcheck) < player->map_width
+			&& (int)(xcheck) <= player->map_width
 			&& (int)(xcheck) >= 0
 			&& player->map[(int)(ycheck / TILE_PX)][(int)(xcheck / TILE_PX)] == '1')
 		{
