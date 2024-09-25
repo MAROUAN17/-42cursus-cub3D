@@ -38,7 +38,7 @@ ${LIBFT}:
 libmlx:
 	@cmake ${LIBMLX} -B ${LIBMLX}/build && make -C ${LIBMLX}/build -j4
 
-%.o: %.c ./cub3d_header.h
+mandatory/%.o: mandatory/%.c mandatory/cub3d_header.h
 	${CC} ${CFLAGS} -o $@ -c $< ${HEADERS}
 
 bonus/%_bonus.o: bonus/%_bonus.c bonus/cub3d_header_b.h
