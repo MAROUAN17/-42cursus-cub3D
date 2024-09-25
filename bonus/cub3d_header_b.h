@@ -12,9 +12,8 @@
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define UNIT 32.0
-#define TILE_PX 32
-#define MINIMAP_FACTOR (float)(((float)UNIT / (float)HEIGHT) + 0.1)
+#define TILE_PX 64
+#define MINIMAP_FACTOR (float)(((float)TILE_PX / (float)HEIGHT) + 0.1)
 
 typedef struct s_point {
 	float x;
@@ -144,3 +143,7 @@ float	normalize_rayAngle(float ray_angle);
 int		check_corner(t_player *player, double new_x, double new_y);
 void	mouse_rotation(t_player *player);
 mlx_texture_t 	*resize_texture(mlx_texture_t *texture, int new_width, int new_height);
+void free_2d_arr(char **map);
+void initialize_player_struct(t_player *player, char *map_path, int *map_width, int *map_height);
+void initialize_rays_struct(t_player *player, t_ray *rays);
+void initialize_sprites_struct(t_player *player, t_sprite *sprite, mlx_texture_t **textures);

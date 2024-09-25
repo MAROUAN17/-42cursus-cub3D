@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 11:49:57 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/22 10:33:02 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:47:50 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ mlx_texture_t *resize_texture(mlx_texture_t *texture, int new_width, int new_hei
 	double x_ratio;
 	double y_ratio;
 
-	// texture->width = (texture->width / (int)UNIT) * UNIT;
-    // texture->height = (texture->height / (int)UNIT) * UNIT;
+	// texture->width = (texture->width / (int)TILE_PX) * TILE_PX;
+    // texture->height = (texture->height / (int)TILE_PX) * TILE_PX;
 	// printf("width -> %d\n", texture->width);
 	if (!texture)
 		return (NULL);

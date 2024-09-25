@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/25 11:03:03 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:44:39 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,6 @@ void	cast_rays(t_player *player)
 		player->rays[i].texture = get_texture(player, player->rays[i].vertical_wall, player->rays[i].x, player->rays[i].y);
         i++;
     }
-}
-
-void my_scrollhook(double xdelta, double ydelta, void* param)
-{
-	(void)param;
-	(void)ydelta;
-	if (xdelta < 0)
-		printf("left\n");
-	else if (xdelta > 0)
-		printf("right\n");
 }
 
 void render(void *v_player)

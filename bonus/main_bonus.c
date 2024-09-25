@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/25 11:03:47 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:44:25 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int main(int ac, char **av)
 	textures[2] = mlx_load_png("./textures/MonedaD3.png");
 	textures[3] = mlx_load_png("./textures/MonedaD4.png");
 	textures[4] = mlx_load_png("./textures/MonedaD5.png");
-	initialize_player_struct(&player, av[1], &map_width, &map_height);    
+	initialize_player_struct(&player, av[1], &map_width, &map_height);
 	initialize_rays_struct(&player, rays);
 	initialize_sprites_struct(&player, sprite, textures);
 	mlx_image_to_window(player.mlx, player.map_img, 0, 0);

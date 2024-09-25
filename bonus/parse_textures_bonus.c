@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:20:22 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/22 10:28:31 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:47:50 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	set_texture(mlx_texture_t **texture, xpm_t **xpm, char *line)
 		{
 			*xpm = NULL;
 			*texture = mlx_load_png(line);
-			*texture = resize_texture(*texture, UNIT, UNIT);
+			*texture = resize_texture(*texture, TILE_PX, TILE_PX);
 			if (!*texture)
 				return (print_err("Error\nInvalid Textures!\n"), 0);
 		}
@@ -57,7 +57,7 @@ int	set_texture(mlx_texture_t **texture, xpm_t **xpm, char *line)
 			if (!*xpm)
 				return (print_err("Error\nInvalid Textures!\n"), 0);
 			// *texture = &(*xpm)->texture;
-			*texture = resize_texture(&(*xpm)->texture, UNIT, UNIT);
+			*texture = resize_texture(&(*xpm)->texture, TILE_PX, TILE_PX);
 			if (!*texture)
 				return (0);
 		}
