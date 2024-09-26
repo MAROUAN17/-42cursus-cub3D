@@ -13,41 +13,6 @@ void free_2d_arr(char **map)
 	free(map);
 }
 
-void render_2dmap(t_player *player, char **map)
-{
-	int x = 0;
-	int y = 0;
-
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (map[y][x] == '1')
-				draw_rectangle(player->map_img, x * TILE_PX, y * TILE_PX, 0x000000FF, TILE_PX);
-			else
-			{
-				if (player->player_x == -1 && player->player_y == -1 && (player->map[y][x] == 'N' || player->map[y][x] == 'S' || player->map[y][x] == 'W' || player->map[y][x] == 'E'))
-				{	
-					// if (player->map[y][x] == 'N')
-					// 	player->playerAngle = 3 * M_PI / 2;
-					// else if (player->map[y][x] == 'S')
-					// 	player->playerAngle = (M_PI / 2);
-					// else if (player->map[y][x] == 'W')
-					// 	player->playerAngle = 2 * (M_PI / 2);
-					// else if (player->map[y][x] == 'E')
-					// 	player->playerAngle = 0;
-					player->player_x = x * TILE_PX;
-					player->player_y = y * TILE_PX;
-				}
-				draw_rectangle(player->map_img, x * TILE_PX, y * TILE_PX, 0xFFFFFFFF, TILE_PX);
-			}
-			x++;
-		}
-		y++;
-	}
-}
-
 int main(int ac, char **av)
 {
 	int			map_width;

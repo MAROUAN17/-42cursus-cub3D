@@ -10,7 +10,7 @@
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define TILE_PX 300
+#define TILE_PX 120
 
 typedef struct s_point {
 	float x;
@@ -88,7 +88,6 @@ void			cast_rays(t_player *player);
 void			move_player(mlx_key_data_t keydata, void *player);
 void			render_empty(void *player);
 void			render_draw_line(void *v_player); 
-void			render_2dmap(t_player *player, char **map);
 void			render(void *v_player); 
 void			draw_rectangle(mlx_image_t *img, float x, float y, int color, float p);
 t_point			calculating_horizontal_intersections(t_player *player, t_ray *ray);

@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 10:25:52 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/25 13:13:53 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/26 09:41:10 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,21 @@ void draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int text
 	int textOffsetY = 0;
 	int index = 0;
 	int color = 0;
-	// if (p > HEIGHT)
-	// 	p = HEIGHT;
+
+	i = 0;
+	j = 0;
+	DTop = 0;
+	textOffsetY = 0;
+	index = 0;
+	color = 0;
 	while (i < w && i < WIDTH)
 	{
 		j = 0;
 		while (j < p && y + j < HEIGHT)
 		{
-			// printf("wall height -> %d\n", p);
-			// printf("ystart -> %d\n", (p / 2) - (HEIGHT / 2));
 			DTop = (y + j) + ((p / 2) - (HEIGHT / 2));
 			textOffsetY = DTop * ((double)texture->height / p);
 			index = ((textOffsetY * texture->width) + textOffsetX) * 4;
-			// printf("index -> %d\n", index);
-			// printf("map img -> %p\n", player->map_img);
-			// printf("pixels pointer -> %p\n", texture->pixels);
-			// printf("texture->pixels[index] -> %d\n", texture->pixels[index]);
 			color = get_rgba(texture->pixels[index],
 				texture->pixels[index + 1], texture->pixels[index + 2],
 				texture->pixels[index + 3]);

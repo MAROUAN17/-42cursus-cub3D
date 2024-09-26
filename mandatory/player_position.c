@@ -9,7 +9,6 @@ void draw_rectangle(mlx_image_t *img, float x, float y, int color, float p)
 		j = 0;
 		while (j < p && y + i < HEIGHT)
 		{
-			// printf("y + i -> %f\n", y + i);
 			mlx_put_pixel(img, x + j, y + i, color);
 			j++;
 		}
