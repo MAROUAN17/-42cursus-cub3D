@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/21 12:05:17 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:45:22 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	check_top_bot_borders(char *line, char *comp_line)
 	i = 0;
 	if (!line || !comp_line)
 		return (0);
-	// printf("line -> |%s|\n", line);
 	while (line[i])
 	{
 		if (line[i] != '1' && line[i] != ' ')
@@ -38,7 +37,6 @@ int	skip_sp(char *line, int *i)
 	j = *i;
 	while (line[j] == ' ')
 		j++;
-	// printf("c -> %c\n", line[*i]);
 	if (line[j] == '\0' && *i == 0)
 	{
 		*i = j;

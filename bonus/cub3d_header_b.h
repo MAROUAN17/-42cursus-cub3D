@@ -155,3 +155,4 @@ void	render_sprites_minimap(t_player *player, int sprIndex);
 float	calculate_distance_sprites(t_player *player, int index);
 void	visibleSprite(t_player *player, int index);
 void	calculating_sprite_x(t_player *player, t_sprite *sprite, float d_projection, float pSpriteWidth);
+void	destroy_textures(t_player *player, mlx_texture_t **textures);

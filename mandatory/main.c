@@ -35,8 +35,8 @@ int main(int ac, char **av)
 	mlx_key_hook(player.mlx, &move_player, &player);
 	mlx_loop_hook(player.mlx, &render, &player);
 	mlx_loop(player.mlx);
-	mlx_terminate(player.mlx);
 	destroy_textures(&player);
 	free_2d_arr(player.map);
+	mlx_terminate(player.mlx);
 	return (EXIT_SUCCESS);
 }

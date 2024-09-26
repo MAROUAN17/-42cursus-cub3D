@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:28:27 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 15:28:05 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:47:35 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	set_color(int *color, char *line, int *flag)
 			return (perror("Error\n"), 0);
 		if (count_2d_len(sep_str) != 3 || !translate_rgb(sep_str, color))
 			return (free_2d_array(sep_str), print_err("Error\nInvalid Color!\n"), 0);
-		return (1);
+		return (free_2d_array(sep_str), 1);
 	}
 	else
 		return (print_err("Error\nDuplicated Color!\n"), 0);

@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/26 11:15:07 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:43:28 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void free_2d_arr(char **map)
 	free(map);
 }
 
+void a(){
+	system("leaks cub3D_bonus");
+}
 int main(int ac, char **av)
 {
 	int			map_width;
@@ -35,6 +38,7 @@ int main(int ac, char **av)
 	mlx_texture_t *textures[5];
 
 	(void)ac;
+	atexit(a);
 	map_width = 0;
 	map_height = 0;
 	textures[0] = mlx_load_png("./textures/MonedaD1.png");
@@ -49,7 +53,8 @@ int main(int ac, char **av)
 	mlx_key_hook(player.mlx, &move_player, &player);
 	mlx_loop_hook(player.mlx, &render, &player);
 	mlx_loop(player.mlx);
-	mlx_terminate(player.mlx);
 	free_2d_arr(player.map);
+	destroy_textures(&player, textures);
+	mlx_terminate(player.mlx);
 	return (EXIT_SUCCESS);
 }

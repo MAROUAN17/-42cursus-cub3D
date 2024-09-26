@@ -62,12 +62,14 @@ void	cast_rays(t_player *player)
 {
     int i;
     float angle_step;
-	float halfFov = player->p_fov_angle / 2;
-	float startAngle = player->playerAngle - halfFov;
+	float halfFov;
+	float startAngle;
 	t_point wall_coord1;
 	t_point wall_coord2;
 
     i = 0;
+	halfFov = player->p_fov_angle / 2;
+	startAngle = player->playerAngle - halfFov;
     angle_step = player->p_fov_angle / WIDTH;
     while (i < WIDTH)
     {

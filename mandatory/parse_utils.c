@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 11:49:57 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/26 13:10:36 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:25:49 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ mlx_texture_t *resize_texture(mlx_texture_t *texture, int new_width, int new_hei
     x_ratio = (double)texture->width / new_width;
     y_ratio = (double)texture->height / new_height;
     set_new_pixels(texture, new_texture, x_ratio, y_ratio);
+	mlx_delete_texture(texture);
     return (new_texture);
 }
