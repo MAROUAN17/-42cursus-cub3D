@@ -5,76 +5,34 @@ float degrees2rad(float degrees)
 	return (degrees * (M_PI / 180.0));
 }
 
-void draw_line(mlx_image_t *img, float x1, float y1, float x2, float y2, int color)
-{
-	// Calculate differences
-    float dx = x2 - x1;
-    float dy = y2 - y1;
-
-    // Determine the number of steps needed
-    float steps = fmax(fabs(dx), fabs(dy));
-
-    // Calculate increments per step
-    float xIncrement = dx / steps;
-    float yIncrement = dy / steps;
-
-    // Starting point
-    float x = x1;
-    float y = y1;
-
-    // Draw the line
-    for (int i = 0; i <= steps; i++) {
-		// printf("x -> %d | y -> %d\n", (int)round(x), (int)round(y));
-		if (x > 0 && y > 0)
-        	mlx_put_pixel(img, (int)round(x), (int)round(y), color); // Plot rounded points
-        x += xIncrement;  // Increment x
-        y += yIncrement;  // Increment y
-    }
-}
-
 void draw_wall(t_player *player)
 {
-	int textOffsetX = 0;
-	int i = 0;
-	float pWallHeight = 0;
-	float wall_width = 1;
-	float correct_wall_distance = 0;
-	int ystart = 0;
-	float d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
+	int	textOffsetX;
+	int	i;
+	int	ystart;
+	float	pWallHeight;
+	float	correct_wall_distance;
+	float	d_projection;
 
+	i = 0;
+	pWallHeight = 0;
+	ystart = 0;
+	d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
 	while (i < WIDTH)
 	{
-		if (player->rays[i].distance_to_wall < 0)
-			player->rays[i].distance_to_wall = 0;
-		correct_wall_distance = fabs(player->rays[i].distance_to_wall * cos(player->rays[i].angle - player->playerAngle));
-		if (!correct_wall_distance)
-			correct_wall_distance = 0.001;
+		correct_wall_distance = calculate_correct_wall_distance(player, i);
 		pWallHeight = (TILE_PX * d_projection) / correct_wall_distance;
 		ystart = (HEIGHT / 2) - ((int)pWallHeight / 2);
 		if (ystart < 0)
 			ystart = 0;
-		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
-		if (player->rays[i].vertical_wall)
-			textOffsetX = (int)player->rays[i].y % player->rays[i].texture->width;
-		else
-			textOffsetX = (int)player->rays[i].x % player->rays[i].texture->width;
-		draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX, player->rays[i].texture);
+		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, 1);
+		textOffsetX = calculate_offsetx_walls(player, i);
+		draw_walls(player, i, ystart, 1, pWallHeight, textOffsetX, player->rays[i].texture);
 		if (ystart + pWallHeight < HEIGHT)
-			draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, wall_width);
+			draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, 1);
 		i++;
 	}
 }
-
-// void	draw_casted_rays(t_player *player)
-// {
-// 	int i = 0;
-// 	while (i < WIDTH)
-// 	{
-// 		draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-// 			player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
-// 		i++;
-// 	}
-// }
 
 void	update_ray_facing(t_ray *ray)
 {
@@ -140,20 +98,13 @@ int	check_corner(t_player *player, double new_x, double new_y)
 
 void	move(t_player *player, float angle)
 {
-	float new_x = cos(angle) * player->moveSpeed;
-	float new_y = sin(angle) * player->moveSpeed;
-	// int	check_y;
-	// int	check_x;
+	float new_x;
+	float new_y;
 
+	new_x = cos(angle) * player->moveSpeed;
+	new_y = sin(angle) * player->moveSpeed;
 	if (!check_corner(player, new_x, new_y))
-	{
-		new_x = 0;
-		new_y = 0;
-	}
-	// check_y = (player->player_y + new_y) / TILE_PX;
-	// check_x = (player->player_x + new_x) / TILE_PX;
-	// if (player->map[check_y][check_x] != '1')
-
+		return ;
 	if (player->map[(int)((player->player_y + new_y) / TILE_PX)][(int)((player->player_x + new_x) / TILE_PX)] != '1')
 	{
 		player->player_x += new_x;
@@ -166,30 +117,8 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 	t_player	*player;
 
 	player = (t_player *)v_player;
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->w_key = 1;
-	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->s_key = 1;
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->a_key = 1;
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->d_key = 1;
-	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnLeft = 1;
-	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnRight = 1;
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_RELEASE))
-		player->w_key = 0;
-	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
-		player->s_key = 0;
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
-		player->a_key = 0;
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
-		player->d_key = 0;
-	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_RELEASE))
-		player->turnLeft = 0;
-	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_RELEASE))
-		player->turnRight = 0;
+	key_press(player, keydata);
+	key_release(player, keydata);
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(player->mlx);
 }
@@ -216,9 +145,5 @@ void render(void *v_player)
 		player->playerAngle += player->rotationSpeed * -1;
 	cast_rays(player);
 	draw_wall(player);
-	// render_minimap(player);
-	// draw_casted_rays(player);
-	// draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-	// 	0xFF0000FF, 10 * MINIMAP_FACTOR);
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
 }

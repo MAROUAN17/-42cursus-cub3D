@@ -13,6 +13,11 @@ void free_2d_arr(char **map)
 	free(map);
 }
 
+void a()
+{
+	system("leaks cub3D");
+}
+
 int main(int ac, char **av)
 {
 	int			map_width;
@@ -23,6 +28,7 @@ int main(int ac, char **av)
 	(void)ac;
 	map_width = 0;
 	map_height = 0;
+	atexit(a);
 	initialize_player_struct(&player, av[1], &map_width, &map_height);
 	initialize_rays_struct(&player, rays);
 	mlx_image_to_window(player.mlx, player.map_img, 0, 0);
@@ -30,6 +36,7 @@ int main(int ac, char **av)
 	mlx_loop_hook(player.mlx, &render, &player);
 	mlx_loop(player.mlx);
 	mlx_terminate(player.mlx);
+	destroy_textures(&player);
 	free_2d_arr(player.map);
 	return (EXIT_SUCCESS);
 }

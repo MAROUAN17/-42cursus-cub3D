@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:04:05 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/25 18:24:17 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:09:22 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void initialize_player_struct(t_player *player, char *map_path, int *map_width, 
 	if (!player->map)
 		return ;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
-    player->moveSpeed = (double)(((double)TILE_PX / HEIGHT) * 100);
+    player->moveSpeed = (float)(((float)TILE_PX / HEIGHT) * 100);
 	player->rotationSpeed = degrees2rad(2.5);
     player->map_height = *map_height * TILE_PX;
 	player->map_width = *map_width * TILE_PX;
