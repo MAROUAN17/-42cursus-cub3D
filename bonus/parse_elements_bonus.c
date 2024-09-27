@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/24 15:29:28 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:00:32 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	check_top_bot_borders(char *line, char *comp_line)
 	i = 0;
 	if (!line || !comp_line)
 		return (0);
-	// printf("line -> |%s|\n", line);
 	while (line[i])
 	{
 		if (line[i] != '1' && line[i] != ' ')
@@ -38,7 +37,6 @@ int	skip_sp(char *line, int *i)
 	j = *i;
 	while (line[j] == ' ')
 		j++;
-	// printf("c -> %c\n", line[*i]);
 	if (line[j] == '\0' && *i == 0)
 	{
 		*i = j;
@@ -54,6 +52,8 @@ int	skip_sp(char *line, int *i)
 
 int	check_line_chars(char *line, int *p_counter, int i, t_player *player)
 {
+	if (line[i] == 'D')
+		player->doors_count++;
 	if (line[i] != 'I' && line[i] != '1' && line[i] != ' '
 		&& line[i] != '0' && line[i] != 'N' && line[i] != 'S'
 		&& line[i] != 'W' && line[i] != 'E' && line[i] != 'D')
@@ -104,6 +104,7 @@ int	check_map_valid(char **map, t_player *player)
 
 	i = 0;
 	p_counter = 0;
+	player->doors_count = 0;
 	if (check_top_bot_borders(map[0], map[1]) == 0)
 		return (print_err("Error\nInvalid Map!\n"), 0);
 	i++;

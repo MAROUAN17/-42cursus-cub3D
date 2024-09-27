@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:20:22 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/25 14:49:10 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:13:25 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	set_texture(mlx_texture_t **texture, xpm_t **xpm, char *line)
 			*xpm = mlx_load_xpm42(line);
 			if (!*xpm)
 				return (print_err("Error\nInvalid Textures!\n"), 0);
-			// *texture = &(*xpm)->texture;
 			*texture = resize_texture(&(*xpm)->texture, TILE_PX, TILE_PX);
 			if (!*texture)
 				return (0);

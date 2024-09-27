@@ -41,8 +41,8 @@ t_point	finding_wall_vertical(t_player *player, t_ray *ray, float xstep, float y
 	int count = 0;
 
 	while (ray->v_xintersept >= 0 && ray->v_yintersept >= 0
-		&& ray->v_yintersept <= player->map_height
-		&& ray->v_xintersept <= player->map_width)
+		&& ray->v_yintersept < player->map_height
+		&& ray->v_xintersept < player->map_width)
 	{
 		if (ray->p_isFacingLeft)
 			xcheck = ray->v_xintersept - 1;

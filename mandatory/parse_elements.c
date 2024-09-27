@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/21 10:22:37 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:06:39 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	check_top_bot_borders(char *line, char *comp_line)
 	i = 0;
 	if (!line || !comp_line)
 		return (0);
-	// printf("line -> |%s|\n", line);
 	while (line[i])
 	{
 		if (line[i] != '1' && line[i] != ' ')
@@ -119,6 +118,5 @@ int	check_map_valid(char **map, t_player *player)
 		return (print_err("Error\nMultiple PLayers!\n"), 0);
 	else if (p_counter == 0)
 		return (print_err("Error\nNo PLayer?!\n"), 0);
-	// printf("andle -> %f\n", player->playerAngle);
 	return (1);
 }

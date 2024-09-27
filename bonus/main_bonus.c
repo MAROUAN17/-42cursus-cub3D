@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/26 15:15:56 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:05:52 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,15 @@ void render_2dmap(t_player *player, char **map)
 // 	return (EXIT_SUCCESS);
 // }
 
-void initialize_door_sprites(t_player *player, t_sprite *sprite, mlx_texture_t **textures)
+int initialize_door_sprites(t_player *player, mlx_texture_t **textures)
 {
     int j;
+	t_sprite *sprite;
 
     j = 0;
-
+	sprite = malloc(sizeof(t_sprite) * player->doors_count);
+	if (!sprite)
+		return (0);
 	while (j < player->doors_count)
 	{
 		sprite[j].collected = 0;
@@ -148,6 +151,7 @@ void initialize_door_sprites(t_player *player, t_sprite *sprite, mlx_texture_t *
 		j++;
 	}
     player->door_sprite = sprite;
+	return (1);
 }
 
 int main(int ac, char **av)
@@ -158,7 +162,7 @@ int main(int ac, char **av)
     t_ray        rays[WIDTH];
     t_sprite    sprite[NUM_SPRITE];
     mlx_texture_t *textures[5];
-	t_sprite 		d_sprite[2];
+	// t_sprite 		d_sprite[2];
 	mlx_texture_t *d_textures[4];
 
     (void)ac;
@@ -181,8 +185,8 @@ int main(int ac, char **av)
     initialize_player_struct(&player, av[1], &map_width, &map_height);
     initialize_rays_struct(&player, rays);
     initialize_sprites_struct(&player, sprite, textures);
-	player.doors_count = 2;
-	initialize_door_sprites(&player, d_sprite, d_textures);
+	if (!initialize_door_sprites(&player, d_textures))
+		return (1); // free map and textures here
     mlx_image_to_window(player.mlx, player.map_img, 0, 0);
     mlx_key_hook(player.mlx, &move_player, &player);
     mlx_loop_hook(player.mlx, &render, &player);

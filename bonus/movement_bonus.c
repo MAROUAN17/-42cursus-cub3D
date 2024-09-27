@@ -6,13 +6,13 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/26 15:35:56 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:19:49 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub3d_header_b.h"
 
-int	check_corner(t_player *player, double new_x, double new_y)
+int	check_corner(t_player *player, float new_x, float new_y)
 {
 	int	check_y;
 	int	check_x;
@@ -35,6 +35,22 @@ float normalize_rayAngle(float ray_angle)
 	return (ray_angle);
 }
 
+int	is_open_door(t_player *player, int check_x, int check_y)
+{
+	int	i;
+
+	i = 0;
+	while (i < player->doors_count)
+	{
+		if (check_x == player->door_sprite[i].x / TILE_PX
+			&& check_y == player->door_sprite[i].y / TILE_PX
+			&& player->door_sprite[i].open_door)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	check_change_position(t_player *player, float angle)
 {
 	float new_x = cos(angle) * player->moveSpeed;
@@ -50,7 +66,9 @@ void	check_change_position(t_player *player, float angle)
 	check_x = (player->player_x + new_x) / TILE_PX;
 	// if (player->map[check_y][check_x] != '1')
 
-	if (player->map[check_y][check_x] != '1' && (player->map[check_y][check_x] != 'D' || player->open_door))
+	if (player->map[check_y][check_x] != '1'
+		&& (player->map[check_y][check_x] != 'D'
+			|| is_open_door(player, check_x, check_y)))
 	{
 		player->player_x += new_x;
 		player->player_y += new_y;
@@ -67,8 +85,8 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 		int i = 0;
 		while (i < player->doors_count)
 		{
-			printf("start_a %d\n", player->door_sprite[i].start_a);
-			printf("distance %f\n", calculate_distance_sprites(player, player->door_sprite, i));
+			// printf("start_a %d\n", player->door_sprite[i].start_a);
+			// printf("distance %f\n", calculate_distance_sprites(player, player->door_sprite, i));
 			if (calculate_distance_sprites(player, player->door_sprite, i) < 150)
 				player->door_sprite[i].start_a = 1;
 			i++;
@@ -103,7 +121,7 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 		mlx_close_window(player->mlx);
 }
 
-void rotate_player(t_player *player, double rotationAngle)
+void rotate_player(t_player *player, float rotationAngle)
 {
 	player->playerAngle += rotationAngle;
 	player->playerAngle = normalize_rayAngle(player->playerAngle);

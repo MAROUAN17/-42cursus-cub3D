@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:31 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/26 10:40:03 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:05:23 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ int is_wall(t_player *player, int x, int y)
 	p_y = y / TILE_PX;
 	if (p_y < 0 || p_x < 0)
 		return (0);
-	if (player->map[p_y][p_x] == '0')
-		return (0);
-	else if (player->map[p_y][p_x] == '1')
-		return (1);
-	else if (player->map[p_y][p_x] == 'D')
-		return (2);
 	return (player->map[p_y][p_x] == '1');
 }
 int is_door(t_player *player, int x, int y)
@@ -46,7 +40,7 @@ int is_door(t_player *player, int x, int y)
 	return (player->map[p_y][p_x] == 'D');
 }
 
-mlx_texture_t *get_texture(t_player *player, int is_vert, double x, double y)
+mlx_texture_t *get_texture(t_player *player, int is_vert, float x, float y)
 {
 	int wall;
 	// if (!is_vert && is_door(player, x, y + 1))
@@ -56,8 +50,6 @@ mlx_texture_t *get_texture(t_player *player, int is_vert, double x, double y)
 		wall = is_wall(player, x - 1, y);
 		if (wall == 1)
 			return (player->east_texture);
-		// else if (wall == 2)
-		// 	return (player->door_textures[0]);
 		else
 			return  (player->west_texture);
 	}
@@ -66,15 +58,13 @@ mlx_texture_t *get_texture(t_player *player, int is_vert, double x, double y)
 		wall = is_wall(player, x, y - 1);
 		if (wall == 1)
 			return (player->south_texture);
-		// else if (wall == 2)
-		// 	return (player->door_textures[0]);
-		else if (wall == 0)
+		else
 			return (player->north_texture);
 	}
 	return (NULL);
 }
 
-void draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int textOffsetX, mlx_texture_t *texture)
+void draw_rectangle_3d(t_player *player, int x, float y, int w, int p, int textOffsetX, mlx_texture_t *texture)
 {
 	int i = 0;
 	int j = 0;
@@ -90,7 +80,7 @@ void draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int text
 		while (j < p && y + j < HEIGHT)
 		{
 			Dbottom = (y + j) + ((p / 2) - (HEIGHT / 2));
-			textOffsetY = Dbottom * ((double)texture->height / p);
+			textOffsetY = Dbottom * ((float)texture->height / p);
 			index = ((textOffsetY * texture->width) + textOffsetX) * 4;
 			color = get_rgba(texture->pixels[index],
 				texture->pixels[index + 1], texture->pixels[index + 2],

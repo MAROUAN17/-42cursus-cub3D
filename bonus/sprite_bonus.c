@@ -6,113 +6,94 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/27 10:38:48 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/27 11:36:59 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_header_b.h"
 
-void	change_sprite_index(t_player *player, int texIndex)
+//calculating sprite width and height in the projection
+void calculating_sprite_width_height(t_sprite *sprite, float d_projection, int *ystart, int *yend)
 {
-	int i = 0;
-	while (i < NUM_SPRITE)
-	{
-		if (texIndex >= 0 && texIndex <= 10)
-			player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
-		else if (texIndex > 10 && texIndex <= 20)
-			player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
-		else if (texIndex > 20 && texIndex <= 30)
-			player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
-		else if (texIndex > 30 && texIndex <= 40)
-			player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
-		else if (texIndex > 40 && texIndex <= 50)
-			player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
-		i++;
-	}
+    sprite->pSpriteHeight = (d_projection * sprite->texture->height) / sprite->distance;
+    sprite->pSpriteWidth = (d_projection * sprite->texture->width) / sprite->distance;
+    *ystart = (HEIGHT / 2) - (sprite->pSpriteHeight / 2);
+    if (*ystart < 0)
+        *ystart = 0;
+    *yend = (HEIGHT / 2) + (sprite->pSpriteHeight / 2);
+    if (*yend > HEIGHT)
+        *yend = HEIGHT;
 }
 
-void render_sprites_minimap(t_player *player, int sprIndex)
+//calculate the pixel index to render the correct pixel in the pixels array in the texture
+int calculate_pixel_index(t_sprite *sprite, int ystart, int textOffsetX)
 {
-	if (player->sprite[sprIndex].visible)
-		draw_rectangle(player->map_img, player->sprite[sprIndex].x * MINIMAP_FACTOR, player->sprite[sprIndex].y * MINIMAP_FACTOR,
-			0x00FF00FF, 10 * MINIMAP_FACTOR);
-	else
-		draw_rectangle(player->map_img, player->sprite[sprIndex].x * MINIMAP_FACTOR, player->sprite[sprIndex].y * MINIMAP_FACTOR,
-			0x0044444F, 10 * MINIMAP_FACTOR);
+    int     DTop;
+    int     indexC;
+    int     color;
+    int     textOffsetY;
+
+    DTop = ystart + (sprite->pSpriteHeight / 2) - (HEIGHT / 2);
+    textOffsetY = DTop * (sprite->texture->height / sprite->pSpriteHeight);
+    indexC = ((textOffsetY * sprite->texture->width) + textOffsetX) * 4;
+    color = get_rgba(sprite->texture->pixels[indexC],
+        sprite->texture->pixels[indexC + 1], sprite->texture->pixels[indexC + 2],
+        sprite->texture->pixels[indexC + 3]);
+    return (color);
 }
 
-double calculate_distance_sprites(t_player *player, t_sprite *sprite, int index)
+//the correct offset to render the correct pixel in the width of the texture
+int calculate_offsetX(t_sprite *sprite, int xstart)
 {
-    double distance;
+    float  texelWidth;
+    int     textOffsetX;
 
-    distance = sqrt(pow(sprite[index].x - player->player_x, 2) + pow(sprite[index].y - player->player_y, 2));
-    return (distance);
+    texelWidth = (sprite->texture->width / sprite->pSpriteWidth);
+    textOffsetX = (xstart - sprite->spriteXstart) * texelWidth;
+    return (textOffsetX);
 }
 
-void visibleSprite(t_player *player, t_sprite *sprite, int index)
+//render the sprite to the projection
+void render_one_sprite(t_player *player, t_sprite *sprite, int ystart, int yend)
 {
-    double spritePlayer = player->playerAngle - atan2(sprite[index].y - player->player_y,
-        sprite[index].x - player->player_x);
-    if (spritePlayer > M_PI)
-        spritePlayer -= 2 * M_PI;
-    if (spritePlayer < -M_PI)
-        spritePlayer += 2 * M_PI;
-    sprite[index].angle = fabs(spritePlayer);
-	// printf("angle %f\n", sprite[index].angle);
-    sprite[index].distance = calculate_distance_sprites(player, sprite, index);
-	// printf("distance %f\n", sprite[index].distance);
-	// printf("angle %f\n", sprite[index].angle);
-	// printf("fov %f\n", degrees2rad(FOV_ANGLE / 2));
-    if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2))
-        sprite[index].visible = 1;
-    else
-        sprite[index].visible = 0;
-	// printf("visible %d\n", sprite[index].visible);
-	// printf("distance %f\n", sprite[index].distance);
-}
+    int     xstart;
+    int     tmpy;
+    // int     color;
+    int     textOffsetX;
 
-void    calculate_sprite_projection_and_render(t_player *player, t_sprite *sprite, int index)
-{
-    double d_projection = (WIDTH / 2) / (tan(degrees2rad(FOV_ANGLE / 2)));
-    double pSpriteHeight = (d_projection * sprite[index].texture->height) / sprite[index].distance;
-    double pSpriteWidth = (d_projection * sprite[index].texture->width) / sprite[index].distance;
-    int ystart = (HEIGHT / 2) - (pSpriteHeight / 2);
-    if (ystart < 0)
-        ystart = 0;
-    int yend = (HEIGHT / 2) + (pSpriteHeight / 2);
-    if (yend > HEIGHT)
-        yend = HEIGHT;
-    sprite[index].angle = atan2(sprite[index].y - player->player_y,
-        sprite[index].x - player->player_x) - player->playerAngle;
-    int spriteXstart = (WIDTH / 2) + (d_projection * tan(sprite[index].angle));
-    int spriteXend = spriteXstart + pSpriteWidth;
-    int tmpy = ystart;
-    int tmpx = spriteXstart;
-    while (spriteXstart < spriteXend)
+    xstart = sprite->spriteXstart;
+    tmpy = ystart;
+    while (xstart < sprite->spriteXend)
     {
-        double texelWidth = (sprite[index].texture->width / pSpriteWidth);
-        int textOffsetX = (spriteXstart - tmpx) * texelWidth;
+        textOffsetX = calculate_offsetX(sprite, xstart);
         ystart = tmpy;
         while (ystart < yend)
         {
-			// printf("spriteXstart %d\n", spriteXstart);
-			// printf("condition %d\n", sprite[index].distance < player->rays[spriteXstart].distance_to_wall);
-            if (ystart < HEIGHT && spriteXstart < WIDTH && spriteXstart > 0 && ystart > 0
-                && sprite[index].distance < player->rays[spriteXstart].distance_to_wall)
+            if (ystart < HEIGHT && xstart < WIDTH && xstart > 0 && ystart > 0
+                && sprite->distance < player->rays[(int)xstart].distance_to_wall)
             {
-                int DTop = ystart + (pSpriteHeight / 2) - (HEIGHT / 2);
-			    int textOffsetY = DTop * (sprite[index].texture->height / pSpriteHeight);
-                int indexC = ((textOffsetY * sprite[index].texture->width) + textOffsetX) * 4;
-			    int color = get_rgba(sprite[index].texture->pixels[indexC],
-				    sprite[index].texture->pixels[indexC + 1], sprite[index].texture->pixels[indexC + 2],
-				    sprite[index].texture->pixels[indexC + 3]);
-                if (color != 0 && sprite[index].collected == 0)
-                    mlx_put_pixel(player->map_img, spriteXstart, ystart, color);
+                int color = calculate_pixel_index(sprite, ystart, textOffsetX);
+                if (color != 0 && sprite->collected == 0)
+                    mlx_put_pixel(player->map_img, xstart, ystart, color);
             }
             ystart++;
         }
-        spriteXstart++;
+        xstart++;
     }
+}
+
+void    calculate_sprite_projection_and_render(t_player *player, int index)
+{
+    int ystart;
+    int yend;
+    float d_projection;
+
+    ystart = 0;
+    yend = 0;
+    d_projection = (WIDTH / 2) / (tan(degrees2rad(FOV_ANGLE / 2)));
+    calculating_sprite_width_height(&player->sprite[index], d_projection, &ystart, &yend);
+    calculating_sprite_x(player, &player->sprite[index], d_projection, player->sprite[index].pSpriteWidth);
+    render_one_sprite(player, &player->sprite[index], ystart, yend);
 }
 
 void render_sprites(t_player *player, int texIndex)
@@ -127,7 +108,7 @@ void render_sprites(t_player *player, int texIndex)
             visibleSprite(player, player->sprite, j);
             change_sprite_index(player, texIndex);
             if (player->sprite[j].visible)
-                calculate_sprite_projection_and_render(player, player->sprite, j);
+                calculate_sprite_projection_and_render(player, j);
             if (player->sprite[j].distance < 20 && player->sprite[j].collected == 0)
             {
                 player->sprite[j].collected = 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:39 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/17 14:57:37 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:35:33 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,12 @@ void print_err(char *line)
 		write(2, &line[i], 1);
 		i++;
 	}
+}
+
+void	destroy_textures(t_player *player)
+{
+	mlx_delete_texture(player->east_texture);
+	mlx_delete_texture(player->west_texture);
+	mlx_delete_texture(player->north_texture);
+	mlx_delete_texture(player->south_texture);
 }

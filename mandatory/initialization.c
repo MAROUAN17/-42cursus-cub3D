@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization_bonus.c                             :+:      :+:    :+:   */
+/*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/24 15:46:04 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/27 11:21:24 by oait-laa         ###   ########.fr       */
+/*   Created: 2024/09/25 18:04:05 by maglagal          #+#    #+#             */
+/*   Updated: 2024/09/27 16:32:04 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./cub3d_header_b.h"
+#include "./cub3d_header.h"
 
 void initialize_player_struct(t_player *player, char *map_path, int *map_width, int *map_height)
 {
 	player->map = store_2d_array(player, map_path, map_height, map_width);
 	if (!player->map)
-		exit(1);
+		exit(EXIT_FAILURE);
     player->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 	if (!player->mlx)
 	{
-		free_2d_array(player->map);
+		free_2d_arr(player->map);
 		perror(strerror(mlx_errno));
 		exit(EXIT_FAILURE);
 	}
-    player->nbr_collected = 0;
 	player->p_fov_angle = degrees2rad(60);
 	player->player_x = -1;
 	player->player_y = -1;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
-    player->moveSpeed = 6.0;
+    player->moveSpeed = (float)(((float)TILE_PX / HEIGHT) * 100);
 	player->rotationSpeed = degrees2rad(2.5);
     player->map_height = *map_height * TILE_PX;
 	player->map_width = *map_width * TILE_PX;
+    save_player_coordinates(player);
 }
 
 void initialize_rays_struct(t_player *player, t_ray *rays)
@@ -56,26 +56,4 @@ void initialize_rays_struct(t_player *player, t_ray *rays)
 		i++;
 	}
     player->rays = rays;
-}
-
-void initialize_sprites_struct(t_player *player, t_sprite *sprite, mlx_texture_t **textures)
-{
-    int j;
-
-    j = 0;
-	while (j < NUM_SPRITE)
-	{
-		sprite[j].pSpriteWidth = 0;
-		sprite[j].pSpriteHeight = 0;
-		sprite[j].spriteXstart = 0;
-		sprite[j].spriteXend = 0;
-		sprite[j].collected = 0;
-		sprite[j].x = 0;
-		sprite[j].y = 0;
-		sprite[j].texture = textures[0];
-		sprite[j].visible = 0;
-		sprite[j].an_textures = textures;
-		j++;
-	}
-    player->sprite = sprite;
 }
