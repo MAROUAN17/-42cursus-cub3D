@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:46:04 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/25 14:33:28 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:21:36 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void initialize_player_struct(t_player *player, char *map_path, int *map_width, int *map_height)
 {
+	player->map = store_2d_array(player, map_path, map_height, map_width);
+	if (!player->map)
+		exit(1);
     player->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 	if (!player->mlx)
 	{
@@ -25,14 +28,11 @@ void initialize_player_struct(t_player *player, char *map_path, int *map_width, 
 	player->p_fov_angle = degrees2rad(60);
 	player->player_x = -1;
 	player->player_y = -1;
-	player->map = store_2d_array(player, map_path, map_height, map_width);
-	if (!player->map)
-		return ;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
     player->moveSpeed = 6.0;
 	player->rotationSpeed = degrees2rad(2.5);
-    player->map_height = *map_height;
-	player->map_width = *map_width;
+    player->map_height = *map_height * TILE_PX;
+	player->map_width = *map_width * TILE_PX;
 }
 
 void initialize_rays_struct(t_player *player, t_ray *rays)

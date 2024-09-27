@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/24 11:19:34 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/27 10:14:42 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void render_minimap(t_player *player)
 	int     x = 0;
 	int     y = 0;
 	int		index = 0;
+	int		d_index = 0;
 
 	while (player->map[y])
 	{
@@ -47,6 +48,16 @@ void render_minimap(t_player *player)
 				player->sprite[index].y = y * TILE_PX;
 				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
 				index++;
+			}
+			else if (player->map[y][x] == 'D')
+			{
+				// printf("insside\n");
+				player->door_sprite[d_index].x = x * TILE_PX + TILE_PX / 2;
+				player->door_sprite[d_index].y = y * TILE_PX + TILE_PX;
+				// printf("x -> %f\n", player->door_sprite[d_index].x);
+				// printf("y -> %f\n", player->door_sprite[d_index].y);
+				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
+				d_index++;
 			}
 			else
 			{

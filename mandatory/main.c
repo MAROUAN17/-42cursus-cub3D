@@ -90,7 +90,7 @@ int main(int ac, char **av)
 		i++;
 	}
 	// player.playerAngle = M_PI / 2;
-	player.moveSpeed = 6.0;
+	player.moveSpeed = (double)(((double)TILE_PX / HEIGHT) * 100);
 	player.rotationSpeed = degrees2rad(4);
 	// get_textures(&player, av[1]);
 	player.map_height = map_height * TILE_PX;

@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:26 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 14:02:27 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:44:36 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ t_point calculating_vertical_intersections(t_player *player, t_ray *ray)
     ystep = calculate_ystep(ray->angle);
     if ((ray->p_isFacingUp && ystep > 0) || (ray->p_isFacingDown && ystep < 0))
         ystep *= -1;
+	// ray->d_h_xintersept = -1;
+	// ray->d_h_yintersept = -1;
     wall = finding_wall_vertical(player, ray, xstep, ystep);
     return (wall);
 }

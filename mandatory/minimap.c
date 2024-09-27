@@ -4,11 +4,12 @@ void draw_rectangle(mlx_image_t *img, float x, float y, int color, float p)
 {
 	float i = 0;
 	float j = 0;
-	while (i < p)
+	while (i < p && x + j < WIDTH)
 	{
 		j = 0;
-		while (j < p)
+		while (j < p && y + i < HEIGHT)
 		{
+			// printf("y + i -> %f\n", y + i);
 			mlx_put_pixel(img, x + j, y + i, color);
 			j++;
 		}

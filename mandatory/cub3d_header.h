@@ -7,15 +7,14 @@
 #include <limits.h>
 #include "../MLX42/include/MLX42/MLX42.h"
 
-// (HEIGHT / (int)UNIT)
+// (HEIGHT / (int)TILE_PX)
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define UNIT 128
-// #define UNIT 32.0
+// #define TILE_PX 32.0
 // #define TILE_PX 64
-#define TILE_PX UNIT
-// #define MINIMAP_FACTOR (float)(((float)UNIT / (float)HEIGHT) + 0.2)
+#define TILE_PX 300
+// #define MINIMAP_FACTOR (float)(((float)TILE_PX / (float)HEIGHT) + 0.1)
 #define MINIMAP_FACTOR 0.1
 
 typedef struct s_point {

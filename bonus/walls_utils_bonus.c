@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:31 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/25 14:18:03 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/26 10:40:03 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int is_door(t_player *player, int x, int y)
 mlx_texture_t *get_texture(t_player *player, int is_vert, double x, double y)
 {
 	int wall;
-	if (!is_vert && is_door(player, x, y + 1))
-		return (player->door_textures[0]);
+	// if (!is_vert && is_door(player, x, y + 1))
+	// 	return (player->curr_door_tex);
 	if (is_vert)
 	{
 		wall = is_wall(player, x - 1, y);
@@ -95,7 +95,8 @@ void draw_rectangle_3d(t_player *player, int x, double y, int w, int p, int text
 			color = get_rgba(texture->pixels[index],
 				texture->pixels[index + 1], texture->pixels[index + 2],
 				texture->pixels[index + 3]);
-			mlx_put_pixel(player->map_img, x + i, y + j, color);
+			if (color != 0)
+				mlx_put_pixel(player->map_img, x + i, y + j, color);
 			j++;
 		}
 		i++;

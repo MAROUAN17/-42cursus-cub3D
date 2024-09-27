@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   horizontal_intersection_bonus.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:00 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/25 11:03:22 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:56:38 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ t_point calculating_horizontal_intersections(t_player *player, t_ray *ray)
         xstep *= -1;
 	// if (xstep < 0)
 	// 	printf("negatiiiif\n");
+	ray->d_h_xintersept = -1;
+	ray->d_h_yintersept = -1;
     wall = finding_wall_horizontal(player, ray, xstep, ystep);
     return (wall);
 }

@@ -12,10 +12,8 @@
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define UNIT 128.0
-#define TILE_PX (int)UNIT
+#define TILE_PX 64
 #define MINIMAP_FACTOR 0.1
-// #define MINIMAP_FACTOR (float)(((float)UNIT / (float)HEIGHT) + 0.1)
 
 typedef struct s_point {
 	float x;
@@ -28,6 +26,8 @@ typedef struct s_sprite {
 	int		visible;
 	double	angle;
 	double	distance;
+	int	    start_a;
+	int	    open_door;
 	mlx_texture_t *texture;
 	mlx_texture_t **an_textures;
 	int		collected;
@@ -37,6 +37,8 @@ typedef struct s_ray {
 	float		x;
 	float		y;
 	float		angle;
+	float		d_h_xintersept;
+	float		d_h_yintersept;
 	float		h_xintersept;
 	float		h_yintersept;
 	float		v_xintersept;
@@ -86,9 +88,13 @@ typedef struct player_struct {
 	int				ceiling_color;
 	t_ray			*rays;
 	t_sprite		*sprite;
+	t_sprite		*door_sprite;
 	int				nbr_collected;
 	mlx_texture_t	*door_textures[4];
+	mlx_texture_t	*curr_door_tex;
+	int				doors_count;
 	int		        open_door;
+	int		        start_door_a;
 }					t_player;
 
 void	*ft_memset(void *b, int c, size_t len);
@@ -136,9 +142,9 @@ int		set_color(int *color, char *line, int *flag);
 int		get_textures(t_player *player, char *map_path);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		check_map_valid(char **map, t_player *player);
-void	visibleSprite(t_player *player, int index);
-double	calculate_distance_sprites(t_player *player, int index);
-void	calculate_sprite_projection_and_render(t_player *player, int index);
+void	visibleSprite(t_player *player, t_sprite *sprite, int index);
+double	calculate_distance_sprites(t_player *player, t_sprite *sprite, int index);
+void	calculate_sprite_projection_and_render(t_player *player, t_sprite *sprite, int index);
 void	render_sprites(t_player *player, int texIndex);
 void	check_change_position(t_player *player, float angle);
 void	move_player(mlx_key_data_t keydata, void *v_player);
@@ -147,8 +153,9 @@ float	normalize_rayAngle(float ray_angle);
 int		check_corner(t_player *player, double new_x, double new_y);
 void	mouse_rotation(t_player *player);
 mlx_texture_t 	*resize_texture(mlx_texture_t *texture, int new_width, int new_height);
-int 	is_wall(t_player *player, int x, int y);
-void	initialize_player_struct(t_player *player, char *map_path, int *map_width, int *map_height);
-void	initialize_rays_struct(t_player *player, t_ray *rays);
-void	initialize_sprites_struct(t_player *player, t_sprite *sprite, mlx_texture_t **textures);
-void	free_2d_arr(char **map);
+void free_2d_arr(char **map);
+void initialize_player_struct(t_player *player, char *map_path, int *map_width, int *map_height);
+void initialize_rays_struct(t_player *player, t_ray *rays);
+void initialize_sprites_struct(t_player *player, t_sprite *sprite, mlx_texture_t **textures);
+int 	is_door(t_player *player, int x, int y);
+void 	render_door(t_player *player);

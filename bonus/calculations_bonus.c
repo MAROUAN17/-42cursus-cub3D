@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/25 14:20:44 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/27 10:50:14 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void draw_wall(t_player *player)
 	float correct_wall_distance = 0;
 	int ystart = 0;
 	float d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
+	float n_distance_to_wall;
 
 	while (i < WIDTH)
 	{
@@ -65,8 +66,11 @@ void draw_wall(t_player *player)
 		if (ystart < 0)
 			ystart = 0;
 		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
-		// printf("player->rays[i].x %d\n", (int)player->rays[i].x % player->rays[i].texture->width);
+		// if (player->curr_door_tex == NULL)
+		// 	printf("NULL\n");
+		// printf("player->rays[i].x %d\n", (int)player->rays[i].x);
 		// printf("player->rays[i].y %d\n", (int)player->rays[i].y);
+		// printf("player->rays[i].texture->width %d\n", player->rays[i].texture->width);
 		if (player->rays[i].vertical_wall)
 			textOffsetX = (int)player->rays[i].y % player->rays[i].texture->width;
 		else
@@ -74,6 +78,53 @@ void draw_wall(t_player *player)
 		draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX, player->rays[i].texture);
 		if (ystart + pWallHeight < HEIGHT)
 			draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, wall_width);
+		if (player->rays[i].d_h_xintersept != -1 && player->rays[i].d_h_yintersept != -1)
+			n_distance_to_wall = sqrt(pow(player->rays[i].d_h_xintersept - player->player_x, 2) + pow(player->rays[i].d_h_yintersept - player->player_y, 2));
+		if (player->rays[i].d_h_xintersept != -1 && player->rays[i].d_h_yintersept != -1 && n_distance_to_wall < player->rays[i].distance_to_wall)
+        {
+			// printf("d_h_xintersept %f\n", player->rays[i].d_h_xintersept);
+			// printf("d_h_yintersept %f\n", player->rays[i].d_h_yintersept);
+			player->rays[i].distance_to_wall = sqrt(pow(player->rays[i].d_h_xintersept - player->player_x, 2) + pow(player->rays[i].d_h_yintersept - player->player_y, 2));
+			// printf("distance_to_wall %f\n", player->rays[i].distance_to_wall);
+			// printf("distance_to_door %f\n", calculate_distance_sprites(player, player->door_sprite, 0));
+			// player->rays[i].x = player->rays[i].d_h_xintersept;
+			// player->rays[i].y = player->rays[i].d_h_yintersept;
+			// player->rays[i].horizontal_wall = 1;
+			player->rays[i].vertical_wall = 0;
+            if (player->rays[i].distance_to_wall < 0)
+				player->rays[i].distance_to_wall = 0;
+			correct_wall_distance = fabs(player->rays[i].distance_to_wall * cos(player->rays[i].angle - player->playerAngle));
+			if (!correct_wall_distance)
+				correct_wall_distance = 0.001;
+			pWallHeight = (TILE_PX * d_projection) / correct_wall_distance;
+			ystart = (HEIGHT / 2) - ((int)pWallHeight / 2);
+			if (ystart < 0)
+				ystart = 0;
+			if (player->rays[i].vertical_wall)
+				textOffsetX = (int)player->rays[i].d_h_yintersept % player->rays[i].texture->width;
+			else
+				textOffsetX = (int)player->rays[i].d_h_xintersept % player->rays[i].texture->width;
+			int j = 0;
+			while (j < player->doors_count)
+			{
+				visibleSprite(player, player->door_sprite, j);
+				printf("id -> %d | visible -> %d\n", j, player->door_sprite[j].visible);
+				if (player->door_sprite[j].visible
+					&& player->rays[i].d_h_xintersept >= player->door_sprite[j].x - TILE_PX / 2 && player->rays[i].d_h_xintersept <= player->door_sprite[j].x + TILE_PX
+					&& player->rays[i].d_h_yintersept >= player->door_sprite[j].y && player->rays[i].d_h_yintersept <= player->door_sprite[j].y + TILE_PX)
+				{
+					printf("inside\n");
+					draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX, player->door_sprite[j].texture);
+					// calculate_sprite_projection_and_render(player, player->door_sprite, j);
+				}
+				// if (player->door_sprite[j].visible)
+            		// draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX, player->door_sprite[j].texture);
+					// calculate_sprite_projection_and_render(player, player->door_sprite, j);
+				j++;
+			}
+        }
+		// if (ystart + pWallHeight < HEIGHT)
+		// 	draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, wall_width);
 		i++;
 	}
 }
@@ -128,19 +179,37 @@ void	cast_rays(t_player *player)
     }
 }
 
-void my_scrollhook(double xdelta, double ydelta, void* param)
+void handle_door(t_player *player, int *doorIndex)
 {
-	(void)param;
-	(void)ydelta;
-	if (xdelta < 0)
-		printf("left\n");
-	else if (xdelta > 0)
-		printf("right\n");
+	int i = 0;
+	while (i < player->doors_count)
+	{
+		if (player->door_sprite[i].start_a && player->door_sprite[i].open_door == 0)
+		{
+			player->door_sprite[i].texture = player->door_sprite[i].an_textures[*doorIndex / 10];
+			if (*doorIndex == 30)
+			{
+				player->door_sprite[i].open_door = 1;
+				player->door_sprite[i].start_a = 0;
+			}
+		}
+		else if (player->door_sprite[i].start_a && player->door_sprite[i].open_door)
+		{
+			player->door_sprite[i].texture = player->door_sprite[i].an_textures[3 - (*doorIndex / 10)];
+			if (*doorIndex == 30)
+			{
+				player->door_sprite[i].open_door = 0;
+				player->door_sprite[i].start_a = 0;
+			}
+		}
+		i++;
+	}
 }
 
 void render(void *v_player)
 {
 	static int texIndex;
+	static int doorIndex;
 	t_player	*player;
 
 	player = (t_player *)v_player;
@@ -150,6 +219,28 @@ void render(void *v_player)
 	mouse_rotation(player);
 	if (texIndex == 51)
 		texIndex = 0;
+	if (doorIndex == 31)
+		doorIndex = 0;
+	handle_door(player, &doorIndex);
+	// while ()
+	// if (player->start_door_a && player->open_door == 0)
+	// {
+	// 	player->door_sprite[0].texture = player->door_sprite[0].an_textures[doorIndex / 10];
+	// 	if (doorIndex == 30)
+	// 	{
+	// 		player->open_door = 1;
+	// 		player->start_door_a = 0;
+	// 	}
+	// }
+	// else if (player->start_door_a && player->open_door)
+	// {
+	// 	player->door_sprite[0].texture = player->door_sprite[0].an_textures[3 - (doorIndex / 10)];
+	// 	if (doorIndex == 30)
+	// 	{
+	// 		player->open_door = 0;
+	// 		player->start_door_a = 0;
+	// 	}
+	// }
 	if (player->w_key)
 		check_change_position(player, player->playerAngle);
 	if (player->s_key)
@@ -169,6 +260,8 @@ void render(void *v_player)
 	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
 		0xFF0000FF, 10 * MINIMAP_FACTOR);
 	render_sprites(player, texIndex);
+	// render_door(player);
 	texIndex++;
+	doorIndex++;
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
 }

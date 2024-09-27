@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/24 16:24:14 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:35:56 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,18 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 
 	player = (t_player *)v_player;
 	if (keydata.key == MLX_KEY_SPACE && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->open_door = !player->open_door;
+	{
+		int i = 0;
+		while (i < player->doors_count)
+		{
+			printf("start_a %d\n", player->door_sprite[i].start_a);
+			printf("distance %f\n", calculate_distance_sprites(player, player->door_sprite, i));
+			if (calculate_distance_sprites(player, player->door_sprite, i) < 150)
+				player->door_sprite[i].start_a = 1;
+			i++;
+		}
+		// player->start_door_a = 1;
+	}
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->w_key = 1;
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
