@@ -8,12 +8,11 @@
 #include "../MLX42/include/MLX42/MLX42.h"
 // (HEIGHT / (int)UNIT) (past formula)
 
-#define NUM_SPRITE 4
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define TILE_PX 64
-#define MINIMAP_FACTOR 0.1
+#define TILE_PX 1000
+#define MINIMAP_FACTOR ((float)(HEIGHT / 100) / TILE_PX)
 
 typedef struct s_point {
 	float x;
@@ -104,6 +103,7 @@ typedef struct player_struct {
 	int				doors_count;
 	int		        open_door;
 	int		        start_door_a;
+	int			total_sprites;
 }					t_player;
 
 void	*ft_memset(void *b, int c, size_t len);
@@ -170,4 +170,5 @@ void 	render_door(t_player *player);
 void	change_sprite_index(t_player *player, int texIndex);
 void	render_sprites_minimap(t_player *player, int sprIndex);
 void	calculating_sprite_x(t_player *player, t_sprite *sprite, float d_projection, float pSpriteWidth);
-void	destroy_textures(t_player *player, mlx_texture_t **textures);
+void	free_allocated_memory(t_player *player, mlx_texture_t **textures, mlx_texture_t **d_textures);
+int		calculate_number_sprites(t_player *player);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite2_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/27 16:20:43 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:43:03 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	change_sprite_index(t_player *player, int texIndex)
 {
-	int i = 0;
-	while (i < NUM_SPRITE)
+	int i;
+
+	i = 0;
+	while (i < player->total_sprites)
 	{
 		if (texIndex >= 0 && texIndex <= 10)
 			player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
@@ -51,24 +53,20 @@ double calculate_distance_sprites(t_player *player, t_sprite *sprite, int index)
 
 void visibleSprite(t_player *player, t_sprite *sprite, int index)
 {
-    double spritePlayer = player->playerAngle - atan2(sprite[index].y - player->player_y,
+	double spritePlayer;
+
+   	spritePlayer = player->playerAngle - atan2(sprite[index].y - player->player_y,
         sprite[index].x - player->player_x);
     if (spritePlayer > M_PI)
         spritePlayer -= 2 * M_PI;
     if (spritePlayer < -M_PI)
         spritePlayer += 2 * M_PI;
     sprite[index].angle = fabs(spritePlayer);
-	// printf("angle %f\n", sprite[index].angle);
     sprite[index].distance = calculate_distance_sprites(player, sprite, index);
-	// printf("distance %f\n", sprite[index].distance);
-	// printf("angle %f\n", sprite[index].angle);
-	// printf("fov %f\n", degrees2rad(FOV_ANGLE / 2));
     if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.4)
         sprite[index].visible = 1;
     else
         sprite[index].visible = 0;
-	// printf("visible %d\n", sprite[index].visible);
-	// printf("distance %f\n", sprite[index].distance);
 }
 
 //calculating sprite start and sprite end in the projection

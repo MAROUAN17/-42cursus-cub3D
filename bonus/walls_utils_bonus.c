@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:31 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/27 15:05:23 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/28 11:40:37 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void draw_rectangle_3d(t_player *player, int x, float y, int w, int p, int textO
 	int textOffsetY = 0;
 	int index = 0;
 	int color = 0;
-	// if (p > HEIGHT)
-	// 	p = HEIGHT;
 	while (i < w && i < WIDTH)
 	{
 		j = 0;

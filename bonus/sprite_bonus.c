@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/27 11:36:59 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:50:25 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 //calculating sprite width and height in the projection
 void calculating_sprite_width_height(t_sprite *sprite, float d_projection, int *ystart, int *yend)
 {
-    sprite->pSpriteHeight = (d_projection * sprite->texture->height) / sprite->distance;
-    sprite->pSpriteWidth = (d_projection * sprite->texture->width) / sprite->distance;
+    sprite->pSpriteHeight = ((d_projection * sprite->texture->height) / sprite->distance) * (sprite->texture->height % TILE_PX);
+    sprite->pSpriteWidth = ((d_projection * sprite->texture->width) / sprite->distance) * (sprite->texture->width % TILE_PX);
     *ystart = (HEIGHT / 2) - (sprite->pSpriteHeight / 2);
     if (*ystart < 0)
         *ystart = 0;
@@ -33,8 +33,9 @@ int calculate_pixel_index(t_sprite *sprite, int ystart, int textOffsetX)
     int     color;
     int     textOffsetY;
 
+    color = 0;
     DTop = ystart + (sprite->pSpriteHeight / 2) - (HEIGHT / 2);
-    textOffsetY = DTop * (sprite->texture->height / sprite->pSpriteHeight);
+    textOffsetY = DTop * (sprite->texture->height / sprite->pSpriteHeight);    
     indexC = ((textOffsetY * sprite->texture->width) + textOffsetX) * 4;
     color = get_rgba(sprite->texture->pixels[indexC],
         sprite->texture->pixels[indexC + 1], sprite->texture->pixels[indexC + 2],
@@ -58,7 +59,7 @@ void render_one_sprite(t_player *player, t_sprite *sprite, int ystart, int yend)
 {
     int     xstart;
     int     tmpy;
-    // int     color;
+    int     color;
     int     textOffsetX;
 
     xstart = sprite->spriteXstart;
@@ -72,7 +73,7 @@ void render_one_sprite(t_player *player, t_sprite *sprite, int ystart, int yend)
             if (ystart < HEIGHT && xstart < WIDTH && xstart > 0 && ystart > 0
                 && sprite->distance < player->rays[(int)xstart].distance_to_wall)
             {
-                int color = calculate_pixel_index(sprite, ystart, textOffsetX);
+                color = calculate_pixel_index(sprite, ystart, textOffsetX);
                 if (color != 0 && sprite->collected == 0)
                     mlx_put_pixel(player->map_img, xstart, ystart, color);
             }
@@ -100,7 +101,7 @@ void render_sprites(t_player *player, int texIndex)
 {
     int j = 0;
 
-	while (j < NUM_SPRITE)
+	while (j < player->total_sprites)
 	{
         if (player->sprite[j].collected == 0)
         {

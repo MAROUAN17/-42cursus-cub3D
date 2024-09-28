@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/27 16:19:49 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/28 11:56:49 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	check_change_position(t_player *player, float angle)
 	}
 	check_y = (player->player_y + new_y) / TILE_PX;
 	check_x = (player->player_x + new_x) / TILE_PX;
-	// if (player->map[check_y][check_x] != '1')
-
 	if (player->map[check_y][check_x] != '1'
 		&& (player->map[check_y][check_x] != 'D'
 			|| is_open_door(player, check_x, check_y)))

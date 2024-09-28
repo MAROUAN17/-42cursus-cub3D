@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:39 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/26 16:44:19 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/28 15:36:09 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,11 @@ void print_err(char *line)
 	}
 }
 
-void	destroy_textures(t_player *player, mlx_texture_t **textures)
+void	free_allocated_memory(t_player *player, mlx_texture_t **textures, mlx_texture_t **d_textures)
 {
+	free(player->rays);
+	free(player->door_sprite);
+	free(player->sprite);
 	mlx_delete_texture(player->east_texture);
 	mlx_delete_texture(player->west_texture);
 	mlx_delete_texture(player->north_texture);
@@ -56,4 +59,8 @@ void	destroy_textures(t_player *player, mlx_texture_t **textures)
 	mlx_delete_texture(textures[2]);
 	mlx_delete_texture(textures[3]);
 	mlx_delete_texture(textures[4]);
+	mlx_delete_texture(d_textures[0]);
+	mlx_delete_texture(d_textures[1]);
+	mlx_delete_texture(d_textures[2]);
+	mlx_delete_texture(d_textures[3]);
 }

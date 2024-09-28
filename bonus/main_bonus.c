@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/27 14:05:52 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/28 15:35:44 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,25 +154,25 @@ int initialize_door_sprites(t_player *player, mlx_texture_t **textures)
 	return (1);
 }
 
+void a()
+{
+	system("leaks cub3D_bonus");
+}
+
 int main(int ac, char **av)
 {
     int            map_width;
     int            map_height;
-    t_player    player;
-    t_ray        rays[WIDTH];
-    t_sprite    sprite[NUM_SPRITE];
-    mlx_texture_t *textures[5];
-	// t_sprite 		d_sprite[2];
-	mlx_texture_t *d_textures[4];
+    t_player		player;
+    t_ray			rays[WIDTH];
+    t_sprite		sprite[2];
+    mlx_texture_t	*textures[5];
+	mlx_texture_t	*d_textures[4];
 
     (void)ac;
+	atexit(a);
     map_width = 0;
     map_height = 0;
-	// player.door_textures[0] = resize_texture(mlx_load_png("./textures/Door1.png"), TILE_PX, TILE_PX);
-	// player.door_textures[1] = resize_texture(mlx_load_png("./textures/Door2.png"), TILE_PX, TILE_PX);
-	// player.door_textures[2] = resize_texture(mlx_load_png("./textures/Door3.png"), TILE_PX, TILE_PX);
-	// player.door_textures[3] = resize_texture(mlx_load_png("./textures/Door4.png"), TILE_PX, TILE_PX);
-	// player.curr_door_tex = player.door_textures[0];
 	d_textures[0] = resize_texture(mlx_load_png("./textures/Door1.png"), TILE_PX, TILE_PX);
 	d_textures[1] = resize_texture(mlx_load_png("./textures/Door2.png"), TILE_PX, TILE_PX);
 	d_textures[2] = resize_texture(mlx_load_png("./textures/Door3.png"), TILE_PX, TILE_PX);
@@ -186,12 +186,13 @@ int main(int ac, char **av)
     initialize_rays_struct(&player, rays);
     initialize_sprites_struct(&player, sprite, textures);
 	if (!initialize_door_sprites(&player, d_textures))
-		return (1); // free map and textures here
+		return (1);
     mlx_image_to_window(player.mlx, player.map_img, 0, 0);
     mlx_key_hook(player.mlx, &move_player, &player);
     mlx_loop_hook(player.mlx, &render, &player);
     mlx_loop(player.mlx);
     mlx_terminate(player.mlx);
+	free_allocated_memory(&player, textures, d_textures);
     free_2d_arr(player.map);
     return (EXIT_SUCCESS);
 }

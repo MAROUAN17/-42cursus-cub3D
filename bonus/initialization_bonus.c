@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:46:04 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/27 11:21:24 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:08:03 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void initialize_player_struct(t_player *player, char *map_path, int *map_width, 
 	player->player_x = -1;
 	player->player_y = -1;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
-    player->moveSpeed = 6.0;
+    player->moveSpeed = (float)(((float)TILE_PX / HEIGHT) * 100);
 	player->rotationSpeed = degrees2rad(2.5);
     player->map_height = *map_height * TILE_PX;
 	player->map_width = *map_width * TILE_PX;
@@ -40,6 +40,7 @@ void initialize_rays_struct(t_player *player, t_ray *rays)
     int     i;
 
     i = 0;
+	player->rays = malloc(sizeof(t_ray) * (WIDTH + 1));
 	while (i < WIDTH)
 	{
 		rays[i].map_img = player->map_img;
@@ -55,27 +56,29 @@ void initialize_rays_struct(t_player *player, t_ray *rays)
 		rays[i].vertical_wall = 0;
 		i++;
 	}
-    player->rays = rays;
 }
 
 void initialize_sprites_struct(t_player *player, t_sprite *sprite, mlx_texture_t **textures)
 {
-    int j;
+    int	j;
 
+	(void)sprite;
     j = 0;
-	while (j < NUM_SPRITE)
+	player->total_sprites = calculate_number_sprites(player);
+	player->sprite = malloc(sizeof(t_sprite) * player->total_sprites);
+	while (j < player->total_sprites)
 	{
-		sprite[j].pSpriteWidth = 0;
-		sprite[j].pSpriteHeight = 0;
-		sprite[j].spriteXstart = 0;
-		sprite[j].spriteXend = 0;
-		sprite[j].collected = 0;
-		sprite[j].x = 0;
-		sprite[j].y = 0;
-		sprite[j].texture = textures[0];
-		sprite[j].visible = 0;
-		sprite[j].an_textures = textures;
+		player->sprite[j].pSpriteWidth = 0;
+		player->sprite[j].pSpriteHeight = 0;
+		player->sprite[j].spriteXstart = 0;
+		player->sprite[j].spriteXend = 0;
+		player->sprite[j].collected = 0;
+		player->sprite[j].x = 0;
+		player->sprite[j].y = 0;
+		player->sprite[j].texture = textures[0];
+		player->sprite[j].visible = 0;
+		player->sprite[j].an_textures = textures;
 		j++;
 	}
-    player->sprite = sprite;
+	// player->sprite = sprite;
 }
