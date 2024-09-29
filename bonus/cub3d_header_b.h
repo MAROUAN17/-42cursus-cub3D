@@ -42,10 +42,10 @@ typedef struct s_ray {
 	float		d_x;
 	float		d_y;
 	float		angle;
-	float		d_h_xintersept;
-	float		d_h_yintersept;
-	float		d_v_xintersept;
-	float		d_v_yintersept;
+	float		d_h_xintersept[3];
+	float		d_h_yintersept[3];
+	float		d_v_xintersept[3];
+	float		d_v_yintersept[3];
 	float		h_xintersept;
 	float		h_yintersept;
 	float		v_xintersept;
@@ -172,4 +172,7 @@ void	render_sprites_minimap(t_player *player, int sprIndex);
 void	calculating_sprite_x(t_player *player, t_sprite *sprite, float d_projection, float pSpriteWidth);
 void	free_allocated_memory(t_player *player, mlx_texture_t **textures, mlx_texture_t **d_textures);
 int		calculate_number_sprites(t_player *player);
+int		is_open_door(t_player *player, int check_x, int check_y);
 double	calculate_distance_door(t_player *player, t_sprite *sprite, int index);
+
+// void	draw_door(t_player *player, float x, float y, t_ray *ray, int i);

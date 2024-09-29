@@ -6,17 +6,18 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:55 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/27 14:08:13 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:12:00 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_header_b.h"
 
-t_point h_wall_check_position(t_player *player, t_ray *ray)
+t_point h_wall_check_position(t_player *player, t_ray *ray, int *index)
 {
 	t_point wall;
 	float xcheck;
 	float ycheck;
+	// static int index;
 
 	ycheck = 0;
 	xcheck = ray->h_xintersept;
@@ -33,12 +34,16 @@ t_point h_wall_check_position(t_player *player, t_ray *ray)
 		{
 			wall.x = ray->h_xintersept;
 			wall.y = ray->h_yintersept;
+			*index = 0;
 			return (wall);
 		}
 		else if (player->map[(int)((ycheck) / TILE_PX)][(int)(xcheck / TILE_PX)] == 'D')
 		{
-			ray->d_h_xintersept = ray->h_xintersept;
-			ray->d_h_yintersept = ray->h_yintersept;
+			// printf("*index %d\n", *index);
+			ray->d_h_xintersept[*index] = ray->h_xintersept;
+			ray->d_h_yintersept[*index] = ray->h_yintersept;
+			(*index)++;
+			// draw_door(player, ray->h_xintersept, ray->h_yintersept, ray, 0);
 		}
 	}
 	wall.x = -1;
@@ -49,12 +54,13 @@ t_point h_wall_check_position(t_player *player, t_ray *ray)
 t_point	finding_wall_horizontal(t_player *player, t_ray *ray, float xstep, float ystep)
 {
 	t_point wall;
+	static int h_index;
 
 	while (ray->h_xintersept >= 0 && ray->h_yintersept >= 0
 		&& ray->h_xintersept < player->map_width
 		&& ray->h_yintersept < player->map_height)
 	{
-		wall = h_wall_check_position(player, ray);
+		wall = h_wall_check_position(player, ray, &h_index);
 		if (wall.x != -1 && wall.y != -1)
 			return (wall);
 		ray->h_xintersept += xstep;
@@ -62,11 +68,11 @@ t_point	finding_wall_horizontal(t_player *player, t_ray *ray, float xstep, float
 	}
 	wall.x = ray->h_xintersept;
 	wall.y = ray->h_yintersept;
-	
+	h_index = 0;
 	return (wall);
 }
 
-t_point v_wall_check_position(t_player *player, t_ray *ray)
+t_point v_wall_check_position(t_player *player, t_ray *ray, int *index)
 {
 	t_point wall;
 	float xcheck;
@@ -86,12 +92,15 @@ t_point v_wall_check_position(t_player *player, t_ray *ray)
 		{
 			wall.x = ray->v_xintersept;
 			wall.y = ray->v_yintersept;
+			*index = 0;
 			return (wall);
 		}
 		else if (player->map[(int)((ycheck) / TILE_PX)][(int)(xcheck / TILE_PX)] == 'D')
 		{
-			ray->d_v_xintersept = ray->v_xintersept;
-			ray->d_v_yintersept = ray->v_yintersept;
+			// printf("index %d\n", *index);
+			ray->d_v_xintersept[*index] = ray->v_xintersept;
+			ray->d_v_yintersept[*index] = ray->v_yintersept;
+			(*index)++;
 		}
 	}
 	wall.x = -1;
@@ -102,17 +111,19 @@ t_point v_wall_check_position(t_player *player, t_ray *ray)
 t_point	finding_wall_vertical(t_player *player, t_ray *ray, float xstep, float ystep)
 {
 	t_point wall;
+	static int v_index;
 
 	while (ray->v_xintersept >= 0 && ray->v_yintersept >= 0
 		&& ray->v_yintersept < player->map_height
 		&& ray->v_xintersept < player->map_width)
 	{
-		wall = v_wall_check_position(player, ray);
+		wall = v_wall_check_position(player, ray, &v_index);
 		if (wall.x != -1 && wall.y != -1)
 			return (wall);
 		ray->v_xintersept += xstep;
 		ray->v_yintersept += ystep;
 	}
+	v_index = 0;
 	wall.x = ray->v_xintersept;
 	wall.y = ray->v_yintersept;
 	return (wall);

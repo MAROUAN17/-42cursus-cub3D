@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/29 14:27:22 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/29 14:33:01 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void visibleSprite(t_player *player, t_sprite *sprite, int index)
     if (spritePlayer < -M_PI)
         spritePlayer += 2 * M_PI;
     sprite[index].angle = fabs(spritePlayer);
-    if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.2)
+    if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.9)
         sprite[index].visible = 1;
     else
         sprite[index].visible = 0;
