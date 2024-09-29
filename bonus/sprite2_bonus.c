@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/27 16:20:43 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/29 10:27:57 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void visibleSprite(t_player *player, t_sprite *sprite, int index)
 	// printf("distance %f\n", sprite[index].distance);
 	// printf("angle %f\n", sprite[index].angle);
 	// printf("fov %f\n", degrees2rad(FOV_ANGLE / 2));
-    if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.4)
+    if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.9)
         sprite[index].visible = 1;
     else
         sprite[index].visible = 0;

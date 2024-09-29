@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:46:04 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/27 11:21:24 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/28 10:35:16 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ void initialize_rays_struct(t_player *player, t_ray *rays)
 	{
 		rays[i].map_img = player->map_img;
 		rays[i].h_xintersept = 0;
+		// rays[i].d_h_xintersept = malloc(sizeof(float) * (player->doors_count + 1));
+		// rays[i].d_h_yintersept = malloc(sizeof(float) * (player->doors_count + 1));
+		// rays[i].d_v_xintersept = malloc(sizeof(float) * (player->doors_count + 1));
+		// rays[i].d_v_yintersept = malloc(sizeof(float) * (player->doors_count + 1));
 		rays[i].h_yintersept = 0;
 		rays[i].v_xintersept = 0;
 		rays[i].v_yintersept = 0;
