@@ -11,7 +11,7 @@
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define TILE_PX 1000
+#define TILE_PX 200
 #define MINIMAP_FACTOR ((float)(HEIGHT / 100) / TILE_PX)
 
 typedef struct s_point {
@@ -151,7 +151,7 @@ int		get_textures(t_player *player, char *map_path);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		check_map_valid(char **map, t_player *player);
 void	visibleSprite(t_player *player, t_sprite *sprite, int index);
-double	calculate_distance_sprites(t_player *player, t_sprite *sprite, int index);
+void	calculate_distance_coins(t_player *player);
 void	calculate_sprite_projection_and_render(t_player *player, int index);
 void	render_sprites(t_player *player, int texIndex);
 void	check_change_position(t_player *player, float angle);
@@ -172,3 +172,4 @@ void	render_sprites_minimap(t_player *player, int sprIndex);
 void	calculating_sprite_x(t_player *player, t_sprite *sprite, float d_projection, float pSpriteWidth);
 void	free_allocated_memory(t_player *player, mlx_texture_t **textures, mlx_texture_t **d_textures);
 int		calculate_number_sprites(t_player *player);
+double	calculate_distance_door(t_player *player, t_sprite *sprite, int index);

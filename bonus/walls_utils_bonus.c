@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:31 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/28 11:40:37 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/29 11:53:44 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int is_wall(t_player *player, int x, int y)
 		return (0);
 	return (player->map[p_y][p_x] == '1');
 }
+
 int is_door(t_player *player, int x, int y)
 {
 	int p_x;
@@ -43,8 +44,7 @@ int is_door(t_player *player, int x, int y)
 mlx_texture_t *get_texture(t_player *player, int is_vert, float x, float y)
 {
 	int wall;
-	// if (!is_vert && is_door(player, x, y + 1))
-	// 	return (player->curr_door_tex);
+
 	if (is_vert)
 	{
 		wall = is_wall(player, x - 1, y);
@@ -66,12 +66,18 @@ mlx_texture_t *get_texture(t_player *player, int is_vert, float x, float y)
 
 void draw_rectangle_3d(t_player *player, int x, float y, int w, int p, int textOffsetX, mlx_texture_t *texture)
 {
-	int i = 0;
-	int j = 0;
-	int Dbottom = 0;
-	int textOffsetY = 0;
-	int index = 0;
-	int color = 0;
+	int i;
+	int j;
+	int Dbottom;
+	int textOffsetY;
+	int index;
+	int color;
+
+	i = 0;
+	Dbottom = 0;
+	textOffsetY = 0;
+	index = 0;
+	color = 0;
 	while (i < w && i < WIDTH)
 	{
 		j = 0;
@@ -93,9 +99,10 @@ void draw_rectangle_3d(t_player *player, int x, float y, int w, int p, int textO
 
 void draw_ceiling(mlx_image_t *img, int x, int y, int color, int w)
 {
-    int i = 0;
-	int j = 0;
+    int i;
+	int j;
 
+	i = 0;
 	while (i < w && i < WIDTH)
 	{
 		j = 0;

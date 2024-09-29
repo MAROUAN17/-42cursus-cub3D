@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/28 11:56:49 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/29 14:25:48 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 		{
 			// printf("start_a %d\n", player->door_sprite[i].start_a);
 			// printf("distance %f\n", calculate_distance_sprites(player, player->door_sprite, i));
-			if (calculate_distance_sprites(player, player->door_sprite, i) < 150)
+			if (calculate_distance_door(player, player->door_sprite, i) < 150)
 				player->door_sprite[i].start_a = 1;
 			i++;
 		}
