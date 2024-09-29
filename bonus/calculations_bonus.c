@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/29 10:32:40 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/29 10:40:50 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,9 @@ void	cast_rays(t_player *player)
 
 void handle_door(t_player *player, int *doorIndex)
 {
-	int i = 0;
+	int i;
+
+	i = 0;
 	while (i < player->doors_count)
 	{
 		if (player->door_sprite[i].start_a && player->door_sprite[i].open_door == 0)
@@ -279,6 +281,7 @@ void handle_door(t_player *player, int *doorIndex)
 			player->door_sprite[i].texture = player->door_sprite[i].an_textures[*doorIndex / 10];
 			if (*doorIndex == 30)
 			{
+				printf("here\n");
 				player->door_sprite[i].open_door = 1;
 				player->door_sprite[i].start_a = 0;
 			}
@@ -331,7 +334,6 @@ void render(void *v_player)
 	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
 		0xFF0000FF, 10 * MINIMAP_FACTOR);
 	render_sprites(player, texIndex);
-	// render_door(player);
 	texIndex++;
 	doorIndex++;
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);

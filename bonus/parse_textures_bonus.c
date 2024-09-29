@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:20:22 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/25 18:00:50 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/28 11:42:16 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int	get_file_type(char *line)
 {
-	int len = ft_strlen(line);
+	int len;
 	
+	len = ft_strlen(line);
 	len--;
 	while (line[len] == ' ' && len > 0)
 	{
