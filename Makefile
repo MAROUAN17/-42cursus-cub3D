@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 CC = cc
 LIBMLX = ./MLX42
 SRCS =  mandatory/main.c mandatory/walls_utils.c mandatory/calculate_distance.c mandatory/horizontal_intersection.c mandatory/vertical_intersection.c mandatory/finding_wall.c \
@@ -11,7 +11,7 @@ SRCS_B =  bonus/initialization_bonus.c bonus/main_bonus.c bonus/walls_utils_bonu
 	bonus/calculations_bonus.c bonus/minimap_bonus.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c bonus/parse_map_bonus.c \
 	bonus/free_utils_bonus.c bonus/parse_color_bonus.c bonus/parse_textures_bonus.c bonus/parse_elements_bonus.c \
 	bonus/sprite_bonus.c bonus/movement_bonus.c bonus/parse_utils_bonus.c bonus/sprite2_bonus.c bonus/doors_utils_bonus.c \
-	bonus/walls_utils2_bonus.c
+	bonus/walls_utils2_bonus.c bonus/doors_utils2_bonus.c
 OBJS_B = ${addprefix bonus/b_obj/, ${SRCS_B:.c=.o}}
 
 LIBFT = ./libft/libft.a

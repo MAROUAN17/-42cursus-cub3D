@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/30 14:20:12 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:54:37 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 		int i = 0;
 		while (i < player->doors_count)
 		{
-			if (calculate_distance_sprites(player, player->door_sprite, i) < TILE_PX * 2 && !is_inside_door(player, i))
+			if (calculate_distance_door(player, player->door_sprite, i) < TILE_PX * 2 && !is_inside_door(player, i))
 				player->door_sprite[i].start_a = 1;
 			i++;
 		}

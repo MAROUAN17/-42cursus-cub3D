@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 10:40:53 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/30 14:49:27 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:20:42 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,6 @@ void	check_door_intersections(t_player *player, int i)
 		j--;
 	}
 }
-
-// void	draw_visible_door(t_player *player, int i, float x, float y)
-// {
-// 	int	textOffsetX;
-
-// 	player->rays[i].texture = player->door_sprite[j].texture;
-// 	if (player->rays[i].vertical_wall)
-// 		textOffsetX = (int)y % player->door_sprite[j].texture->width;
-// 	else
-// 		textOffsetX = (int)x % player->door_sprite[j].texture->width;
-// 	if (player->door_sprite[j].open_door == 0)
-// 		player->rays[i].distance_to_wall = player->rays[i].distance_to_door;
-// 	draw_rectangle_3d(player, i, ystart, textOffsetX);
-// }
 
 int	check_visible_door(t_player *player, float x, float y, int j)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/28 14:47:38 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:24:38 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,9 @@ void render_minimap(t_player *player)
 				index++;
 			}
 			else if (player->map[y][x] == 'D')
-			{
-				player->door_sprite[d_index].x = x * TILE_PX;
-				player->door_sprite[d_index].y = y * TILE_PX;
-				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
-				d_index++;
-			}
+				save_door_cord(player, x, y, &d_index);
 			else
 				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
-				// check_save_player_coordinates(player, x, y);
 			x++;
 		}
 		y++;

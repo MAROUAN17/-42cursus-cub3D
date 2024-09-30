@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/28 15:35:44 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:13:15 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,13 @@ int main(int ac, char **av)
     textures[3] = mlx_load_png("./textures/MonedaD4.png");
     textures[4] = mlx_load_png("./textures/MonedaD5.png");
     initialize_player_struct(&player, av[1], &map_width, &map_height);
-    initialize_rays_struct(&player, rays);
+    if (!initialize_rays_struct(&player, rays))
+	{
+		free_2d_array(player.map);
+		perror(strerror(mlx_errno));
+		mlx_terminate(player.mlx);
+		return (1);
+	}
     initialize_sprites_struct(&player, sprite, textures);
 	if (!initialize_door_sprites(&player, d_textures))
 		return (1);

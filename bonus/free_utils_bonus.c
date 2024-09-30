@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:39 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/28 15:36:09 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:16:12 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,17 @@ void print_err(char *line)
 
 void	free_allocated_memory(t_player *player, mlx_texture_t **textures, mlx_texture_t **d_textures)
 {
-	free(player->rays);
+	int	i;
+
+	i = 0;
+	while (i < WIDTH)
+	{
+		free(player->rays[i].d_h_xintersept);
+		free(player->rays[i].d_h_yintersept);
+		free(player->rays[i].d_v_xintersept);
+		free(player->rays[i].d_v_yintersept);
+		i++;
+	}
 	free(player->door_sprite);
 	free(player->sprite);
 	mlx_delete_texture(player->east_texture);

@@ -11,7 +11,7 @@
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define TILE_PX 64
+#define TILE_PX 200
 #define MINIMAP_FACTOR ((float)(HEIGHT / 100) / TILE_PX)
 
 typedef struct s_point {
@@ -152,7 +152,7 @@ int		get_textures(t_player *player, char *map_path);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		check_map_valid(char **map, t_player *player);
 void	visibleSprite(t_player *player, t_sprite *sprite, int index);
-double	calculate_distance_sprites(t_player *player, t_sprite *sprite, int index);
+void	calculate_distance_coins(t_player *player);
 void	calculate_sprite_projection_and_render(t_player *player, int index);
 void	render_sprites(t_player *player, int texIndex);
 void	check_change_position(t_player *player, float angle);
@@ -164,7 +164,7 @@ void	mouse_rotation(t_player *player);
 mlx_texture_t 	*resize_texture(mlx_texture_t *texture, int new_width, int new_height);
 void	free_2d_arr(char **map);
 void 	initialize_player_struct(t_player *player, char *map_path, int *map_width, int *map_height);
-void	initialize_rays_struct(t_player *player, t_ray *rays);
+int	initialize_rays_struct(t_player *player, t_ray *rays);
 void	initialize_sprites_struct(t_player *player, t_sprite *sprite, mlx_texture_t **textures);
 int 	is_door(t_player *player, int x, int y);
 void 	render_door(t_player *player);
@@ -180,6 +180,7 @@ float	get_smallest_door_distance(t_player *player, t_ray *ray, int j);
 float	calculate_correct_wall_distance(t_player *player, int i);
 float 	calculate_correct_door_distance(t_player *player, int i);
 float	calculate_door_height(t_player *player, int i);
-float	calculate_wall_height(t_player *player, int i);
+float	calculate_wall_height(t_player *player, int i);double	calculate_distance_door(t_player *player, t_sprite *sprite, int index);
+void	save_door_cord(t_player *player, int x, int y, int *d_index);
 
 // void	draw_door(t_player *player, float x, float y, t_ray *ray, int i);
