@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/29 10:58:31 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:20:12 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,14 @@ void	check_change_position(t_player *player, float angle)
 	}
 }
 
+int	is_inside_door(t_player *player, int i)
+{
+	if ((int)player->player_x / TILE_PX == (int)player->door_sprite[i].x / TILE_PX 
+		&& (int)player->player_y / TILE_PX == (int)player->door_sprite[i].y / TILE_PX)
+		return (1);
+	return (0);
+}
+
 void	move_player(mlx_key_data_t keydata, void *v_player)
 {
 	t_player	*player;
@@ -81,20 +89,12 @@ void	move_player(mlx_key_data_t keydata, void *v_player)
 	if (keydata.key == MLX_KEY_SPACE && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		int i = 0;
-		// printf("inside\n");
-		// printf("doors_count %d\n", player->doors_count);
 		while (i < player->doors_count)
 		{
-			// printf("start_a %d\n", player->door_sprite[i].start_a);
-			// printf("distance %f\n", calculate_distance_sprites(player, player->door_sprite, i));
-			if (calculate_distance_sprites(player, player->door_sprite, i) < TILE_PX * 2)
-			{
-				// printf("here\n");
+			if (calculate_distance_sprites(player, player->door_sprite, i) < TILE_PX * 2 && !is_inside_door(player, i))
 				player->door_sprite[i].start_a = 1;
-			}
 			i++;
 		}
-		// player->start_door_a = 1;
 	}
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->w_key = 1;

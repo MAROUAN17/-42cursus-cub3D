@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/29 10:40:50 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:27:06 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,66 +110,17 @@ float get_smallest_door_distance(t_player *player, t_ray *ray, int j)
 	return (distance);
 }
 
-void	draw_door(t_player *player, float x, float y, int i, float distance)
-{
-	int textOffsetX = 0;
-	float pWallHeight = 0;
-	float wall_width = 1;
-	float correct_wall_distance = 0;
-	int ystart = 0;
-	float d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
-	(void)distance;
-	// player->rays[i].distance_to_door = distance;
-	player->rays[i].distance_to_door = sqrt(pow(player->player_x - x, 2) + pow(player->player_y - y, 2));
-	if (player->rays[i].distance_to_door < 0)
-		player->rays[i].distance_to_door = 0;
-	correct_wall_distance = fabs(player->rays[i].distance_to_door * cos(player->rays[i].angle - player->playerAngle));
-	if (!correct_wall_distance)
-		correct_wall_distance = 0.001;
-	pWallHeight = (TILE_PX * d_projection) / correct_wall_distance;
-	ystart = (HEIGHT / 2) - ((int)pWallHeight / 2);
-	if (ystart < 0)
-		ystart = 0;
-	int j = 0;
-	while (j < player->doors_count)
-	{
-		visibleSprite(player, player->door_sprite, j);
-		if (player->door_sprite[j].visible
-			&& x >= player->door_sprite[j].x && x <= player->door_sprite[j].x + TILE_PX
-			&& y >= player->door_sprite[j].y && y <= player->door_sprite[j].y + TILE_PX)
-		{
-			if (player->rays[i].vertical_wall)
-				textOffsetX = (int)y % player->door_sprite[j].texture->width;
-			else
-				textOffsetX = (int)x % player->door_sprite[j].texture->width;
-			if (player->door_sprite[j].open_door == 0)
-				player->rays[i].distance_to_wall = player->rays[i].distance_to_door;
-			draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX, player->door_sprite[j].texture);
-		}
-		j++;
-	}
-}
-
 void draw_wall(t_player *player)
 {
 	int textOffsetX = 0;
 	int i = 0;
-	float pWallHeight = 0;
 	float wall_width = 1;
-	float correct_wall_distance = 0;
 	int ystart = 0;
-	float d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
-	float n_distance_to_wall;
 
 	while (i < WIDTH)
 	{
-		if (player->rays[i].distance_to_wall < 0)
-			player->rays[i].distance_to_wall = 0;
-		correct_wall_distance = fabs(player->rays[i].distance_to_wall * cos(player->rays[i].angle - player->playerAngle));
-		if (!correct_wall_distance)
-			correct_wall_distance = 0.001;
-		pWallHeight = (TILE_PX * d_projection) / correct_wall_distance;
-		ystart = (HEIGHT / 2) - ((int)pWallHeight / 2);
+		player->rays[i].wall_height = calculate_wall_height(player, i);
+		ystart = (HEIGHT / 2) - ((int)player->rays[i].wall_height / 2);
 		if (ystart < 0)
 			ystart = 0;
 		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
@@ -177,44 +128,10 @@ void draw_wall(t_player *player)
 			textOffsetX = (int)player->rays[i].y % player->rays[i].texture->width;
 		else
 			textOffsetX = (int)player->rays[i].x % player->rays[i].texture->width;
-		draw_rectangle_3d(player, i, ystart, wall_width, pWallHeight, textOffsetX, player->rays[i].texture);
-		if (ystart + pWallHeight < HEIGHT)
-			draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, wall_width);
-		int j = 2;
-		while (j >= 0)
-		{
-			if ((player->rays[i].d_h_xintersept[j] != -1 && player->rays[i].d_h_yintersept[j] != -1)
-				|| (player->rays[i].d_v_xintersept[j] != -1 && player->rays[i].d_v_yintersept[j] != -1))
-				n_distance_to_wall = get_smallest_door_distance(player, &player->rays[i], j);
-			if (((player->rays[i].d_h_xintersept[j] != -1 && player->rays[i].d_h_yintersept[j] != -1)
-				|| (player->rays[i].d_v_xintersept[j] != -1 && player->rays[i].d_v_yintersept[j] != -1))
-					&& n_distance_to_wall < player->rays[i].distance_to_wall)
-			{
-				float h_d = sqrt(pow(player->player_x - player->rays[i].d_h_xintersept[j], 2) + pow(player->player_y - player->rays[i].d_h_yintersept[j], 2));
-				float v_d = sqrt(pow(player->player_x - player->rays[i].d_v_xintersept[j], 2) + pow(player->player_y - player->rays[i].d_v_yintersept[j], 2));
-				if (player->rays[i].vertical_wall && player->rays[i].d_v_xintersept[j] != -1 && player->rays[i].d_h_xintersept[j] != -1)
-				{
-					player->rays[i].vertical_wall = 0;
-					if (h_d < player->rays[i].distance_to_wall)
-						draw_door(player, player->rays[i].d_h_xintersept[j], player->rays[i].d_h_yintersept[j], i, n_distance_to_wall);
-					player->rays[i].vertical_wall = 1;
-						draw_door(player, player->rays[i].d_v_xintersept[j], player->rays[i].d_v_yintersept[j], i, n_distance_to_wall);
-				}
-				else if (player->rays[i].d_h_xintersept[j] != -1 && player->rays[i].d_v_xintersept[j] != -1)
-				{
-					player->rays[i].vertical_wall = 1;
-					if (v_d < player->rays[i].distance_to_wall)
-						draw_door(player, player->rays[i].d_v_xintersept[j], player->rays[i].d_v_yintersept[j], i, n_distance_to_wall);
-					player->rays[i].vertical_wall = 0;
-						draw_door(player, player->rays[i].d_h_xintersept[j], player->rays[i].d_h_yintersept[j], i, n_distance_to_wall);
-				}
-				else
-					draw_door(player, player->rays[i].d_x, player->rays[i].d_y, i, n_distance_to_wall);
-			}
-			j--;
-		}
-		// if (ystart + pWallHeight < HEIGHT)
-		// 	draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, wall_width);
+		draw_rectangle_3d(player, i, ystart, textOffsetX);
+		if (ystart + player->rays[i].wall_height < HEIGHT)
+			draw_floor(player->map_img, i, ystart + player->rays[i].wall_height, player->floor_color, wall_width);
+		check_door_intersections(player, i);
 		i++;
 	}
 }
@@ -281,7 +198,6 @@ void handle_door(t_player *player, int *doorIndex)
 			player->door_sprite[i].texture = player->door_sprite[i].an_textures[*doorIndex / 10];
 			if (*doorIndex == 30)
 			{
-				printf("here\n");
 				player->door_sprite[i].open_door = 1;
 				player->door_sprite[i].start_a = 0;
 			}

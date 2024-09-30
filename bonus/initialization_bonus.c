@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:46:04 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/29 10:36:56 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:27:16 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,21 @@ void initialize_rays_struct(t_player *player, t_ray *rays)
     int     i;
 
     i = 0;
-	player->rays = malloc(sizeof(t_ray) * (WIDTH + 1));
+	// float *d_h_x = malloc(sizeof(float) * (player->doors_count));
+	// float *d_h_y = malloc(sizeof(float) * (player->doors_count));
+	// float *d_v_x = malloc(sizeof(float) * (player->doors_count));
+	// float *d_v_y = malloc(sizeof(float) * (player->doors_count));
+	// player->rays = malloc(sizeof(t_ray) * (WIDTH + 1));
 	while (i < WIDTH)
 	{
 		rays[i].map_img = player->map_img;
 		rays[i].h_xintersept = 0;
-		// rays[i].d_h_xintersept = malloc(sizeof(float) * (player->doors_count + 1));
-		// rays[i].d_h_yintersept = malloc(sizeof(float) * (player->doors_count + 1));
-		// rays[i].d_v_xintersept = malloc(sizeof(float) * (player->doors_count + 1));
-		// rays[i].d_v_yintersept = malloc(sizeof(float) * (player->doors_count + 1));
+		rays[i].d_h_xintersept = malloc(sizeof(float) * (player->doors_count));
+		if (!rays[i].d_h_xintersept)
+			printf("NULL\n");
+		rays[i].d_h_yintersept = malloc(sizeof(float) * (player->doors_count));
+		rays[i].d_v_xintersept = malloc(sizeof(float) * (player->doors_count));
+		rays[i].d_v_yintersept = malloc(sizeof(float) * (player->doors_count));
 		rays[i].h_yintersept = 0;
 		rays[i].v_xintersept = 0;
 		rays[i].v_yintersept = 0;
@@ -60,6 +66,7 @@ void initialize_rays_struct(t_player *player, t_ray *rays)
 		rays[i].vertical_wall = 0;
 		i++;
 	}
+	player->rays = rays;
 }
 
 void initialize_sprites_struct(t_player *player, t_sprite *sprite, mlx_texture_t **textures)

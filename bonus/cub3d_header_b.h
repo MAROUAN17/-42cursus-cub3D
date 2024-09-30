@@ -11,7 +11,7 @@
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define TILE_PX 1000
+#define TILE_PX 64
 #define MINIMAP_FACTOR ((float)(HEIGHT / 100) / TILE_PX)
 
 typedef struct s_point {
@@ -42,10 +42,10 @@ typedef struct s_ray {
 	float		d_x;
 	float		d_y;
 	float		angle;
-	float		d_h_xintersept[3];
-	float		d_h_yintersept[3];
-	float		d_v_xintersept[3];
-	float		d_v_yintersept[3];
+	float		*d_h_xintersept;
+	float		*d_h_yintersept;
+	float		*d_v_xintersept;
+	float		*d_v_yintersept;
 	float		h_xintersept;
 	float		h_yintersept;
 	float		v_xintersept;
@@ -58,6 +58,7 @@ typedef struct s_ray {
 	float		distance_to_door;
 	int			horizontal_wall;
 	int			vertical_wall;
+	float		wall_height;
 	mlx_texture_t	*texture;
 	mlx_image_t	*map_img;
 }					t_ray;
@@ -130,7 +131,7 @@ t_point	finding_wall_horizontal(t_player *player, t_ray *ray, float xstep, float
 t_point	finding_wall_vertical(t_player *player, t_ray *ray, float xstep, float ystep);
 void	draw_walls(t_player *player, int x, int y);
 void 	render_minimap(t_player *player);
-void	draw_rectangle_3d(t_player *player, int x, float y, int w, int p, int textOffsetX, mlx_texture_t *texture);
+void	draw_rectangle_3d(t_player *player, int x, float y, int textOffsetX);
 void	draw_ceiling(mlx_image_t *img, int x, int y, int color, int w);
 void	draw_floor(mlx_image_t *img, int x, int y, int color, int w);
 char	**store_2d_array(t_player *player, char *map_path, int *map_height, int *map_width);
@@ -173,6 +174,12 @@ void	calculating_sprite_x(t_player *player, t_sprite *sprite, float d_projection
 void	free_allocated_memory(t_player *player, mlx_texture_t **textures, mlx_texture_t **d_textures);
 int		calculate_number_sprites(t_player *player);
 int		is_open_door(t_player *player, int check_x, int check_y);
-
+void	check_door_intersections(t_player *player, int i);
+void	draw_door(t_player *player, float x, float y, int i);
+float	get_smallest_door_distance(t_player *player, t_ray *ray, int j);
+float	calculate_correct_wall_distance(t_player *player, int i);
+float 	calculate_correct_door_distance(t_player *player, int i);
+float	calculate_door_height(t_player *player, int i);
+float	calculate_wall_height(t_player *player, int i);
 
 // void	draw_door(t_player *player, float x, float y, t_ray *ray, int i);

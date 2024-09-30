@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:00 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/29 10:36:48 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:35:47 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,8 @@ t_point calculating_horizontal_intersections(t_player *player, t_ray *ray)
     xstep = calculate_xstep(ray->angle);
     if ((ray->p_isFacingLeft && xstep > 0) || (ray->p_isFacingRight && xstep < 0))
         xstep *= -1;
-	// if (xstep < 0)
-	// 	printf("negatiiiif\n");
 	int i = 0;
-	while (i < 3)
+	while (i < player->doors_count)
 	{
 		ray->d_h_xintersept[i] = -1;
 		ray->d_h_yintersept[i] = -1;

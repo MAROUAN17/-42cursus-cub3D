@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:26 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/28 12:29:14 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:04:21 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_point calculating_vertical_intersections(t_player *player, t_ray *ray)
     if ((ray->p_isFacingUp && ystep > 0) || (ray->p_isFacingDown && ystep < 0))
         ystep *= -1;
 	int i = 0;
-	while (i < 3)
+	while (i < player->doors_count)
 	{
 		ray->d_v_xintersept[i] = -1;
 		ray->d_v_yintersept[i] = -1;
