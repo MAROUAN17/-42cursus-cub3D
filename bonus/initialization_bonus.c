@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:46:04 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/01 10:51:55 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:49:25 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ void initialize_sprites_struct(t_player *player, t_sprite *sprite, mlx_texture_t
 		player->sprite[j].spriteXstart = 0;
 		player->sprite[j].spriteXend = 0;
 		player->sprite[j].collected = 0;
-		player->sprite[j].x = 0;
-		player->sprite[j].y = 0;
+		player->sprite[j].x = -1;
+		player->sprite[j].y = -1;
 		player->sprite[j].texture = textures[0];
 		player->sprite[j].visible = 0;
 		player->sprite[j].an_textures = textures;

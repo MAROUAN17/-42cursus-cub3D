@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 10:40:53 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/01 11:16:54 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:49:20 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	check_door_intersections(t_player *player, int i)
 
 int	check_visible_door(t_player *player, float x, float y, int j)
 {
-	visibleSprite(player, player->door_sprite, j);
+	visible_sprite(player, player->door_sprite, j);
 	return (player->door_sprite[j].visible
 			&& x >= player->door_sprite[j].x && x <= player->door_sprite[j].x + TILE_PX
 			&& y >= player->door_sprite[j].y && y <= player->door_sprite[j].y + TILE_PX);

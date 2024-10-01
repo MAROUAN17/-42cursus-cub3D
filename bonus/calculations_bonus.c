@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/30 15:41:39 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:15:20 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,13 +141,6 @@ void	draw_casted_rays(t_player *player)
 	int i = 0;
 	while (i < WIDTH)
 	{
-		// if ((player->rays[i].d_h_xintersept[0] != -1 && player->rays[i].d_h_yintersept[0] != -1)
-		// 	|| (player->rays[i].d_v_xintersept[0] != -1 && player->rays[i].d_v_yintersept[0] != -1))
-		// 	draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-		// 		player->rays[i].d_x * MINIMAP_FACTOR, player->rays[i].d_y * MINIMAP_FACTOR, 0xFF0000FF);
-		// else
-		// 	draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-		// 		player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
 		draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
 			player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
 		i++;
@@ -255,7 +248,7 @@ void render(void *v_player)
 	render_minimap(player);
 	draw_casted_rays(player);
 	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-		0xFF0000FF, 10 * MINIMAP_FACTOR);
+		0xFF0000FF, 40 * MINIMAP_FACTOR);
 	render_sprites(player, texIndex);
 	texIndex++;
 	doorIndex++;
