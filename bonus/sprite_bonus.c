@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/29 14:27:00 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:36:59 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,22 +83,25 @@ void render_one_sprite(t_player *player, t_sprite *sprite, int ystart, int yend)
     }
 }
 
-void sort_sprites(t_player *player)
+void sort_sprites(t_player *player, t_sprite **sprites)
 {
     int         i;
     int         j;
     t_sprite    tmp;
 
     i = 0;
-    j = 0;
-    while (i < player->total_sprites)
+    while (i < player->total_sprites - 1)
     {
-        if (i != player->total_sprites - 1 
-        && player->sprite[i].distance < player->sprite[i + 1].distance)
+        j = i + 1;
+        while (j < player->total_sprites)
         {
-            tmp = player->sprite[i];
-            player->sprite[i] = player->sprite[i + 1];
-            player->sprite[i + 1] = tmp;
+            if ((*sprites)[i].distance < (*sprites)[j].distance)
+            {
+                tmp = (*sprites)[i];
+                (*sprites)[i] = (*sprites)[j];
+                (*sprites)[j] = tmp;
+            }
+            j++;
         }
         i++;
     }
@@ -124,18 +127,18 @@ void render_sprites(t_player *player, int texIndex)
 
     j = 0;
     calculate_distance_coins(player);
-    sort_sprites(player);
+    sort_sprites(player, &player->sprite);
 	while (j < player->total_sprites)
 	{
+        change_sprite_index(player, j, texIndex);
         if (player->sprite[j].collected == 0)
         {
+            visible_sprite(player, player->sprite, j);
             render_sprites_minimap(player, j);
-            change_sprite_index(player, texIndex);
-            visibleSprite(player, player->sprite, j);
             if (player->sprite[j].visible)
             {
                 calculate_sprite_projection_and_render(player, j);
-                if (player->sprite[j].distance < 20 && player->sprite[j].collected == 0)
+                if (player->sprite[j].distance < 50)
                 {
                     player->sprite[j].collected = 1;
                     player->nbr_collected++;
