@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 10:40:53 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/30 15:20:42 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:16:54 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,15 @@ void	check_door_intersections(t_player *player, int i)
 	j = player->doors_count - 1;
 	while (j >= 0)
 	{
-		if ((player->rays[i].d_h_xintersept[j] != -1 && player->rays[i].d_h_yintersept[j] != -1)
-			|| (player->rays[i].d_v_xintersept[j] != -1 && player->rays[i].d_v_yintersept[j] != -1))
+		if ((player->rays[i].d_h_xintersept[j] != -1
+			&& player->rays[i].d_h_yintersept[j] != -1)
+			|| (player->rays[i].d_v_xintersept[j] != -1
+			&& player->rays[i].d_v_yintersept[j] != -1))
 			n_distance_to_wall = get_smallest_door_distance(player, &player->rays[i], j);
-		if (((player->rays[i].d_h_xintersept[j] != -1 && player->rays[i].d_h_yintersept[j] != -1)
-			|| (player->rays[i].d_v_xintersept[j] != -1 && player->rays[i].d_v_yintersept[j] != -1))
+		if (((player->rays[i].d_h_xintersept[j] != -1
+				&& player->rays[i].d_h_yintersept[j] != -1)
+			|| (player->rays[i].d_v_xintersept[j] != -1
+				&& player->rays[i].d_v_yintersept[j] != -1))
 				&& n_distance_to_wall < player->rays[i].distance_to_wall)
 		{
 			handle_multi_d_intersects(player, i, j);
@@ -91,6 +95,7 @@ void	draw_door(t_player *player, float x, float y, int i)
 		ystart = 0;
 	while (j < player->doors_count)
 	{
+		// printf("visible %d\n", player->door_sprite[j].visible);
 		if (check_visible_door(player, x, y, j))
 		{
 			player->rays[i].texture = player->door_sprite[j].texture;

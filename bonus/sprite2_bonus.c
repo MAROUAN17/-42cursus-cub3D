@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite2_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/29 14:33:01 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:03:24 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,12 @@ void	calculate_distance_coins(t_player *player)
 void visibleSprite(t_player *player, t_sprite *sprite, int index)
 {
 	double spritePlayer;
+	// double tmpSpritePlayer;
 
    	spritePlayer = player->playerAngle - atan2(sprite[index].y - player->player_y,
         sprite[index].x - player->player_x);
+   	// tmpSpritePlayer = player->playerAngle - atan2(sprite[index].y + TILE_PX - player->player_y,
+    //     sprite[index].x + TILE_PX - player->player_x);
     if (spritePlayer > M_PI)
         spritePlayer -= 2 * M_PI;
     if (spritePlayer < -M_PI)
