@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/01 15:32:48 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:39:57 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,12 @@ void	calculate_distance_coins(t_player *player)
 void visible_sprite(t_player *player, t_sprite *sprite, int index)
 {
 	double spritePlayer;
+	// double tmpSpritePlayer;
 
    	spritePlayer = player->playerAngle - atan2(sprite[index].y - player->player_y,
         sprite[index].x - player->player_x);
+   	// tmpSpritePlayer = player->playerAngle - atan2(sprite[index].y + TILE_PX - player->player_y,
+    //     sprite[index].x + TILE_PX - player->player_x);
     if (spritePlayer > M_PI)
         spritePlayer -= 2 * M_PI;
     if (spritePlayer < -M_PI)

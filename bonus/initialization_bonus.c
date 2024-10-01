@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:46:04 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/01 13:47:53 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:49:25 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void initialize_player_struct(t_player *player, char *map_path, int *map_width, 
 		mlx_terminate(player->mlx);
 		exit(EXIT_FAILURE);
 	}
+    // player->moveSpeed = 20;
     player->moveSpeed = (float)(((float)TILE_PX / HEIGHT) * 100);
 	player->rotationSpeed = degrees2rad(2.5);
     player->map_height = *map_height * TILE_PX;

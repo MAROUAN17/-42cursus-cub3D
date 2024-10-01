@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/27 14:00:32 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:56:10 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,14 @@ int	check_valid_line(char *line, char *top_line, int *p_counter, t_player *playe
 	{
 		if (!check_line_chars(line, p_counter, i, player))
 			return (0);
-		if (line[i] == ' ' && top_line[i] != '1' && top_line[i] != ' ')
+		if ((line[i] == ' ' && top_line[i] != '1' && top_line[i] != ' ')
+			|| (line[i] == '0' && top_line[i] == ' ')
+			|| ((line[i] == 'N' || line[i] == 'S' || line[i] == 'W'
+				|| line[i] == 'E' || line[i] == 'D' || line[i] == 'I')
+			&& (top_line[i] == ' ')))
 			return (0);
-		if ((line[i] == ' ' && line[i - 1] != '1' && line[i - 1] != ' ') || (line[i] == ' ' && skip_sp(line, &i) == 0))
+		if ((line[i] == ' ' && line[i - 1] != '1' && line[i - 1] != ' ')
+			|| (line[i] == ' ' && skip_sp(line, &i) == 0))
 			return (0);
 		i++;
 	}

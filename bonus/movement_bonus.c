@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/30 14:54:37 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:16:08 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	is_open_door(t_player *player, int check_x, int check_y)
 	while (i < player->doors_count)
 	{
 		if (check_x == player->door_sprite[i].x / TILE_PX
-			&& check_y == player->door_sprite[i].y / TILE_PX
+			&& check_y == (player->door_sprite[i].y) / TILE_PX
 			&& player->door_sprite[i].open_door)
 			return (1);
 		i++;
@@ -64,10 +64,13 @@ void	check_change_position(t_player *player, float angle)
 	}
 	check_y = (player->player_y + new_y) / TILE_PX;
 	check_x = (player->player_x + new_x) / TILE_PX;
+	// printf("check_y -> %d\n", check_y);
+	// printf("check_x -> %d\n", check_x);
 	if (player->map[check_y][check_x] != '1'
 		&& (player->map[check_y][check_x] != 'D'
 			|| is_open_door(player, check_x, check_y)))
 	{
+		// printf("pos -> %c\n", player->map[check_y][check_x]);
 		player->player_x += new_x;
 		player->player_y += new_y;
 	}

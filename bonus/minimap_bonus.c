@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/01 15:38:16 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:39:52 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int	calculate_number_sprites(t_player *player)
 			if (player->map[y][x] == 'N' || player->map[y][x] == 'S'
 				|| player->map[y][x] == 'E' || player->map[y][x] == 'W')
 			{
-				player->player_x = x * TILE_PX;
-				player->player_y = y * TILE_PX;
+				player->player_x = x * TILE_PX + (TILE_PX / 2);
+				player->player_y = y * TILE_PX + (TILE_PX / 2);
 			}
 			if (player->map[y][x] == 'I')
 				num++;
