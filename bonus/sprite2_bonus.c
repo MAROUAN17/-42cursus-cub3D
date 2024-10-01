@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/01 14:23:48 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:32:48 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	change_sprite_index(t_player *player, int i, int texIndex)
 		player->sprite[i].texture = player->sprite[i].an_textures[(int)texIndex / 11];
 }
 
-void render_sprites_minimap(t_player *player, int sprIndex)
+void	render_sprites_minimap(t_player *player, int sprIndex)
 {
 	draw_rectangle(player->map_img, (player->sprite[sprIndex].x) * MINIMAP_FACTOR, (player->sprite[sprIndex].y) * MINIMAP_FACTOR, 0xFFFFFFFF, 50 * MINIMAP_FACTOR);
 	if (player->sprite[sprIndex].visible)
@@ -60,7 +60,7 @@ void visible_sprite(t_player *player, t_sprite *sprite, int index)
     if (spritePlayer < -M_PI)
         spritePlayer += 2 * M_PI;
     sprite[index].angle = fabs(spritePlayer);
-    if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.2)
+    if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.01)
         sprite[index].visible = 1;
     else
         sprite[index].visible = 0;

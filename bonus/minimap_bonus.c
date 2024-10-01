@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/01 14:18:01 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:38:16 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	calculate_number_sprites(t_player *player)
 
 void save_sprite_coordinates(t_player *player, int *index, int x, int y)
 {
-	player->sprite[*index].x = x * TILE_PX;
-	player->sprite[*index].y = y * TILE_PX;
+	player->sprite[*index].x = x * TILE_PX + (TILE_PX / 2);
+	player->sprite[*index].y = y * TILE_PX + (TILE_PX / 2);
 	draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
 	(*index)++;
 }

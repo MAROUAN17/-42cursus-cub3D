@@ -11,7 +11,7 @@
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define TILE_PX 200
+#define TILE_PX 120
 #define MINIMAP_FACTOR ((float)(HEIGHT / 100) / TILE_PX)
 
 typedef struct s_point {
