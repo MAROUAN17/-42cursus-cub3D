@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/03 15:34:03 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:37:00 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ int main(int ac, char **av)
     return (EXIT_SUCCESS);
 }
 
-//collision m3a wesst door weird (door disappeared)
+//corner of the wall collision not detected
 //coins infront door
