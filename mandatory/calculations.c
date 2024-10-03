@@ -7,9 +7,9 @@ float degrees2rad(float degrees)
 
 void draw_wall(t_player *player)
 {
-	int	textOffsetX;
-	int	i;
-	int	ystart;
+	int		textOffsetX;
+	int		i;
+	int		ystart;
 	float	pWallHeight;
 	float	correct_wall_distance;
 	float	d_projection;
@@ -60,19 +60,19 @@ float normalize_rayAngle(float ray_angle)
 
 void	cast_rays(t_player *player)
 {
-    int i;
-    float angle_step;
+	int i;
+	float angle_step;
 	float halfFov;
 	float startAngle;
 	t_point wall_coord1;
 	t_point wall_coord2;
 
-    i = 0;
+	i = 0;
 	halfFov = player->p_fov_angle / 2;
 	startAngle = player->playerAngle - halfFov;
-    angle_step = player->p_fov_angle / WIDTH;
-    while (i < WIDTH)
-    {
+	angle_step = player->p_fov_angle / WIDTH;
+	while (i < WIDTH)
+	{
 		player->rays[i].angle = startAngle + (angle_step * i);
 		player->rays[i].angle = normalize_rayAngle(player->rays[i].angle);
 		update_ray_facing(&player->rays[i]);
@@ -81,8 +81,8 @@ void	cast_rays(t_player *player)
 		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i],
 			&wall_coord1, &wall_coord2);
 		player->rays[i].texture = get_texture(player, player->rays[i].vertical_wall, player->rays[i].x, player->rays[i].y);
-        i++;
-    }
+		i++;
+	}
 }
 
 int	check_corner(t_player *player, double new_x, double new_y)
@@ -103,8 +103,8 @@ void	move(t_player *player, float angle)
 	float new_x;
 	float new_y;
 
-	new_x = cos(angle) * player->moveSpeed;
-	new_y = sin(angle) * player->moveSpeed;
+	new_x = cos(angle) * (player->moveSpeed * player->mlx->delta_time);
+	new_y = sin(angle) * (player->moveSpeed * player->mlx->delta_time);
 	if (!check_corner(player, new_x, new_y))
 		return ;
 	if (player->map[(int)((player->player_y + new_y) / TILE_PX)][(int)((player->player_x + new_x) / TILE_PX)] != '1')
@@ -142,9 +142,11 @@ void render(void *v_player)
 	if (player->d_key)
 		move(player, player->playerAngle + M_PI / 2);
 	if (player->turnLeft)
-		player->playerAngle += player->rotationSpeed * 1;
+		player->playerAngle += (player->rotationSpeed 
+			+ player->mlx->delta_time) * 1;
 	if (player->turnRight)
-		player->playerAngle += player->rotationSpeed * -1;
+		player->playerAngle += (player->rotationSpeed 
+			+ player->mlx->delta_time) * -1;
 	cast_rays(player);
 	draw_wall(player);
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);

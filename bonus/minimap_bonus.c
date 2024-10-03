@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/01 15:39:52 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/02 14:04:21 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,6 @@ void render_minimap(t_player *player)
 		}
 		y++;
 	}
+	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
+		0xFF0000FF, 40 * MINIMAP_FACTOR);
 }

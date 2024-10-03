@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doors_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 10:40:53 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/01 14:49:20 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:56:39 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	handle_multi_d_intersects(t_player *player, int i, int j)
 
 void	check_door_intersections(t_player *player, int i)
 {
-	int j;
-	float n_distance_to_wall;
+	int		j;
+	float	n_distance_to_wall;
 
 	j = player->doors_count - 1;
 	while (j >= 0)

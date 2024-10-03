@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:39 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/30 15:16:12 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:46:06 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,6 @@ void	*free_memory(char **map, int r)
 		free(map[--r]);
 	free(map);
 	return (NULL);
-}
-
-void	free_2d_array(char **array)
-{
-	int i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
 }
 
 void print_err(char *line)
@@ -45,7 +32,33 @@ void print_err(char *line)
 	}
 }
 
-void	free_allocated_memory(t_player *player, mlx_texture_t **textures, mlx_texture_t **d_textures)
+void free_2d_arr(char **map)
+{
+	int i;
+
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
+}
+
+void	destroy_textures(mlx_texture_t **c_textures, mlx_texture_t **d_textures)
+{
+	mlx_delete_texture(c_textures[0]);
+	mlx_delete_texture(c_textures[1]);
+	mlx_delete_texture(c_textures[2]);
+	mlx_delete_texture(c_textures[3]);
+	mlx_delete_texture(c_textures[4]);
+	mlx_delete_texture(d_textures[0]);
+	mlx_delete_texture(d_textures[1]);
+	mlx_delete_texture(d_textures[2]);
+	mlx_delete_texture(d_textures[3]);
+}
+
+void	free_allocated_memory(t_player *player, mlx_texture_t **c_textures, mlx_texture_t **d_textures)
 {
 	int	i;
 
@@ -60,17 +73,11 @@ void	free_allocated_memory(t_player *player, mlx_texture_t **textures, mlx_textu
 	}
 	free(player->door_sprite);
 	free(player->sprite);
+	free(player->rays);
 	mlx_delete_texture(player->east_texture);
 	mlx_delete_texture(player->west_texture);
 	mlx_delete_texture(player->north_texture);
 	mlx_delete_texture(player->south_texture);
-	mlx_delete_texture(textures[0]);
-	mlx_delete_texture(textures[1]);
-	mlx_delete_texture(textures[2]);
-	mlx_delete_texture(textures[3]);
-	mlx_delete_texture(textures[4]);
-	mlx_delete_texture(d_textures[0]);
-	mlx_delete_texture(d_textures[1]);
-	mlx_delete_texture(d_textures[2]);
-	mlx_delete_texture(d_textures[3]);
+	destroy_textures(c_textures, d_textures);
+    free_2d_arr(player->map);
 }

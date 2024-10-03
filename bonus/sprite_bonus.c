@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/01 15:37:29 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:00:55 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 //calculating sprite width and height in the projection
 void calculating_sprite_width_height(t_sprite *sprite, float d_projection, int *ystart, int *yend)
 {
-    sprite->pSpriteHeight = ((d_projection * sprite->texture->height) / sprite->distance) + (sprite->texture->height % TILE_PX);
-    sprite->pSpriteWidth = ((d_projection * sprite->texture->width) / sprite->distance) + (sprite->texture->width % TILE_PX);
+    sprite->pSpriteHeight = ((d_projection * sprite->texture->height) / sprite->distance) + ((sprite->texture->height % TILE_PX) * 2);
+    sprite->pSpriteWidth = ((d_projection * sprite->texture->width) / sprite->distance) + ((sprite->texture->width % TILE_PX) * 2);
     *ystart = (HEIGHT / 2) - (sprite->pSpriteHeight / 2);
     if (*ystart < 0)
         *ystart = 0;
@@ -57,11 +57,13 @@ int calculate_offsetX(t_sprite *sprite, int xstart)
 //render the sprite to the projection
 void render_one_sprite(t_player *player, t_sprite *sprite, int ystart, int yend)
 {
+    int     j;
     int     xstart;
     int     tmpy;
     int     color;
     int     textOffsetX;
 
+    j = 0;
     xstart = sprite->spriteXstart;
     tmpy = ystart;
     while (xstart < sprite->spriteXend)
@@ -73,6 +75,13 @@ void render_one_sprite(t_player *player, t_sprite *sprite, int ystart, int yend)
             if (ystart < HEIGHT && xstart < WIDTH && xstart > 0 && ystart > 0
                 && sprite->distance < player->rays[xstart].distance_to_wall)
             {
+                // while (j < player->doors_count)
+                // {
+                //     if (player->door_sprite[j].visible == 1 &&
+                //             player->door_sprite[j].distance < sprite->distance)
+                //         return ;
+                //     j++;
+                // }
                 color = calculate_pixel_index(sprite, ystart, textOffsetX);
                 if (color != 0)
                     mlx_put_pixel(player->map_img, xstart, ystart, color);
@@ -80,30 +89,6 @@ void render_one_sprite(t_player *player, t_sprite *sprite, int ystart, int yend)
             ystart++;
         }
         xstart++;
-    }
-}
-
-void sort_sprites(t_player *player, t_sprite **sprites)
-{
-    int         i;
-    int         j;
-    t_sprite    tmp;
-
-    i = 0;
-    while (i < player->total_sprites - 1)
-    {
-        j = i + 1;
-        while (j < player->total_sprites)
-        {
-            if ((*sprites)[i].distance < (*sprites)[j].distance)
-            {
-                tmp = (*sprites)[i];
-                (*sprites)[i] = (*sprites)[j];
-                (*sprites)[j] = tmp;
-            }
-            j++;
-        }
-        i++;
     }
 }
 
@@ -121,20 +106,45 @@ void    calculate_sprite_projection_and_render(t_player *player, int index)
     render_one_sprite(player, &player->sprite[index], ystart, yend);
 }
 
-void render_sprites(t_player *player, int texIndex)
+void sort_sprites(t_player *player)
+{
+    int         i;
+    int         j;
+    t_sprite    tmp;
+
+    i = 0;
+    while (i < player->total_sprites - 1)
+    {
+        j = i + 1;
+        while (j < player->total_sprites)
+        {
+            if (player->sprite[i].distance < player->sprite[j].distance
+                && !player->sprite[i].collected && !player->sprite[j].collected)
+            {
+                tmp = player->sprite[i];
+                player->sprite[i] = player->sprite[j];
+                player->sprite[j] = tmp;
+            }
+            j++;
+        }
+        i++;
+    }
+}
+
+void render_coins(t_player *player, int texIndex)
 {
     int j;
 
     j = 0;
     calculate_distance_coins(player);
-    sort_sprites(player, &player->sprite);
+    sort_sprites(player);
 	while (j < player->total_sprites)
 	{
-        change_sprite_index(player, j, texIndex);
         if (player->sprite[j].collected == 0)
         {
             visible_sprite(player, player->sprite, j);
             render_sprites_minimap(player, j);
+            change_sprite_index(player, j, texIndex);
             if (player->sprite[j].visible)
             {
                 calculate_sprite_projection_and_render(player, j);

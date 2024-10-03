@@ -6,13 +6,13 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/01 14:15:20 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:55:52 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_header_b.h"
 
-float degrees2rad(float degrees)
+float	degrees2rad(float degrees)
 {
 	return (degrees * (M_PI / 180.0));
 }
@@ -20,88 +20,87 @@ float degrees2rad(float degrees)
 void draw_line(mlx_image_t *img, float x1, float y1, float x2, float y2, int color)
 {
 	// Calculate differences
-    float dx = x2 - x1;
-    float dy = y2 - y1;
+	float dx = x2 - x1;
+	float dy = y2 - y1;
 
-    // Determine the number of steps needed
-    float steps = fmax(fabs(dx), fabs(dy));
+	// Determine the number of steps needed
+	float steps = fmax(fabs(dx), fabs(dy));
 
-    // Calculate increments per step
-    float xIncrement = dx / steps;
-    float yIncrement = dy / steps;
+	// Calculate increments per step
+	float xIncrement = dx / steps;
+	float yIncrement = dy / steps;
 
-    // Starting point
-    float x = x1;
-    float y = y1;
+	// Starting point
+	float x = x1;
+	float y = y1;
 
-    // Draw the line
-    for (int i = 0; i <= steps; i++) {
+	// Draw the line
+	for (int i = 0; i <= steps; i++) {
 		if (x > 0 && y > 0)
-    		mlx_put_pixel(img, (int)round(x), (int)round(y), color); // Plot rounded points
-        x += xIncrement;  // Increment x
-        y += yIncrement;  // Increment y
-    }
+			mlx_put_pixel(img, (int)round(x), (int)round(y), color); // Plot rounded points
+		x += xIncrement;  // Increment x
+		y += yIncrement;  // Increment y
+	}
 }
-
 
 float calculate_biggest_distance(t_player *player, t_ray *ray, t_point *wall1, t_point *wall2)
 {
-	float distance1 = 0;
-	float distance2 = 0;
+	float distance1;
+	float distance2;
 
 	distance1 = sqrt(pow(wall1->x - player->player_x, 2) + pow(wall1->y - player->player_y, 2));
 	distance2 = sqrt(pow(wall2->x - player->player_x, 2) + pow(wall2->y - player->player_y, 2));
-    if (wall1->x == -1)
-    {
-        ray->x = wall2->x;
-        ray->y = wall2->y;
-        ray->horizontal_wall = 0;
-        ray->vertical_wall = 1;
-        return (distance2);
-    }
-    else if (wall2->x == -1)
-    {
-        ray->x = wall1->x;
-        ray->y = wall1->y;
-        ray->horizontal_wall = 1;
-        ray->vertical_wall = 0;
-        return (distance1);
-    }
-    else
-    {
-        if (distance1 < distance2)
-        {
-            ray->x = wall1->x;
-            ray->y = wall1->y;
-            ray->horizontal_wall = 1;
-            ray->vertical_wall = 0;
-            return (distance1);
-        }
-        else
-        {
-            ray->x = wall2->x;
-            ray->y = wall2->y;
-            ray->horizontal_wall = 0;
-            ray->vertical_wall = 1;
-            return (distance2);
-        }
-    }
+	if (wall1->x == -1)
+	{
+		ray->x = wall2->x;
+		ray->y = wall2->y;
+		ray->horizontal_wall = 0;
+		ray->vertical_wall = 1;
+		return (distance2);
+	}
+	else if (wall2->x == -1)
+	{
+		ray->x = wall1->x;
+		ray->y = wall1->y;
+		ray->horizontal_wall = 1;
+		ray->vertical_wall = 0;
+		return (distance1);
+	}
+	else
+	{
+		if (distance1 < distance2)
+		{
+			ray->x = wall1->x;
+			ray->y = wall1->y;
+			ray->horizontal_wall = 1;
+			ray->vertical_wall = 0;
+			return (distance1);
+		}
+		else
+		{
+			ray->x = wall2->x;
+			ray->y = wall2->y;
+			ray->horizontal_wall = 0;
+			ray->vertical_wall = 1;
+			return (distance2);
+		}
+	}
 }
 
 float get_smallest_door_distance(t_player *player, t_ray *ray, int j)
 {
-	t_point p1;
-	t_point p2;
-	float distance;
+	t_point	p1;
+	t_point	p2;
+	float	distance;
+	float	tmp_x;
+	float	tmp_y;
 
 	p1.x = ray->d_h_xintersept[j];
 	p1.y = ray->d_h_yintersept[j];
 	p2.x = ray->d_v_xintersept[j];
 	p2.y = ray->d_v_yintersept[j];
-	
-	float tmp_x = ray->x;
-	float tmp_y = ray->y;
-
+	tmp_x = ray->x;
+	tmp_y = ray->y;
 	distance = calculate_biggest_distance(player, ray, &p1, &p2);
 	ray->d_x = ray->x;
 	ray->d_y = ray->y;
@@ -112,25 +111,27 @@ float get_smallest_door_distance(t_player *player, t_ray *ray, int j)
 
 void draw_wall(t_player *player)
 {
-	int textOffsetX = 0;
-	int i = 0;
-	float wall_width = 1;
-	int ystart = 0;
+	int	i;
+	int	textOffsetX;
+	int	ystart;
 
+	i = 0;
+	ystart = 0;
+	textOffsetX = 0;
 	while (i < WIDTH)
 	{
 		player->rays[i].wall_height = calculate_wall_height(player, i);
 		ystart = (HEIGHT / 2) - ((int)player->rays[i].wall_height / 2);
 		if (ystart < 0)
 			ystart = 0;
-		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, wall_width);
+		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, 1);
 		if (player->rays[i].vertical_wall)
 			textOffsetX = (int)player->rays[i].y % player->rays[i].texture->width;
 		else
 			textOffsetX = (int)player->rays[i].x % player->rays[i].texture->width;
 		draw_rectangle_3d(player, i, ystart, textOffsetX);
 		if (ystart + player->rays[i].wall_height < HEIGHT)
-			draw_floor(player->map_img, i, ystart + player->rays[i].wall_height, player->floor_color, wall_width);
+			draw_floor(player->map_img, i, ystart + player->rays[i].wall_height, player->floor_color, 1);
 		check_door_intersections(player, i);
 		i++;
 	}
@@ -138,7 +139,9 @@ void draw_wall(t_player *player)
 
 void	draw_casted_rays(t_player *player)
 {
-	int i = 0;
+	int i;
+	
+	i = 0;
 	while (i < WIDTH)
 	{
 		draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
@@ -163,17 +166,19 @@ void	update_ray_facing(t_ray *ray)
 
 void	cast_rays(t_player *player)
 {
-    int i;
-    float angle_step;
-	float halfFov = player->p_fov_angle / 2;
-	float startAngle = player->playerAngle - halfFov;
-	t_point wall_coord1;
-	t_point wall_coord2;
+	int		i;
+	float	angle_step;
+	float	halfFov;
+	float	startAngle;
+	t_point	wall_coord1;
+	t_point	wall_coord2;
 
-    i = 0;
-    angle_step = player->p_fov_angle / WIDTH;
-    while (i < WIDTH)
-    {
+	i = 0;
+	halfFov = player->p_fov_angle / 2;
+	startAngle = player->playerAngle - halfFov;
+	angle_step = player->p_fov_angle / WIDTH;
+	while (i < WIDTH)
+	{
 		player->rays[i].angle = startAngle + (angle_step * i);
 		player->rays[i].angle = normalize_rayAngle(player->rays[i].angle);
 		update_ray_facing(&player->rays[i]);
@@ -182,11 +187,11 @@ void	cast_rays(t_player *player)
 		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i],
 			&wall_coord1, &wall_coord2);
 		player->rays[i].texture = get_texture(player, player->rays[i].vertical_wall, player->rays[i].x, player->rays[i].y);
-        i++;
-    }
+		i++;
+	}
 }
 
-void handle_door(t_player *player, int *doorIndex)
+void	handle_door(t_player *player, int *doorIndex)
 {
 	int i;
 
@@ -225,31 +230,18 @@ void render(void *v_player)
 	mlx_delete_image(player->mlx, player->map_img);
 	player->map_img = NULL;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
-	mouse_rotation(player);
 	if (texIndex == 51)
 		texIndex = 0;
 	if (doorIndex == 31)
 		doorIndex = 0;
+	mouse_rotation(player);
 	handle_door(player, &doorIndex);
-	if (player->w_key)
-		check_change_position(player, player->playerAngle);
-	if (player->s_key)
-		check_change_position(player, player->playerAngle + M_PI);
-	if (player->a_key)
-		check_change_position(player, player->playerAngle - M_PI / 2);
-	if (player->d_key)
-		check_change_position(player, player->playerAngle + M_PI / 2);
-	if (player->turnLeft)
-		rotate_player(player, player->rotationSpeed * 1);
-	if (player->turnRight)
-		rotate_player(player, player->rotationSpeed * -1);
+	move_player(player);
 	cast_rays(player);
 	draw_wall(player);
 	render_minimap(player);
-	draw_casted_rays(player);
-	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-		0xFF0000FF, 40 * MINIMAP_FACTOR);
-	render_sprites(player, texIndex);
+	render_coins(player, texIndex);
+	// check_door_intersections(player);
 	texIndex++;
 	doorIndex++;
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);

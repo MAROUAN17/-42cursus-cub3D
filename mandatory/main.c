@@ -28,7 +28,7 @@ int main(int ac, char **av)
 	(void)ac;
 	map_width = 0;
 	map_height = 0;
-	// atexit(a);
+	atexit(a);
 	initialize_player_struct(&player, av[1], &map_width, &map_height);
 	initialize_rays_struct(&player, rays);
 	mlx_image_to_window(player.mlx, player.map_img, 0, 0);

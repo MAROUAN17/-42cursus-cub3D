@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:04:05 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/27 16:32:04 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:38:33 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void initialize_player_struct(t_player *player, char *map_path, int *map_width, 
 	player->player_x = -1;
 	player->player_y = -1;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
-    player->moveSpeed = (float)(((float)TILE_PX / HEIGHT) * 100);
+    player->moveSpeed = (float)(((float)TILE_PX / HEIGHT) * 4000);
 	player->rotationSpeed = degrees2rad(2.5);
     player->map_height = *map_height * TILE_PX;
 	player->map_width = *map_width * TILE_PX;
