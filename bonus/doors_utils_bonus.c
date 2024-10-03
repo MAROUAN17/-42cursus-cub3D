@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 10:40:53 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/03 10:56:39 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:18:32 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,34 +48,40 @@ void	handle_multi_d_intersects(t_player *player, int i, int j)
 	draw_door(player, player->rays[i].d_x, player->rays[i].d_y, i);
 }
 
-void	check_door_intersections(t_player *player, int i)
+void	check_door_intersections(t_player *player)
 {
+	int		i;
 	int		j;
 	float	n_distance_to_wall;
 
-	j = player->doors_count - 1;
-	while (j >= 0)
+	i = 0;
+	while (i < WIDTH)
 	{
-		if ((player->rays[i].d_h_xintersept[j] != -1
-			&& player->rays[i].d_h_yintersept[j] != -1)
-			|| (player->rays[i].d_v_xintersept[j] != -1
-			&& player->rays[i].d_v_yintersept[j] != -1))
-			n_distance_to_wall = get_smallest_door_distance(player, &player->rays[i], j);
-		if (((player->rays[i].d_h_xintersept[j] != -1
-				&& player->rays[i].d_h_yintersept[j] != -1)
-			|| (player->rays[i].d_v_xintersept[j] != -1
-				&& player->rays[i].d_v_yintersept[j] != -1))
-				&& n_distance_to_wall < player->rays[i].distance_to_wall)
+		j = player->doors_count - 1;
+		while (j >= 0)
 		{
-			handle_multi_d_intersects(player, i, j);
+			if ((player->rays[i].d_h_xintersept[j] != -1
+				&& player->rays[i].d_h_yintersept[j] != -1)
+				|| (player->rays[i].d_v_xintersept[j] != -1
+				&& player->rays[i].d_v_yintersept[j] != -1))
+				n_distance_to_wall = get_smallest_door_distance(player, &player->rays[i], j);
+			if (((player->rays[i].d_h_xintersept[j] != -1
+					&& player->rays[i].d_h_yintersept[j] != -1)
+				|| (player->rays[i].d_v_xintersept[j] != -1
+					&& player->rays[i].d_v_yintersept[j] != -1))
+					&& n_distance_to_wall < player->rays[i].distance_to_wall)
+			{
+				handle_multi_d_intersects(player, i, j);
+			}
+			j--;
 		}
-		j--;
+		i++;
 	}
 }
 
 int	check_visible_door(t_player *player, float x, float y, int j)
 {
-	visible_sprite(player, player->door_sprite, j);
+	visible_sprite_d(player, player->door_sprite, j);
 	return (player->door_sprite[j].visible
 			&& x >= player->door_sprite[j].x && x <= player->door_sprite[j].x + TILE_PX
 			&& y >= player->door_sprite[j].y && y <= player->door_sprite[j].y + TILE_PX);

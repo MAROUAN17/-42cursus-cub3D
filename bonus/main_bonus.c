@@ -6,14 +6,13 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/03 10:46:02 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:07:31 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_header_b.h"
 
-void a()
-{
+void a() {
 	system("leaks cub3D_bonus");
 }
 
@@ -24,7 +23,6 @@ int main(int ac, char **av)
 	mlx_texture_t	*d_textures[4];
 
     (void)ac;
-	atexit(a);
 	initialize_all(&player, av[1], c_textures, d_textures);
     mlx_image_to_window(player.mlx, player.map_img, 0, 0);
 	mlx_set_cursor_mode(player.mlx, MLX_MOUSE_HIDDEN);
@@ -33,5 +31,9 @@ int main(int ac, char **av)
     mlx_loop(player.mlx);
     mlx_terminate(player.mlx);
 	free_allocated_memory(&player, c_textures, d_textures);
+	atexit(a);
     return (EXIT_SUCCESS);
 }
+
+//collision m3a wesst door weird (door disappeared)
+//coins behind door appears when door opened

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:28:27 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/26 14:10:04 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 09:54:10 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,12 @@ int	count_height(char *map_path, int *map_height, int *map_width, int skip_n)
 	int		width;
 
 	fd = open(map_path, O_RDONLY);
-	line = get_next_line(fd);
-	if (fd == -1 || !line) 
-	{
-		free(line);
+	if (fd == -1) 
 		return (0);
-	}
 	skip_lines(skip_n, fd);
+	line = get_next_line(fd);
+	if (!line)
+		return (0);
 	while (line)
 	{
 		width = ft_strlen(line);

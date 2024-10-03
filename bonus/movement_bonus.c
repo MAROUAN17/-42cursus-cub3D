@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/02 14:33:38 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:27:52 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ int	is_inside_door(t_player *player, int i)
 
 void	move_keys_handler(mlx_key_data_t keydata, void *v_player)
 {
+	int			i;
 	t_player	*player;
 
 	player = (t_player *)v_player;
 	if (keydata.key == MLX_KEY_SPACE && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		int i = 0;
+		i = 0;
 		while (i < player->doors_count)
 		{
 			if (calculate_distance_door(player, player->door_sprite, i) < TILE_PX * 2 && !is_inside_door(player, i))

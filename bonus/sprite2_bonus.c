@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/02 12:14:10 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:19:23 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,22 @@ void	change_sprite_index(t_player *player, int i, int texIndex)
 
 void	render_sprites_minimap(t_player *player, int sprIndex)
 {
-	draw_rectangle(player->map_img, (player->sprite[sprIndex].x) * MINIMAP_FACTOR, (player->sprite[sprIndex].y) * MINIMAP_FACTOR, 0xFFFFFFFF, 50 * MINIMAP_FACTOR);
-	if (player->sprite[sprIndex].visible)
-		draw_rectangle(player->map_img, player->sprite[sprIndex].x * MINIMAP_FACTOR, player->sprite[sprIndex].y * MINIMAP_FACTOR,
-			0x00FF00FF, 50 * MINIMAP_FACTOR);
-	else
-		draw_rectangle(player->map_img, player->sprite[sprIndex].x * MINIMAP_FACTOR, player->sprite[sprIndex].y * MINIMAP_FACTOR,
-			0x0044444F, 50 * MINIMAP_FACTOR);
+	float x_out = player->sprite[sprIndex].x + player->map_x_offset;
+	float y_out = player->sprite[sprIndex].y + player->map_y_offset;
+	if (x_out < 0)
+		x_out = 0;
+	if (y_out < 0)
+		y_out = 0;
+	if (x_out > 0 && y_out > 0 && x_out < 21 * TILE_PX && y_out < 21 * TILE_PX)
+	{
+		draw_rectangle(player->map_img, x_out * MINIMAP_FACTOR, y_out * MINIMAP_FACTOR, 0xFFFFFFFF, 50 * MINIMAP_FACTOR);
+		if (player->sprite[sprIndex].visible)
+			draw_rectangle(player->map_img, x_out * MINIMAP_FACTOR, y_out * MINIMAP_FACTOR,
+				0x00FF00FF, 50 * MINIMAP_FACTOR);
+		else
+			draw_rectangle(player->map_img, x_out * MINIMAP_FACTOR, y_out * MINIMAP_FACTOR,
+				0x0044444F, 50 * MINIMAP_FACTOR);
+	}
 }
 
 void	calculate_distance_coins(t_player *player)
@@ -49,7 +58,7 @@ void	calculate_distance_coins(t_player *player)
 	}
 }
 
-void visible_sprite(t_player *player, t_sprite *sprite, int index)
+void visible_sprite_c(t_player *player, t_sprite *sprite, int index)
 {
 	double spritePlayer;
 
@@ -61,6 +70,23 @@ void visible_sprite(t_player *player, t_sprite *sprite, int index)
         spritePlayer += 2 * M_PI;
     sprite[index].angle = fabs(spritePlayer);
     if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.1)
+        sprite[index].visible = 1;
+    else
+        sprite[index].visible = 0;
+}
+
+void visible_sprite_d(t_player *player, t_sprite *sprite, int index)
+{
+	double spritePlayer;
+
+   	spritePlayer = player->playerAngle - atan2(sprite[index].y - player->player_y,
+        sprite[index].x - player->player_x);
+    if (spritePlayer > M_PI)
+        spritePlayer -= 2 * M_PI;
+    if (spritePlayer < -M_PI)
+        spritePlayer += 2 * M_PI;
+    sprite[index].angle = fabs(spritePlayer);
+    if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.9)
         sprite[index].visible = 1;
     else
         sprite[index].visible = 0;
