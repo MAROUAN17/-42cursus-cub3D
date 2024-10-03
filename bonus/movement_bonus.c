@@ -6,26 +6,13 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/03 16:33:17 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:37:29 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub3d_header_b.h"
 
 int	check_corner(t_player *player, float new_x, float new_y)
-{
-	int	check_y;
-	int	check_x;
-	(void)new_y;
-
-	check_y = (player->player_y) / TILE_PX;
-	check_x = (player->player_x + new_x) / TILE_PX;
-	if (player->map[check_y][check_x] != '1')
-		return (1);
-	return (0);
-}
-
-int	check_corner2(t_player *player, float new_x, float new_y)
 {
 	int	check_y;
 	int	check_x;

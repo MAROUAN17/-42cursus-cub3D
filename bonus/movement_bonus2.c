@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:54:52 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/03 16:28:57 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:44:03 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,10 @@ void	check_change_position(t_player *player, float angle)
 
 	new_x = cos(angle) * (player->moveSpeed * player->mlx->delta_time);
 	new_y = sin(angle) * (player->moveSpeed * player->mlx->delta_time);
-	if (player->rays[WIDTH / 2 - 1].p_isFacingUp)
+	if (player->rays[WIDTH / 2 - 1].p_isFacingUp 
+		|| player->rays[WIDTH / 2 - 1].p_isFacingDown)
 	{
 		if (!check_corner(player, new_x, new_y))
-			return ;
-	}
-	else if (player->rays[WIDTH / 2 - 1].p_isFacingDown)
-	{
-		if (!check_corner2(player, new_x, new_y))
 			return ;
 	}
 	check_y = (player->player_y + new_y) / TILE_PX;
