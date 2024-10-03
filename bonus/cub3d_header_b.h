@@ -68,6 +68,8 @@ typedef struct player_struct {
 	char		**map;
 	int			map_height;
 	int			map_width;
+	int			map_x_offset;
+	int			map_y_offset;
 	mlx_image_t *map_img;
 	mlx_image_t *white_img;
 	mlx_image_t *player_img;
@@ -182,5 +184,7 @@ float 	calculate_correct_door_distance(t_player *player, int i);
 float	calculate_door_height(t_player *player, int i);
 float	calculate_wall_height(t_player *player, int i);double	calculate_distance_door(t_player *player, t_sprite *sprite, int index);
 void	save_door_cord(t_player *player, int x, int y, int *d_index);
+void	draw_map_background(t_player *player);
+void	draw_map_elements(t_player *player, int x, int y);
 
 // void	draw_door(t_player *player, float x, float y, t_ray *ray, int i);

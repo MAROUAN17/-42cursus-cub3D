@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/01 15:39:52 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:21:38 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void draw_rectangle(mlx_image_t *img, float x, float y, int color, float p)
 {
 	float i = 0;
 	float j = 0;
+
+	if (x < 0)
+		x = 0;
+	if (y < 0)
+		y = 0;
 	while (i < p)
 	{
 		j = 0;
@@ -54,6 +59,14 @@ int	calculate_number_sprites(t_player *player)
 		}
 		y++;
 	}
+	player->map_x_offset = (player->map_width / 2) - (int)player->player_x - 5 * TILE_PX;
+	player->map_y_offset = (player->map_height / 2) - (int)player->player_y - 5 * TILE_PX;
+	// printf("player->player_x -> %f\n", player->player_x);
+	// printf("player->player_y -> %f\n", player->player_y);
+	// printf("player->map_width-> %d\n", player->map_width / 2);
+	// printf("player->map_height -> %d\n", player->map_height / 2);
+	// printf("map x 0ffset -> %d\n", player->map_x_offset);
+	// printf("map y 0ffset -> %d\n", player->map_y_offset);
 	return (num);
 }
 
@@ -61,7 +74,9 @@ void save_sprite_coordinates(t_player *player, int *index, int x, int y)
 {
 	player->sprite[*index].x = x * TILE_PX + (TILE_PX / 2);
 	player->sprite[*index].y = y * TILE_PX + (TILE_PX / 2);
-	draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
+	printf("player->sprite[*index].x -> %f | index -> %d\n", player->sprite[*index].x, *index);
+	printf("player->sprite[*index].y -> %f | index -> %d\n", player->sprite[*index].y, *index);
+	draw_rectangle(player->map_img, (x * TILE_PX + player->map_x_offset) * MINIMAP_FACTOR, (y * TILE_PX + player->map_y_offset) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
 	(*index)++;
 }
 
@@ -85,19 +100,18 @@ void render_minimap(t_player *player)
 	y = 0;
 	index = 0;
 	d_index = 0;
+	draw_map_background(player);
 	while (player->map[y])
 	{
 		x = 0;
 		while (player->map[y][x])
 		{
-			if (player->map[y][x] == '1')
-				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0x000000FF, TILE_PX * MINIMAP_FACTOR);
-			else if (player->map[y][x] == 'I' && player->sprite[index].x == -1 && player->sprite[index].x == -1)
+			draw_map_elements(player, x, y);
+			if (player->map[y][x] == 'I' && player->sprite[index].x == -1
+				&& player->sprite[index].x == -1)
 				save_sprite_coordinates(player, &index, x, y);
 			else if (player->map[y][x] == 'D')
 				save_door_cord(player, x, y, &d_index);
-			else
-				draw_rectangle(player->map_img, (x * TILE_PX) * MINIMAP_FACTOR, (y * TILE_PX) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
 			x++;
 		}
 		y++;

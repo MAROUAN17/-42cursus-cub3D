@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite2_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/01 15:39:57 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:32:36 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,22 @@ void	change_sprite_index(t_player *player, int i, int texIndex)
 
 void	render_sprites_minimap(t_player *player, int sprIndex)
 {
-	draw_rectangle(player->map_img, (player->sprite[sprIndex].x) * MINIMAP_FACTOR, (player->sprite[sprIndex].y) * MINIMAP_FACTOR, 0xFFFFFFFF, 50 * MINIMAP_FACTOR);
-	if (player->sprite[sprIndex].visible)
-		draw_rectangle(player->map_img, player->sprite[sprIndex].x * MINIMAP_FACTOR, player->sprite[sprIndex].y * MINIMAP_FACTOR,
-			0x00FF00FF, 50 * MINIMAP_FACTOR);
-	else
-		draw_rectangle(player->map_img, player->sprite[sprIndex].x * MINIMAP_FACTOR, player->sprite[sprIndex].y * MINIMAP_FACTOR,
-			0x0044444F, 50 * MINIMAP_FACTOR);
+	float x_out = player->sprite[sprIndex].x + player->map_x_offset;
+	float y_out = player->sprite[sprIndex].y + player->map_y_offset;
+	if (x_out < 0)
+		x_out = 0;
+	if (y_out < 0)
+		y_out = 0;
+	if (x_out > 0 && y_out > 0 && x_out < 21 * TILE_PX && y_out < 21 * TILE_PX)
+	{
+		draw_rectangle(player->map_img, x_out * MINIMAP_FACTOR, y_out * MINIMAP_FACTOR, 0xFFFFFFFF, 50 * MINIMAP_FACTOR);
+		if (player->sprite[sprIndex].visible)
+			draw_rectangle(player->map_img, x_out * MINIMAP_FACTOR, y_out * MINIMAP_FACTOR,
+				0x00FF00FF, 50 * MINIMAP_FACTOR);
+		else
+			draw_rectangle(player->map_img, x_out * MINIMAP_FACTOR, y_out * MINIMAP_FACTOR,
+				0x0044444F, 50 * MINIMAP_FACTOR);
+	}
 }
 
 void	calculate_distance_coins(t_player *player)

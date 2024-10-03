@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/01 14:15:20 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/02 11:06:28 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,8 @@ void	draw_casted_rays(t_player *player)
 	int i = 0;
 	while (i < WIDTH)
 	{
-		draw_line(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
-			player->rays[i].x * MINIMAP_FACTOR, player->rays[i].y * MINIMAP_FACTOR, 0xFF0000FF);
+		draw_line(player->map_img, (player->player_x + player->map_x_offset) * MINIMAP_FACTOR, (player->player_y + player->map_y_offset) * MINIMAP_FACTOR,
+			(player->rays[i].x + player->map_x_offset) * MINIMAP_FACTOR, (player->rays[i].y + player->map_y_offset) * MINIMAP_FACTOR, 0xFF0000FF);
 		i++;
 	}
 }
@@ -247,7 +247,7 @@ void render(void *v_player)
 	draw_wall(player);
 	render_minimap(player);
 	draw_casted_rays(player);
-	draw_rectangle(player->map_img, player->player_x * MINIMAP_FACTOR, player->player_y * MINIMAP_FACTOR,
+	draw_rectangle(player->map_img, (player->player_x + player->map_x_offset) * MINIMAP_FACTOR, (player->player_y + player->map_y_offset) * MINIMAP_FACTOR,
 		0xFF0000FF, 40 * MINIMAP_FACTOR);
 	render_sprites(player, texIndex);
 	texIndex++;

@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/01 13:56:10 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/03 09:51:02 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_top_bot_borders(char *line, char *comp_line)
 	{
 		if (line[i] != '1' && line[i] != ' ')
 			return (0);
-		if (line[i] == ' ' && comp_line[i] != ' ')
+		if (line[i] == ' ' && (comp_line[i] != ' ' && comp_line[i] != '1'))
 			return (0);
 		i++;
 	}
