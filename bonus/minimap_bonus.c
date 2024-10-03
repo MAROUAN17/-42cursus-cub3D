@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/03 13:04:52 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:39:19 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	calculate_number_sprites(t_player *player)
 			if (player->map[y][x] == 'N' || player->map[y][x] == 'S'
 				|| player->map[y][x] == 'E' || player->map[y][x] == 'W')
 			{
-				player->player_x = x * TILE_PX + (TILE_PX / 2);
-				player->player_y = y * TILE_PX + (TILE_PX / 2);
+				player->player_x = x * TILE_PX;
+				player->player_y = y * TILE_PX;
 			}
 			if (player->map[y][x] == 'I')
 				num++;
@@ -61,12 +61,6 @@ int	calculate_number_sprites(t_player *player)
 	}
 	player->map_x_offset = (player->map_width / 2) - (int)player->player_x - 5 * TILE_PX;
 	player->map_y_offset = (player->map_height / 2) - (int)player->player_y - 5 * TILE_PX;
-	// printf("player->player_x -> %f\n", player->player_x);
-	// printf("player->player_y -> %f\n", player->player_y);
-	// printf("player->map_width-> %d\n", player->map_width / 2);
-	// printf("player->map_height -> %d\n", player->map_height / 2);
-	// printf("map x 0ffset -> %d\n", player->map_x_offset);
-	// printf("map y 0ffset -> %d\n", player->map_y_offset);
 	return (num);
 }
 

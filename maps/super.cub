@@ -1,8 +1,8 @@
 
 
-NO ./textures/test.png
+WE ./textures/test.png
 SO ./textures/zelij_2.png
-WE ./textures/osaka.png
+NO ./textures/osaka.png
 EA ./textures/osaka2.png
 
 F 255,128,0

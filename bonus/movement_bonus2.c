@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:54:52 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/03 14:24:28 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:28:57 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void rotate_player(t_player *player, float rotationAngle)
 {
 	player->playerAngle += rotationAngle;
-	player->playerAngle = normalize_rayAngle(player->playerAngle);
+	player->playerAngle = normalize_rayangle(player->playerAngle);
 }
 
 void mouse_rotation(t_player *player)
@@ -47,8 +47,16 @@ void	check_change_position(t_player *player, float angle)
 
 	new_x = cos(angle) * (player->moveSpeed * player->mlx->delta_time);
 	new_y = sin(angle) * (player->moveSpeed * player->mlx->delta_time);
-	if (!check_corner(player, new_x, new_y))
-		return ;
+	if (player->rays[WIDTH / 2 - 1].p_isFacingUp)
+	{
+		if (!check_corner(player, new_x, new_y))
+			return ;
+	}
+	else if (player->rays[WIDTH / 2 - 1].p_isFacingDown)
+	{
+		if (!check_corner2(player, new_x, new_y))
+			return ;
+	}
 	check_y = (player->player_y + new_y) / TILE_PX;
 	check_x = (player->player_x + new_x) / TILE_PX;
 	if (player->map[check_y][check_x] != '1'

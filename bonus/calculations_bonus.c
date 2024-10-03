@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/03 14:16:30 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:53:46 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void	cast_rays(t_player *player)
 	while (i < WIDTH)
 	{
 		player->rays[i].angle = startAngle + (angle_step * i);
-		player->rays[i].angle = normalize_rayAngle(player->rays[i].angle);
+		player->rays[i].angle = normalize_rayangle(player->rays[i].angle);
 		update_ray_facing(&player->rays[i]);
 		wall_coord1 = calculating_horizontal_intersections(player, &player->rays[i]);
 		wall_coord2 = calculating_vertical_intersections(player, &player->rays[i]);

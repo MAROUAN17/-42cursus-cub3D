@@ -154,7 +154,7 @@ void	calculate_sprite_projection_and_render(t_player *player, int index);
 void	render_sprites(t_player *player, int texIndex);
 void	check_change_position(t_player *player, float angle);
 void	rotate_player(t_player *player, float rotationAngle);
-float	normalize_rayAngle(float ray_angle);
+float	normalize_rayangle(float ray_angle);
 int		check_corner(t_player *player, float new_x, float new_y);
 void	mouse_rotation(t_player *player);
 mlx_texture_t 	*resize_texture(mlx_texture_t *texture, int new_width, int new_height);
@@ -188,5 +188,6 @@ void	movement_key_pressing(mlx_key_data_t keydata, t_player *player);
 void	render_coins(t_player *player, int texIndex);
 void	handle_multi_d_intersects(t_player *player, int i, int j);
 void	visible_sprite_d(t_player *player, t_sprite *sprite, int index);
+int	check_corner2(t_player *player, float new_x, float new_y);
 
 // void	draw_door(t_player *player, float x, float y, t_ray *ray, int i);
