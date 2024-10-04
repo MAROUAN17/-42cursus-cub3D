@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_color.c                                      :+:      :+:    :+:   */
+/*   parse_color_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:09:30 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 13:37:10 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:17:59 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int num_length(char *str)
 		i++;
 	while (str[i])
 	{
+		if (!ft_isdigit(str[i]))
+			return (-1);
 		count++;
 		i++;
 	}
@@ -63,7 +65,8 @@ int translate_color(char *str, int *num)
 	
 	tmp_num = ft_atoi(str);
 	length = num_length(str);
-	if (length <= 3 && length > 0 && (tmp_num <= 255 && tmp_num >= 0))
+	if (length <= 3 && length > 0
+		&& (tmp_num <= 255 && tmp_num >= 0))
 		*num = tmp_num;
 	else
 		return (0);
