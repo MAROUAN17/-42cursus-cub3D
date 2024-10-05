@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/04 16:20:05 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:21:39 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ int	check_valid_line(char *line, char *top_line, int *p_counter, t_player *playe
 	int	i;
 
 	i = 0;
+	if (compare_to_upper_line(line, top_line))
+		return (0);
 	if (skip_sp(line, &i) == 0)
 		return (0);
 	while (line[i])
 	{
 		if (!check_line_chars(line, p_counter, i, player))
-			return (0);
-		if (compare_to_upper_line(line, top_line, i))
 			return (0);
 		if ((line[i] == ' ' && line[i - 1] != '1' && line[i - 1] != ' ')
 			|| (line[i] == ' ' && skip_sp(line, &i) == 0))

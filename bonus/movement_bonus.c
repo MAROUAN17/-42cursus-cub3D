@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/03 16:37:29 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 14:34:39 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ void	move_keys_handler(mlx_key_data_t keydata, void *v_player)
 		while (i < player->doors_count)
 		{
 			if (calculate_distance_door(player, player->door_sprite, i) < TILE_PX * 2 && !is_inside_door(player, i))
+			{
 				player->door_sprite[i].start_a = 1;
+				player->doorIndex = 0;
+			}
 			i++;
 		}
 	}

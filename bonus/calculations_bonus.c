@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/05 14:10:08 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/05 14:38:42 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void	cast_rays(t_player *player)
 	}
 }
 
-void	handle_door(t_player *player, int *doorIndex)
+void	handle_door(t_player *player)
 {
 	int i;
 
@@ -199,8 +199,8 @@ void	handle_door(t_player *player, int *doorIndex)
 	{
 		if (player->door_sprite[i].start_a && player->door_sprite[i].open_door == 0)
 		{
-			player->door_sprite[i].texture = player->door_sprite[i].an_textures[*doorIndex / 10];
-			if (*doorIndex == 30)
+			player->door_sprite[i].texture = player->door_sprite[i].an_textures[player->doorIndex / 10];
+			if (player->doorIndex == 30)
 			{
 				player->door_sprite[i].open_door = 1;
 				player->door_sprite[i].start_a = 0;
@@ -208,8 +208,8 @@ void	handle_door(t_player *player, int *doorIndex)
 		}
 		else if (player->door_sprite[i].start_a && player->door_sprite[i].open_door)
 		{
-			player->door_sprite[i].texture = player->door_sprite[i].an_textures[3 - (*doorIndex / 10)];
-			if (*doorIndex == 30)
+			player->door_sprite[i].texture = player->door_sprite[i].an_textures[3 - (player->doorIndex / 10)];
+			if (player->doorIndex == 30)
 			{
 				player->door_sprite[i].open_door = 0;
 				player->door_sprite[i].start_a = 0;
@@ -222,7 +222,6 @@ void	handle_door(t_player *player, int *doorIndex)
 void render(void *v_player)
 {
 	static int texIndex;
-	static int doorIndex;
 	t_player	*player;
 
 	player = (t_player *)v_player;
@@ -231,10 +230,10 @@ void render(void *v_player)
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
 	if (texIndex == 51)
 		texIndex = 0;
-	if (doorIndex == 31)
-		doorIndex = 0;
+	if (player->doorIndex == 31)
+		player->doorIndex = 0;
 	mouse_rotation(player);
-	handle_door(player, &doorIndex);
+	handle_door(player);
 	move_player(player);
 	cast_rays(player);
 	draw_wall(player);
@@ -242,6 +241,6 @@ void render(void *v_player)
 	check_door_intersections(player);
 	render_coins(player, texIndex);
 	texIndex++;
-	doorIndex++;
+	player->doorIndex++;
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
 }

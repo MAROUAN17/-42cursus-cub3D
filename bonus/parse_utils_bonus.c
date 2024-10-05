@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 11:49:57 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/04 15:22:59 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:20:11 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,25 @@ mlx_texture_t *resize_texture(mlx_texture_t *texture, int new_width, int new_hei
     return (new_texture);
 }
 
-int	compare_to_upper_line(char *line, char *top_line, int i)
+int	compare_to_upper_line(char *line, char *top_line)
 {
-	return ((line[i] == ' ' && top_line[i] != '1' && top_line[i] != ' ')
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if ((line[i] == ' ' && top_line[i] != '1' && top_line[i] != ' ')
 			|| (line[i] == '0' && top_line[i] == ' ')
 			|| ((line[i] == 'N' || line[i] == 'S' || line[i] == 'W'
 				|| line[i] == 'E' || line[i] == 'D' || line[i] == 'I')
-			&& (top_line[i] == ' ')));
+			&& (top_line[i] == ' '))
+			|| ((top_line[i] == 'N' || top_line[i] == 'S' || top_line[i] == 'W'
+				|| top_line[i] == 'E' || top_line[i] == 'D' || top_line[i] == 'I')
+			&& (line[i] == ' ')))
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 char	**fill_map(int fd, int *map_height, int *map_width)
@@ -89,4 +101,12 @@ char	**fill_map(int fd, int *map_height, int *map_width)
 	}
 	d_map[i] = NULL;
 	return (d_map);
+}
+
+int	is_invalid_tex(t_player *player)
+{
+	return (player->north_texture == NULL
+		|| player->south_texture == NULL
+		|| player->east_texture == NULL
+		|| player->west_texture == NULL);
 }

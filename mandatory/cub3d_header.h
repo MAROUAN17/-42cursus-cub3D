@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:37:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/05 11:24:50 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:21:46 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int				calculate_offsetx_walls(t_player *player, int i);
 void			key_press(t_player *player, mlx_key_data_t keydata);
 void			key_release(t_player *player, mlx_key_data_t keydata);
 void			destroy_textures(t_player *player);
-int				compare_to_upper_line(char *line, char *top_line, int i);
+int				compare_to_upper_line(char *line, char *top_line);
 char			**fill_map(int fd, int *map_height, int *map_width);
 int				ft_isdigit(int c);
 int				fill_gaps(char **line, int width);
