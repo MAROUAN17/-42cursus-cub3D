@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/05 12:15:57 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:19:30 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,31 +109,25 @@ float get_smallest_door_distance(t_player *player, t_ray *ray, int j)
 	return (distance);
 }
 
-void draw_wall(t_player *player)
+void draw_wall(t_player *player, int i)
 {
-	int	i;
 	int	textOffsetX;
 	int	ystart;
 
-	i = 0;
 	ystart = 0;
 	textOffsetX = 0;
-	while (i < WIDTH)
-	{
-		player->rays[i].wall_height = calculate_wall_height(player, i);
-		ystart = (HEIGHT / 2) - ((int)player->rays[i].wall_height / 2);
-		if (ystart < 0)
-			ystart = 0;
-		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, 1);
-		if (player->rays[i].vertical_wall)
-			textOffsetX = (int)player->rays[i].y % player->rays[i].texture->width;
-		else
-			textOffsetX = (int)player->rays[i].x % player->rays[i].texture->width;
-		draw_rectangle_3d(player, i, ystart, textOffsetX);
-		if (ystart + player->rays[i].wall_height < HEIGHT)
-			draw_floor(player->map_img, i, ystart + player->rays[i].wall_height, player->floor_color, 1);
-		i++;
-	}
+	player->rays[i].wall_height = calculate_wall_height(player, i);
+	ystart = (HEIGHT / 2) - ((int)player->rays[i].wall_height / 2);
+	if (ystart < 0)
+		ystart = 0;
+	draw_ceiling(player->map_img, i, ystart, player->ceiling_color, 1);
+	if (player->rays[i].vertical_wall)
+		textOffsetX = (int)player->rays[i].y % player->rays[i].texture->width;
+	else
+		textOffsetX = (int)player->rays[i].x % player->rays[i].texture->width;
+	draw_rectangle_3d(player, i, ystart, textOffsetX);
+	if (ystart + player->rays[i].wall_height < HEIGHT)
+		draw_floor(player->map_img, i, ystart + player->rays[i].wall_height, player->floor_color, 1);
 }
 
 void	draw_casted_rays(t_player *player)
@@ -163,7 +157,7 @@ void	update_ray_facing(t_ray *ray)
 	ray->p_isFacingLeft = !ray->p_isFacingRight;
 }
 
-void	cast_rays(t_player *player)
+void	cast_rays_draw(t_player *player)
 {
 	int		i;
 	float	angle_step;
@@ -186,6 +180,7 @@ void	cast_rays(t_player *player)
 		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i],
 			&wall_coord1, &wall_coord2);
 		player->rays[i].texture = get_texture(player, player->rays[i].vertical_wall, player->rays[i].x, player->rays[i].y);
+		draw_wall(player, i);
 		i++;
 	}
 }
@@ -236,11 +231,10 @@ void render(void *v_player)
 	mouse_rotation(player);
 	handle_door(player, &doorIndex);
 	move_player(player);
-	cast_rays(player);
-	draw_wall(player);
+	cast_rays_draw(player);
 	render_minimap(player);
-	check_door_intersections(player);
 	render_coins(player, texIndex);
+	check_door_intersections(player);
 	texIndex++;
 	doorIndex++;
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);

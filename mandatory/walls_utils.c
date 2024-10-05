@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 10:25:52 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/26 13:18:12 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:22:22 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,31 +47,26 @@ mlx_texture_t *get_texture(t_player *player, int is_vert, double x, double y)
 	}
 }
 
-void draw_walls(t_player *player, int x, double y, int w, int p, int textOffsetX, mlx_texture_t *texture)
+void draw_walls(t_player *player, int x, float y, int textOffsetX)
 {
-	int i;
-	int j;
-	int DTop;
-	int textOffsetY;
-	int index;
-	int color;
-
-	i = 0;
-	while (i < w && i < WIDTH)
+	int j = 0;
+	int Dbottom = 0;
+	int textOffsetY = 0;
+	int index = 0;
+	int color = 0;
+	j = 0;
+	while (j < (int)player->rays[x].wall_height && y + j < HEIGHT)
 	{
-		j = 0;
-		while (j < p && y + j < HEIGHT)
-		{
-			DTop = (y + j) + ((p / 2) - (HEIGHT / 2));
-			textOffsetY = DTop * ((double)texture->height / p);
-			index = ((textOffsetY * texture->width) + textOffsetX) * 4;
-			color = get_rgba(texture->pixels[index],
-				texture->pixels[index + 1], texture->pixels[index + 2],
-				texture->pixels[index + 3]);
-			mlx_put_pixel(player->map_img, x + i, y + j, color);
-			j++;
-		}
-		i++;
+		Dbottom = (y + j) + (((int)player->rays[x].wall_height / 2) - (HEIGHT / 2));
+		textOffsetY = Dbottom * ((float)player->rays[x].texture->height / (int)player->rays[x].wall_height);
+		index = ((textOffsetY * player->rays[x].texture->width) + textOffsetX) * 4;
+		color = get_rgba(player->rays[x].texture->pixels[index],
+			player->rays[x].texture->pixels[index + 1],
+			player->rays[x].texture->pixels[index + 2],
+			player->rays[x].texture->pixels[index + 3]);
+		if (color != 0)
+			mlx_put_pixel(player->map_img, x, y + j, color);
+		j++;
 	}
 }
 

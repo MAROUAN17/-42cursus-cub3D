@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:37:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/04 16:22:57 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:24:50 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_ray {
 	float		distance_to_wall;
 	int			horizontal_wall;
 	int			vertical_wall;
+	float			wall_height;
 	mlx_texture_t	*texture;
 	mlx_image_t	*map_img;
 }					t_ray;
@@ -99,7 +100,7 @@ t_point			calculating_horizontal_intersections(t_player *player, t_ray *ray);
 t_point			calculating_vertical_intersections(t_player *player, t_ray *ray);
 t_point			finding_wall_horizontal(t_player *player, t_ray *ray, float xstep, float ystep);
 t_point			finding_wall_vertical(t_player *player, t_ray *ray, float xstep, float ystep);
-void			draw_walls(t_player *player, int x, double y, int w, int p, int textOffsetX, mlx_texture_t *texture);
+void			draw_walls(t_player *player, int x, float y, int textOffsetX);
 void			draw_ceiling(mlx_image_t *img, int x, int y, int color, int w);
 void			draw_floor(mlx_image_t *img, int x, int y, int color, int w);
 char			**store_2d_array(t_player *player, char *map_path, int *map_height, int *map_width);
@@ -134,3 +135,4 @@ int				compare_to_upper_line(char *line, char *top_line, int i);
 char			**fill_map(int fd, int *map_height, int *map_width);
 int				ft_isdigit(int c);
 int				fill_gaps(char **line, int width);
+float			calculate_wall_height(t_player *player, int i);

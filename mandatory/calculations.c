@@ -1,35 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   calculations.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/05 11:10:50 by oait-laa          #+#    #+#             */
+/*   Updated: 2024/10/05 13:34:59 by oait-laa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d_header.h"
 
-float degrees2rad(float degrees)
+float	degrees2rad(float degrees)
 {
 	return (degrees * (M_PI / 180.0));
 }
 
-void draw_wall(t_player *player)
+void	draw_wall(t_player *player)
 {
 	int		textOffsetX;
 	int		i;
 	int		ystart;
-	float	pWallHeight;
-	float	correct_wall_distance;
-	float	d_projection;
+	// float	pWallHeight;
+	// float	correct_wall_distance;
+	// float	d_projection;
 
 	i = 0;
-	pWallHeight = 0;
+	// pWallHeight = 0;
 	ystart = 0;
-	d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
+	// d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
 	while (i < WIDTH)
 	{
-		correct_wall_distance = calculate_correct_wall_distance(player, i);
-		pWallHeight = (TILE_PX * d_projection) / correct_wall_distance;
-		ystart = (HEIGHT / 2) - ((int)pWallHeight / 2);
+		player->rays[i].wall_height = calculate_wall_height(player, i);
+		ystart = (HEIGHT / 2) - ((int)player->rays[i].wall_height / 2);
 		if (ystart < 0)
 			ystart = 0;
 		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, 1);
 		textOffsetX = calculate_offsetx_walls(player, i);
-		draw_walls(player, i, ystart, 1, pWallHeight, textOffsetX, player->rays[i].texture);
-		if (ystart + pWallHeight < HEIGHT)
-			draw_floor(player->map_img, i, ystart + pWallHeight, player->floor_color, 1);
+		draw_walls(player, i, ystart, textOffsetX);
+		if (ystart + player->rays[i].wall_height < HEIGHT)
+			draw_floor(player->map_img, i, ystart + player->rays[i].wall_height, player->floor_color, 1);
 		i++;
 	}
 }

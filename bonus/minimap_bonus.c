@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/03 15:39:19 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 14:43:34 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	check_save_player_coordinates(t_player *player, int x, int y)
 {
 	if (player->player_x == -1 && player->player_y == -1 && (player->map[y][x] == 'N' || player->map[y][x] == 'S' || player->map[y][x] == 'W' || player->map[y][x] == 'E'))
 	{	
-		player->player_x = x * TILE_PX;
-		player->player_y = y * TILE_PX;
+		player->player_x = x * TILE_PX + (TILE_PX / 2);
+		player->player_y = y * TILE_PX + (TILE_PX / 2);
 	}
 }
 
