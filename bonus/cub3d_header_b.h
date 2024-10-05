@@ -189,5 +189,7 @@ void	render_coins(t_player *player, int texIndex);
 void	handle_multi_d_intersects(t_player *player, int i, int j);
 void	visible_sprite_d(t_player *player, t_sprite *sprite, int index);
 int		check_corner2(t_player *player, float new_x, float new_y);
+int		check_door_coin_collision(t_player *player, int i);
+void	render_one_sprite2(t_player *player, t_sprite *sprite, int ystart, int yend);
 
 // void	draw_door(t_player *player, float x, float y, t_ray *ray, int i);

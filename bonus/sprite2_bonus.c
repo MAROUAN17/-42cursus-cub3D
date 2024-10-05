@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/03 14:19:23 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:46:55 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void visible_sprite_d(t_player *player, t_sprite *sprite, int index)
     if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.9)
         sprite[index].visible = 1;
     else
-        sprite[index].visible = 0;
+		sprite[index].visible = 0;
 }
 
 //calculating sprite start and sprite end in the projection

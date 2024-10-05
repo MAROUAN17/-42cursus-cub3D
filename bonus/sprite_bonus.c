@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/03 14:19:38 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 12:19:39 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,13 @@ void render_one_sprite(t_player *player, t_sprite *sprite, int ystart, int yend)
 		ystart = tmpy;
 		while (ystart < yend)
 		{
-			if (ystart < HEIGHT && xstart < WIDTH && xstart > 0 && ystart > 0
+			// if (xstart >= 0 && xstart < WIDTH)
+			// 	printf("distance to door > %f, sprite distance > %f\n", player->rays[xstart].distance_to_door, sprite->distance);
+			if (ystart < HEIGHT && xstart < WIDTH && xstart >= 0 && ystart >= 0
 				&& sprite->distance < player->rays[xstart].distance_to_wall)
 			{
 				color = calculate_pixel_index(sprite, ystart, textOffsetX);
-				if (color != 0)
+				if (color)
 					mlx_put_pixel(player->map_img, xstart, ystart, color);
 			}
 			ystart++;

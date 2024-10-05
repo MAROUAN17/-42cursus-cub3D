@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 10:40:53 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/03 14:18:32 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:46:19 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	draw_door(t_player *player, float x, float y, int i)
 		ystart = 0;
 	while (j < player->doors_count)
 	{
-		// printf("visible %d\n", player->door_sprite[j].visible);
+		
 		if (check_visible_door(player, x, y, j))
 		{
 			player->rays[i].texture = player->door_sprite[j].texture;
@@ -109,9 +109,15 @@ void	draw_door(t_player *player, float x, float y, int i)
 				textOffsetX = (int)y % player->door_sprite[j].texture->width;
 			else
 				textOffsetX = (int)x % player->door_sprite[j].texture->width;
-			if (player->door_sprite[j].open_door == 0)
-				player->rays[i].distance_to_wall = player->rays[i].distance_to_door;
+			// if (player->door_sprite[j].open_door == 0)
+			// 	player->rays[i].distance_to_wall = player->rays[i].distance_to_door;
 			draw_rectangle_3d(player, i, ystart, textOffsetX);
+		}
+		else
+		{
+			printf("j > %d\n", j);
+			printf("visible -> %d\n", player->door_sprite[j].visible);
+			player->rays[i].distance_to_door = -1;
 		}
 		j++;
 	}

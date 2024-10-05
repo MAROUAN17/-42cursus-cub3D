@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/03 16:46:48 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 12:15:57 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,8 +239,8 @@ void render(void *v_player)
 	cast_rays(player);
 	draw_wall(player);
 	render_minimap(player);
-	render_coins(player, texIndex);
 	check_door_intersections(player);
+	render_coins(player, texIndex);
 	texIndex++;
 	doorIndex++;
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
