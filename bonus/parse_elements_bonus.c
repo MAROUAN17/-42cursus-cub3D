@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/05 15:20:37 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:56:40 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ int	check_line_chars(char *line, int *p_counter, int i, t_player *player)
 		|| line[i] == 'W' || line[i] == 'E')
 		(*p_counter)++;
 	if (line[i] == 'N')
-		player->playerAngle = 3 * M_PI / 2;
+		player->player_angle = 3 * M_PI / 2;
 	else if (line[i] == 'S')
-		player->playerAngle = (M_PI / 2);
+		player->player_angle = (M_PI / 2);
 	else if (line[i] == 'W')
-		player->playerAngle = 2 * (M_PI / 2);
+		player->player_angle = 2 * (M_PI / 2);
 	else if (line[i] == 'E')
-		player->playerAngle = 0;
+		player->player_angle = 0;
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/05 14:34:39 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:32:14 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_corner(t_player *player, float new_x, float new_y)
 	return (0);
 }
 
-float normalize_rayangle(float ray_angle)
+float normalize_ray_angle(float ray_angle)
 {
 	ray_angle = remainder(ray_angle, 2 * M_PI);
 	if (ray_angle < 0)

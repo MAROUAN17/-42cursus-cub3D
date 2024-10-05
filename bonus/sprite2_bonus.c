@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite2_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/05 15:42:05 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:56:40 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void visible_sprite_c(t_player *player, t_sprite *sprite, int index)
 {
 	double spritePlayer;
 
-   	spritePlayer = player->playerAngle - atan2(sprite[index].y - player->player_y,
+   	spritePlayer = player->player_angle - atan2(sprite[index].y - player->player_y,
         sprite[index].x - player->player_x);
     if (spritePlayer > M_PI)
         spritePlayer -= 2 * M_PI;
@@ -79,7 +79,7 @@ void visible_sprite_d(t_player *player, t_sprite *sprite, int index)
 {
 	double spritePlayer;
 
-   	spritePlayer = player->playerAngle - atan2(sprite[index].y - player->player_y,
+   	spritePlayer = player->player_angle - atan2(sprite[index].y - player->player_y,
         sprite[index].x - player->player_x);
     if (spritePlayer > M_PI)
         spritePlayer -= 2 * M_PI;
@@ -97,7 +97,7 @@ void visible_sprite_d(t_player *player, t_sprite *sprite, int index)
 void calculating_sprite_x(t_player *player, t_sprite *sprite, float d_projection, float pSpriteWidth)
 {
     sprite->angle = atan2(sprite->y - player->player_y,
-        sprite->x - player->player_x) - player->playerAngle;
+        sprite->x - player->player_x) - player->player_angle;
     sprite->spriteXstart = (WIDTH / 2) + (d_projection * tan(sprite->angle));
     sprite->spriteXend = sprite->spriteXstart + pSpriteWidth;
 }

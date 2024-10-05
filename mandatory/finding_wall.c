@@ -11,7 +11,7 @@ t_point	finding_wall_horizontal(t_player *player, t_ray *ray, float xstep, float
 		&& ray->h_yintersept < player->map_height)
 	{
 		xcheck = ray->h_xintersept;
-		if (ray->p_isFacingUp)
+		if (ray->p_is_facing_up)
 			ycheck = ray->h_yintersept - 1;
 		else
 			ycheck = ray->h_yintersept;
@@ -44,7 +44,7 @@ t_point	finding_wall_vertical(t_player *player, t_ray *ray, float xstep, float y
 		&& ray->v_yintersept < player->map_height
 		&& ray->v_xintersept < player->map_width)
 	{
-		if (ray->p_isFacingLeft)
+		if (ray->p_is_facing_left)
 			xcheck = ray->v_xintersept - 1;
 		else
 			xcheck = ray->v_xintersept;

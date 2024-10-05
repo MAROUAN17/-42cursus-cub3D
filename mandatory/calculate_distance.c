@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:09:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/05 11:23:08 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:47:36 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ float	calculate_smallest_distance(t_player *player, t_ray *ray,
 
 float	calculate_wall_height(t_player *player, int i)
 {
-    float correct_wall_distance;
-	float pWallHeight;
-	float d_projection;
+	float	correct_wall_distance;
+	float	wall_height;
+	float	d_projection;
 
 	d_projection = (WIDTH / 2) / tan(degrees2rad(FOV_ANGLE / 2));
 	correct_wall_distance = calculate_correct_wall_distance(player, i);
-	pWallHeight = (TILE_PX * d_projection) / correct_wall_distance;
-	return (pWallHeight);
+	wall_height = (TILE_PX * d_projection) / correct_wall_distance;
+	return (wall_height);
 }

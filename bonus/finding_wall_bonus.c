@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:55 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/28 14:12:00 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:54:47 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_point h_wall_check_position(t_player *player, t_ray *ray, int *index)
 
 	ycheck = 0;
 	xcheck = ray->h_xintersept;
-	if (ray->p_isFacingUp)
+	if (ray->p_is_facing_up)
 		ycheck = ray->h_yintersept - 1;
 	else
 		ycheck = ray->h_yintersept;
@@ -78,7 +78,7 @@ t_point v_wall_check_position(t_player *player, t_ray *ray, int *index)
 	float xcheck;
 	float ycheck;
 
-	if (ray->p_isFacingLeft)
+	if (ray->p_is_facing_left)
 		xcheck = ray->v_xintersept - 1;
 	else
 		xcheck = ray->v_xintersept;

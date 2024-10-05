@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement_bonus2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:54:52 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/05 15:11:50 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:57:16 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void rotate_player(t_player *player, float rotationAngle)
 {
-	player->playerAngle += rotationAngle;
-	player->playerAngle = normalize_rayangle(player->playerAngle);
+	player->player_angle += rotationAngle;
+	player->player_angle = normalize_ray_angle(player->player_angle);
 }
 
 void mouse_rotation(t_player *player)
@@ -31,9 +31,9 @@ void mouse_rotation(t_player *player)
 	if (deltaX != 0 && x > 0 && x < WIDTH)
 	{
 		if (deltaX > 0)
-			rotate_player(player, (player->rotationSpeed + (player->mlx->delta_time - 0.01)) * 1);
+			rotate_player(player, (player->rotation_speed + (player->mlx->delta_time - 0.01)) * 1);
 		else if (deltaX < 0)
-			rotate_player(player, (player->rotationSpeed + (player->mlx->delta_time - 0.01)) * -1);
+			rotate_player(player, (player->rotation_speed + (player->mlx->delta_time - 0.01)) * -1);
 	}
 	mlx_set_mouse_pos(player->mlx, WIDTH / 2, HEIGHT / 2);
 }
@@ -45,8 +45,8 @@ void	check_change_position(t_player *player, float angle)
 	int	check_y;
 	int	check_x;
 
-	new_x = cos(angle) * (player->moveSpeed * player->mlx->delta_time);
-	new_y = sin(angle) * (player->moveSpeed * player->mlx->delta_time);
+	new_x = cos(angle) * (player->move_speed * player->mlx->delta_time);
+	new_y = sin(angle) * (player->move_speed * player->mlx->delta_time);
 	check_y = (player->player_y + new_y) / TILE_PX;
 	check_x = (player->player_x + new_x) / TILE_PX;
 	if (player->map[check_y][(int)player->player_x / TILE_PX] != '1'
@@ -63,17 +63,17 @@ void	check_change_position(t_player *player, float angle)
 void move_player(t_player *player)
 {
 	if (player->w_key)
-		check_change_position(player, player->playerAngle);
+		check_change_position(player, player->player_angle);
 	if (player->s_key)
-		check_change_position(player, player->playerAngle + M_PI);
+		check_change_position(player, player->player_angle + M_PI);
 	if (player->a_key)
-		check_change_position(player, player->playerAngle - M_PI / 2);
+		check_change_position(player, player->player_angle - M_PI / 2);
 	if (player->d_key)
-		check_change_position(player, player->playerAngle + M_PI / 2);
-	if (player->turnLeft)
-		rotate_player(player, (player->rotationSpeed + player->mlx->delta_time - 0.01) * 1);
-	if (player->turnRight)
-		rotate_player(player, (player->rotationSpeed + player->mlx->delta_time - 0.01) * -1);
+		check_change_position(player, player->player_angle + M_PI / 2);
+	if (player->turn_left)
+		rotate_player(player, (player->rotation_speed + player->mlx->delta_time - 0.01) * 1);
+	if (player->turn_right)
+		rotate_player(player, (player->rotation_speed + player->mlx->delta_time - 0.01) * -1);
 }
 
 void	movement_key_pressing(mlx_key_data_t keydata, t_player *player)
@@ -87,9 +87,9 @@ void	movement_key_pressing(mlx_key_data_t keydata, t_player *player)
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->d_key = 1;
 	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnLeft = 1;
+		player->turn_left = 1;
 	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnRight = 1;
+		player->turn_right = 1;
 	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
 		player->w_key = 0;
 	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
@@ -99,7 +99,7 @@ void	movement_key_pressing(mlx_key_data_t keydata, t_player *player)
 	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
 		player->d_key = 0;
 	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
-		player->turnLeft = 0;
+		player->turn_left = 0;
 	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
-		player->turnRight = 0;
+		player->turn_right = 0;
 }

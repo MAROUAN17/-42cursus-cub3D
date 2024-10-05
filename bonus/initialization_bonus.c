@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:46:04 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/05 13:40:59 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:57:16 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void initialize_player_struct(t_player *player, char *map_path, int *map_width, 
 		perror(strerror(mlx_errno));
 		exit(EXIT_FAILURE);
 	}
-	player->turnLeft = 0;
-	player->turnRight = 0;
+	player->turn_left = 0;
+	player->turn_right = 0;
 	player->s_key = 0;
 	player->a_key = 0;
 	player->d_key = 0;
@@ -83,8 +83,8 @@ void initialize_player_struct(t_player *player, char *map_path, int *map_width, 
 	player->player_x = -1;
 	player->player_y = -1;
 	initialize_map_img(player);
-	player->moveSpeed = (float)(((float)TILE_PX / HEIGHT) * 4000);
-	player->rotationSpeed = degrees2rad(2.5);
+	player->move_speed = (float)(((float)TILE_PX / HEIGHT) * 4000);
+	player->rotation_speed = degrees2rad(2.5);
 	player->map_height = *map_height * TILE_PX;
 	player->map_width = *map_width * TILE_PX;
 }
@@ -138,10 +138,10 @@ int initialize_rays_struct(t_player *player)
 		player->rays[i].h_yintersept = 0;
 		player->rays[i].v_xintersept = 0;
 		player->rays[i].v_yintersept = 0;
-		player->rays[i].p_isFacingDown = 0;
-		player->rays[i].p_isFacingUp = 0;
-		player->rays[i].p_isFacingRight = 0;
-		player->rays[i].p_isFacingLeft = 0;
+		player->rays[i].p_is_facing_down = 0;
+		player->rays[i].p_is_facing_up = 0;
+		player->rays[i].p_is_facing_right = 0;
+		player->rays[i].p_is_facing_left = 0;
 		player->rays[i].horizontal_wall = 0;
 		player->rays[i].vertical_wall = 0;
 		i++;

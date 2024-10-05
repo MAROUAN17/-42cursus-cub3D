@@ -48,9 +48,9 @@ void key_press(t_player *player, mlx_key_data_t keydata)
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		player->d_key = 1;
 	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnLeft = 1;
+		player->turn_left = 1;
 	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		player->turnRight = 1;
+		player->turn_right = 1;
 }
 
 void key_release(t_player *player, mlx_key_data_t keydata)
@@ -64,7 +64,7 @@ void key_release(t_player *player, mlx_key_data_t keydata)
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
 		player->d_key = 0;
 	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_RELEASE))
-		player->turnLeft = 0;
+		player->turn_left = 0;
 	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_RELEASE))
-		player->turnRight = 0;
+		player->turn_right = 0;
 }

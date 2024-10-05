@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:44:00 by maglagal          #+#    #+#             */
-/*   Updated: 2024/09/26 13:07:17 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:56:40 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ float calculate_correct_wall_distance(t_player *player, int i)
 
     if (player->rays[i].distance_to_wall < 0)
         player->rays[i].distance_to_wall = 0;
-    correct_wall_distance = fabs(player->rays[i].distance_to_wall * cos(player->rays[i].angle - player->playerAngle));
+    correct_wall_distance = fabs(player->rays[i].distance_to_wall * cos(player->rays[i].angle - player->player_angle));
     if (!correct_wall_distance)
         correct_wall_distance = 0.001;
     return (correct_wall_distance);

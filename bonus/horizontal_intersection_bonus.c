@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:00 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/30 15:39:13 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:54:47 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ t_point calculating_horizontal_intersections(t_player *player, t_ray *ray)
     float  xstep;
 
     ray->h_yintersept = find_closest_horizontal_yintersec(player);
-    if (ray->p_isFacingDown)
+    if (ray->p_is_facing_down)
         ray->h_yintersept += TILE_PX;
     ray->h_xintersept = find_closest_horizontal_xintersec(player, ray->h_yintersept, ray->angle);
     ystep = TILE_PX;
-    if (ray->p_isFacingUp)
+    if (ray->p_is_facing_up)
         ystep *= -1;
     xstep = calculate_xstep(ray->angle);
-    if ((ray->p_isFacingLeft && xstep > 0) || (ray->p_isFacingRight && xstep < 0))
+    if ((ray->p_is_facing_left && xstep > 0) || (ray->p_is_facing_right && xstep < 0))
         xstep *= -1;
 	int i = 0;
 	ray->d_x = -1;

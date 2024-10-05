@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/05 15:47:05 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:56:40 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,16 +146,16 @@ void	draw_casted_rays(t_player *player)
 
 void	update_ray_facing(t_ray *ray)
 {
-	ray->p_isFacingDown = 0;
-	ray->p_isFacingUp = 0;
-	ray->p_isFacingRight = 0;
-	ray->p_isFacingLeft = 0;
+	ray->p_is_facing_down = 0;
+	ray->p_is_facing_up = 0;
+	ray->p_is_facing_right = 0;
+	ray->p_is_facing_left = 0;
 	if (ray->angle > 0 && ray->angle < M_PI)
-		ray->p_isFacingDown = 1;
-	ray->p_isFacingUp = !ray->p_isFacingDown;
+		ray->p_is_facing_down = 1;
+	ray->p_is_facing_up = !ray->p_is_facing_down;
 	if (ray->angle < M_PI / 2 || ray->angle > (1.5 * M_PI))
-		ray->p_isFacingRight = 1;
-	ray->p_isFacingLeft = !ray->p_isFacingRight;
+		ray->p_is_facing_right = 1;
+	ray->p_is_facing_left = !ray->p_is_facing_right;
 }
 
 void	cast_rays_draw(t_player *player)
@@ -169,12 +169,12 @@ void	cast_rays_draw(t_player *player)
 
 	i = 0;
 	halfFov = player->p_fov_angle / 2;
-	startAngle = player->playerAngle - halfFov;
+	startAngle = player->player_angle - halfFov;
 	angle_step = player->p_fov_angle / WIDTH;
 	while (i < WIDTH)
 	{
 		player->rays[i].angle = startAngle + (angle_step * i);
-		player->rays[i].angle = normalize_rayangle(player->rays[i].angle);
+		player->rays[i].angle = normalize_ray_angle(player->rays[i].angle);
 		update_ray_facing(&player->rays[i]);
 		wall_coord1 = calculating_horizontal_intersections(player, &player->rays[i]);
 		wall_coord2 = calculating_vertical_intersections(player, &player->rays[i]);

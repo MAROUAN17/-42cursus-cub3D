@@ -31,14 +31,14 @@ t_point calculating_vertical_intersections(t_player *player, t_ray *ray)
     float ystep;
 
     ray->v_xintersept = find_closest_vertical_xintersec(player);
-    if (ray->p_isFacingRight)
+    if (ray->p_is_facing_right)
         ray->v_xintersept += TILE_PX;
     ray->v_yintersept = find_closest_vertical_yintersec(player, ray->v_xintersept, ray->angle);
     xstep = TILE_PX;
-    if (ray->p_isFacingLeft)
+    if (ray->p_is_facing_left)
         xstep *= -1;
     ystep = calculate_ystep(ray->angle);
-    if ((ray->p_isFacingUp && ystep > 0) || (ray->p_isFacingDown && ystep < 0))
+    if ((ray->p_is_facing_up && ystep > 0) || (ray->p_is_facing_down && ystep < 0))
         ystep *= -1;
     wall = finding_wall_vertical(player, ray, xstep, ystep);
     return (wall);

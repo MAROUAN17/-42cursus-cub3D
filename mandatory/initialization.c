@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:04:05 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/02 17:38:33 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:57:16 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void initialize_player_struct(t_player *player, char *map_path, int *map_width, 
 	player->player_x = -1;
 	player->player_y = -1;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
-    player->moveSpeed = (float)(((float)TILE_PX / HEIGHT) * 4000);
-	player->rotationSpeed = degrees2rad(2.5);
+    player->move_speed = (float)(((float)TILE_PX / HEIGHT) * 4000);
+	player->rotation_speed = degrees2rad(2.5);
     player->map_height = *map_height * TILE_PX;
 	player->map_width = *map_width * TILE_PX;
     save_player_coordinates(player);
@@ -47,10 +47,10 @@ void initialize_rays_struct(t_player *player, t_ray *rays)
 		rays[i].h_yintersept = 0;
 		rays[i].v_xintersept = 0;
 		rays[i].v_yintersept = 0;
-		rays[i].p_isFacingDown = 0;
-		rays[i].p_isFacingUp = 0;
-		rays[i].p_isFacingRight = 0;
-		rays[i].p_isFacingLeft = 0;
+		rays[i].p_is_facing_down = 0;
+		rays[i].p_is_facing_up = 0;
+		rays[i].p_is_facing_right = 0;
+		rays[i].p_is_facing_left = 0;
 		rays[i].horizontal_wall = 0;
 		rays[i].vertical_wall = 0;
 		i++;

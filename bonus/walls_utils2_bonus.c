@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_utils2_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:13:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/04 11:11:29 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:56:40 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ float calculate_correct_wall_distance(t_player *player, int i)
 
 	if (player->rays[i].distance_to_wall < 0)
 		player->rays[i].distance_to_wall = 0;
-	correct_wall_distance = fabs(player->rays[i].distance_to_wall * cos(player->rays[i].angle - player->playerAngle));
+	correct_wall_distance = fabs(player->rays[i].distance_to_wall * cos(player->rays[i].angle - player->player_angle));
 	if (!correct_wall_distance)
 		correct_wall_distance = 0.001;
 	return (correct_wall_distance);
@@ -30,7 +30,7 @@ float calculate_correct_door_distance(t_player *player, int i)
 
 	if (player->rays[i].distance_to_door < 0)
 		player->rays[i].distance_to_door = 0;
-	correct_door_distance = fabs(player->rays[i].distance_to_door * cos(player->rays[i].angle - player->playerAngle));
+	correct_door_distance = fabs(player->rays[i].distance_to_door * cos(player->rays[i].angle - player->player_angle));
 	if (!correct_door_distance)
 		correct_door_distance = 0.001;
 	return (correct_door_distance);
