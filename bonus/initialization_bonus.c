@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:46:04 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/03 13:00:26 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 13:40:59 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	initialize_all(t_player *player, char *map_path, mlx_texture_t **c_textures,
 
 void initialize_animation_textures(mlx_texture_t **c_textures, mlx_texture_t **d_textures)
 {
-	d_textures[0] = resize_texture(mlx_load_png("./textures/Door1.png"), TILE_PX, TILE_PX);
-	d_textures[1] = resize_texture(mlx_load_png("./textures/Door2.png"), TILE_PX, TILE_PX);
-	d_textures[2] = resize_texture(mlx_load_png("./textures/Door3.png"), TILE_PX, TILE_PX);
-	d_textures[3] = resize_texture(mlx_load_png("./textures/Door4.png"), TILE_PX, TILE_PX);
+	d_textures[0] = resize_texture(mlx_load_png("./textures/MetalDoor1.png"), TILE_PX, TILE_PX);
+	d_textures[1] = resize_texture(mlx_load_png("./textures/MetalDoor2.png"), TILE_PX, TILE_PX);
+	d_textures[2] = resize_texture(mlx_load_png("./textures/MetalDoor3.png"), TILE_PX, TILE_PX);
+	d_textures[3] = resize_texture(mlx_load_png("./textures/MetalDoor4.png"), TILE_PX, TILE_PX);
 	c_textures[0] = mlx_load_png("./textures/MonedaD1.png");
 	c_textures[1] = mlx_load_png("./textures/MonedaD2.png");
 	c_textures[2] = mlx_load_png("./textures/MonedaD3.png");
