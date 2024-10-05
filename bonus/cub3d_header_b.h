@@ -102,7 +102,7 @@ typedef struct player_struct {
 	t_sprite		*door_sprite;
 	int				nbr_collected;
 	mlx_texture_t	*door_textures[4];
-	mlx_texture_t	*curr_door_tex;
+	int				doorIndex;
 	int				doors_count;
 	int		        open_door;
 	int		        start_door_a;
@@ -169,7 +169,7 @@ void	calculating_sprite_x(t_player *player, t_sprite *sprite, float d_projection
 void	free_allocated_memory(t_player *player, mlx_texture_t **textures, mlx_texture_t **d_textures);
 int		calculate_number_sprites(t_player *player);
 int		is_open_door(t_player *player, int check_x, int check_y);
-void	check_door_intersections(t_player *player);
+void	check_door_intersections(t_player *player, int i);
 void	draw_door(t_player *player, float x, float y, int i);
 float	get_smallest_door_distance(t_player *player, t_ray *ray, int j);
 float	calculate_correct_wall_distance(t_player *player, int i);
@@ -192,8 +192,9 @@ int		check_corner2(t_player *player, float new_x, float new_y);
 int		check_door_coin_collision(t_player *player, int i);
 void	render_one_sprite2(t_player *player, t_sprite *sprite, int ystart, int yend);
 int		ft_isdigit(int c);
-int		compare_to_upper_line(char *line, char *top_line, int i);
+int		compare_to_upper_line(char *line, char *top_line);
 char	**fill_map(int fd, int *map_height, int *map_width);
 int		fill_gaps(char **line, int width);
+int		is_invalid_tex(t_player *player);
 
 // void	draw_door(t_player *player, float x, float y, t_ray *ray, int i);

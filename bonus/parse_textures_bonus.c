@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:20:22 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/28 11:42:16 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 14:50:17 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	check_identifier(t_player *player, char *line)
 		return (set_color(&player->floor_color, line, &f_flag));
 	else if (ft_strncmp(line, "C ", 2) == 0)
 		return (set_color(&player->ceiling_color, line, &c_flag));
+	else if (*line != '\0' && is_invalid_tex(player))
+		return (print_err("Error\nMissing Textures!\n"), 0);
 	else if (*line != '\0' && f_flag == 0)
 		return (print_err("Error\nMissing Floor Color!\n"), 0);
 	else if (*line != '\0' && c_flag == 0)
@@ -141,8 +143,7 @@ int	get_textures(t_player *player, char *map_path)
 	count = check_lines(player, fd);
 	if (count == -1)
 		return (-1);
-	if (player->north_texture == NULL || player->south_texture == NULL
-		|| player->east_texture == NULL || player->west_texture == NULL)
+	if (is_invalid_tex(player))
 		return (print_err("Error\nMissing Textures!\n"), -1);
 	return (count);
 }

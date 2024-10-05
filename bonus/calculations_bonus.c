@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/05 15:19:30 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:47:05 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ float get_smallest_door_distance(t_player *player, t_ray *ray, int j)
 	return (distance);
 }
 
-void draw_wall(t_player *player, int i)
+void draw_ray(t_player *player, int i)
 {
 	int	textOffsetX;
 	int	ystart;
@@ -128,6 +128,7 @@ void draw_wall(t_player *player, int i)
 	draw_rectangle_3d(player, i, ystart, textOffsetX);
 	if (ystart + player->rays[i].wall_height < HEIGHT)
 		draw_floor(player->map_img, i, ystart + player->rays[i].wall_height, player->floor_color, 1);
+	check_door_intersections(player, i);
 }
 
 void	draw_casted_rays(t_player *player)
@@ -180,12 +181,12 @@ void	cast_rays_draw(t_player *player)
 		player->rays[i].distance_to_wall = calculate_smallest_distance(player, &player->rays[i],
 			&wall_coord1, &wall_coord2);
 		player->rays[i].texture = get_texture(player, player->rays[i].vertical_wall, player->rays[i].x, player->rays[i].y);
-		draw_wall(player, i);
+		draw_ray(player, i);
 		i++;
 	}
 }
 
-void	handle_door(t_player *player, int *doorIndex)
+void	handle_door(t_player *player)
 {
 	int i;
 
@@ -194,8 +195,8 @@ void	handle_door(t_player *player, int *doorIndex)
 	{
 		if (player->door_sprite[i].start_a && player->door_sprite[i].open_door == 0)
 		{
-			player->door_sprite[i].texture = player->door_sprite[i].an_textures[*doorIndex / 10];
-			if (*doorIndex == 30)
+			player->door_sprite[i].texture = player->door_sprite[i].an_textures[player->doorIndex / 10];
+			if (player->doorIndex == 30)
 			{
 				player->door_sprite[i].open_door = 1;
 				player->door_sprite[i].start_a = 0;
@@ -203,8 +204,8 @@ void	handle_door(t_player *player, int *doorIndex)
 		}
 		else if (player->door_sprite[i].start_a && player->door_sprite[i].open_door)
 		{
-			player->door_sprite[i].texture = player->door_sprite[i].an_textures[3 - (*doorIndex / 10)];
-			if (*doorIndex == 30)
+			player->door_sprite[i].texture = player->door_sprite[i].an_textures[3 - (player->doorIndex / 10)];
+			if (player->doorIndex == 30)
 			{
 				player->door_sprite[i].open_door = 0;
 				player->door_sprite[i].start_a = 0;
@@ -217,7 +218,6 @@ void	handle_door(t_player *player, int *doorIndex)
 void render(void *v_player)
 {
 	static int texIndex;
-	static int doorIndex;
 	t_player	*player;
 
 	player = (t_player *)v_player;
@@ -226,16 +226,15 @@ void render(void *v_player)
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
 	if (texIndex == 51)
 		texIndex = 0;
-	if (doorIndex == 31)
-		doorIndex = 0;
+	if (player->doorIndex == 31)
+		player->doorIndex = 0;
 	mouse_rotation(player);
-	handle_door(player, &doorIndex);
+	handle_door(player);
 	move_player(player);
 	cast_rays_draw(player);
 	render_minimap(player);
 	render_coins(player, texIndex);
-	check_door_intersections(player);
 	texIndex++;
-	doorIndex++;
+	player->doorIndex++;
 	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
 }

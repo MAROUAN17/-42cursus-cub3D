@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/05 15:14:07 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:42:05 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void visible_sprite_d(t_player *player, t_sprite *sprite, int index)
     if (spritePlayer < -M_PI)
         spritePlayer += 2 * M_PI;
     sprite[index].angle = fabs(spritePlayer);
-    if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.9)
+    if (sprite[index].angle < degrees2rad(FOV_ANGLE / 2) + 0.9
+		|| calculate_distance_door(player, player->door_sprite, index) < TILE_PX * 2)
         sprite[index].visible = 1;
     else
 		sprite[index].visible = 0;
