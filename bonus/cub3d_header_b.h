@@ -191,5 +191,9 @@ void	visible_sprite_d(t_player *player, t_sprite *sprite, int index);
 int		check_corner2(t_player *player, float new_x, float new_y);
 int		check_door_coin_collision(t_player *player, int i);
 void	render_one_sprite2(t_player *player, t_sprite *sprite, int ystart, int yend);
+int		ft_isdigit(int c);
+int		compare_to_upper_line(char *line, char *top_line, int i);
+char	**fill_map(int fd, int *map_height, int *map_width);
+int		fill_gaps(char **line, int width);
 
 // void	draw_door(t_player *player, float x, float y, t_ray *ray, int i);

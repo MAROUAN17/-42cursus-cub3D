@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 11:49:57 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/26 16:25:49 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:20:44 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,33 @@ mlx_texture_t *resize_texture(mlx_texture_t *texture, int new_width, int new_hei
     set_new_pixels(texture, new_texture, x_ratio, y_ratio);
 	mlx_delete_texture(texture);
     return (new_texture);
+}
+
+int	compare_to_upper_line(char *line, char *top_line, int i)
+{
+	return ((line[i] == ' ' && top_line[i] != '1' && top_line[i] != ' ')
+			|| (line[i] == '0' && top_line[i] == ' ')
+			|| ((line[i] == 'N' || line[i] == 'S' || line[i] == 'W'
+				|| line[i] == 'E')
+			&& (top_line[i] == ' ')));
+}
+
+char	**fill_map(int fd, int *map_height, int *map_width)
+{
+	char	**d_map;
+	int		i;
+
+	i = 0;
+	d_map = malloc(sizeof(char *) * (*map_height + 1));
+	if (!d_map)
+		return (perror("Error\nMap"), NULL);
+	while (i < *map_height)
+	{
+		d_map[i] = get_next_line(fd);
+		if (!d_map[i] || !fill_gaps(&d_map[i], *map_width))
+			return (free_memory(d_map, i), perror("Error\nMap"), NULL);
+		i++;
+	}
+	d_map[i] = NULL;
+	return (d_map);
 }

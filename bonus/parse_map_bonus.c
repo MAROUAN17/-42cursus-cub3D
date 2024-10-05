@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:28:27 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/03 11:38:09 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:51:00 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int	count_height(char *map_path, int *map_height, int *map_width, int skip_n)
 	fd = open(map_path, O_RDONLY);
 	if (fd == -1) 
 		return (0);
-	skip_lines(skip_n, fd);
+	if (!skip_lines(skip_n, fd))
+		return (0);
 	line = get_next_line(fd);
 	if (!line)
 		return (0);
@@ -100,7 +101,6 @@ char	**store_2d_array(t_player *player, char *map_path, int *map_height, int *ma
 {
 	int		fd;
 	char	**d_map;
-	int		i = 0;
 	int		skip_n;
 
 	skip_n = get_textures(player, map_path);
@@ -111,18 +111,11 @@ char	**store_2d_array(t_player *player, char *map_path, int *map_height, int *ma
 	fd = open(map_path, O_RDONLY);
 	if (fd == -1)
 		return (print_err("Error\nInvalid Map!\n"), NULL);
-	skip_lines(skip_n, fd);
-	d_map = malloc(sizeof(char *) * (*map_height + 1));
+	if (!skip_lines(skip_n, fd))
+		return (close(fd), NULL);
+	d_map = fill_map(fd, map_height, map_width);
 	if (!d_map)
-		return (perror("Error\nMap"), NULL);
-	while (i < *map_height)
-	{
-		d_map[i] = get_next_line(fd);
-		if (!d_map[i] || !fill_gaps(&d_map[i], *map_width))
-			return (free_memory(d_map, i), perror("Error\nMap"), NULL);
-		i++;
-	}
-	d_map[i] = NULL;
+		return (close(fd), NULL);
 	close(fd);
 	if (check_map_valid(d_map ,player) == 0)
 		return (free_2d_arr(d_map), NULL);

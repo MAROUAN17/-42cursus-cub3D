@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:54:52 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/04 10:34:33 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 13:48:33 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,12 @@ void	check_change_position(t_player *player, float angle)
 	int	check_y;
 	int	check_x;
 
-	
 	new_x = cos(angle) * (player->moveSpeed * player->mlx->delta_time);
 	new_y = sin(angle) * (player->moveSpeed * player->mlx->delta_time);
 	check_y = (player->player_y + new_y) / TILE_PX;
 	check_x = (player->player_x + new_x) / TILE_PX;
-	if (player->map[check_y][(int)(player->player_x) / TILE_PX] != '1'
-		&& player->map[(int)(player->player_y) / TILE_PX][check_x] != '1'
+	if (player->map[check_y][(int)player->player_x / TILE_PX] != '1'
+		&& player->map[(int)player->player_y / TILE_PX][check_x] != '1'
 		&& player->map[check_y][check_x] != '1'
 		&& (player->map[check_y][check_x] != 'D'
 			|| is_open_door(player, check_x, check_y)))
