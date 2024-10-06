@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/05 15:34:32 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/06 10:46:52 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int main(int ac, char **av)
 	mlx_texture_t	*d_textures[4];
 
     (void)ac;
-	initialize_all(&player, av[1], c_textures, d_textures);
+	if (initialize_all(&player, av[1], c_textures, d_textures))
+        return (EXIT_FAILURE);
     mlx_image_to_window(player.mlx, player.map_img, 0, 0);
 	mlx_set_cursor_mode(player.mlx, MLX_MOUSE_HIDDEN);
     mlx_key_hook(player.mlx, &move_keys_handler, &player);
@@ -35,5 +36,4 @@ int main(int ac, char **av)
     return (EXIT_SUCCESS);
 }
 
-//when for example NO to no (wrong error message)
-//C 255,128,12
+//when inside door close problem 

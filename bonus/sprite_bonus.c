@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/05 12:19:39 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:11:32 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void render_one_sprite(t_player *player, t_sprite *sprite, int ystart, int yend)
 		ystart = tmpy;
 		while (ystart < yend)
 		{
-			// if (xstart >= 0 && xstart < WIDTH)
-			// 	printf("distance to door > %f, sprite distance > %f\n", player->rays[xstart].distance_to_door, sprite->distance);
 			if (ystart < HEIGHT && xstart < WIDTH && xstart >= 0 && ystart >= 0
 				&& sprite->distance < player->rays[xstart].distance_to_wall)
 			{

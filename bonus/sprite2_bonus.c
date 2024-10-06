@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/05 15:42:05 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/05 18:09:45 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ void	change_sprite_index(t_player *player, int i, int texIndex)
 
 void	render_sprites_minimap(t_player *player, int sprIndex)
 {
-	float x_out = player->sprite[sprIndex].x + player->map_x_offset;
-	float y_out = player->sprite[sprIndex].y + player->map_y_offset;
+	float x_out;
+	float y_out;
+
+	x_out = player->sprite[sprIndex].x + player->map_x_offset;
+	y_out = player->sprite[sprIndex].y + player->map_y_offset;
 	if (x_out < 0)
 		x_out = 0;
 	if (y_out < 0)

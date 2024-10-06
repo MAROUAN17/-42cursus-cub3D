@@ -11,7 +11,7 @@
 #define HEIGHT 1000
 #define WIDTH 1800
 #define FOV_ANGLE 60
-#define TILE_PX 120
+#define TILE_PX 64
 #define MINIMAP_FACTOR ((float)(HEIGHT / 100) / TILE_PX)
 
 typedef struct s_point {
@@ -161,7 +161,7 @@ mlx_texture_t 	*resize_texture(mlx_texture_t *texture, int new_width, int new_he
 void	free_2d_arr(char **map);
 void 	initialize_player_struct(t_player *player, char *map_path, int *map_width, int *map_height);
 int		initialize_rays_struct(t_player *player);
-void	initialize_sprites_struct(t_player *player, mlx_texture_t **textures);
+int		initialize_sprites_struct(t_player *player, mlx_texture_t **textures);
 int 	is_door(t_player *player, int x, int y);
 void	change_sprite_index(t_player *player, int i, int texIndex);
 void	render_sprites_minimap(t_player *player, int sprIndex);
@@ -169,7 +169,7 @@ void	calculating_sprite_x(t_player *player, t_sprite *sprite, float d_projection
 void	free_allocated_memory(t_player *player, mlx_texture_t **textures, mlx_texture_t **d_textures);
 int		calculate_number_sprites(t_player *player);
 int		is_open_door(t_player *player, int check_x, int check_y);
-void	check_door_intersections(t_player *player, int i);
+void	check_door_intersections(t_player *player);
 void	draw_door(t_player *player, float x, float y, int i);
 float	get_smallest_door_distance(t_player *player, t_ray *ray, int j);
 float	calculate_correct_wall_distance(t_player *player, int i);
@@ -179,7 +179,7 @@ float	calculate_wall_height(t_player *player, int i);double	calculate_distance_d
 void	save_door_cord(t_player *player, int x, int y, int *d_index);
 void	draw_map_background(t_player *player);
 void	draw_map_elements(t_player *player, int x, int y);
-void	initialize_animation_textures(mlx_texture_t **c_textures, mlx_texture_t **d_textures);
+int		initialize_animation_textures(mlx_texture_t **c_textures, mlx_texture_t **d_textures);
 int		initialize_door_sprites(t_player *player, mlx_texture_t **textures);
 int		initialize_all(t_player *player, char *map_path, mlx_texture_t **c_textures,
 			mlx_texture_t **d_textures);
