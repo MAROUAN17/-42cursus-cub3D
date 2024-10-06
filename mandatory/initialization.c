@@ -6,18 +6,19 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:04:05 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/05 16:57:16 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/06 09:46:45 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub3d_header.h"
 
-void initialize_player_struct(t_player *player, char *map_path, int *map_width, int *map_height)
+void	initialize_player_struct(t_player *player, char *map_path,
+	int *map_width, int *map_height)
 {
 	player->map = store_2d_array(player, map_path, map_height, map_width);
 	if (!player->map)
 		exit(EXIT_FAILURE);
-    player->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
+	player->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 	if (!player->mlx)
 	{
 		free_2d_arr(player->map);
@@ -28,18 +29,18 @@ void initialize_player_struct(t_player *player, char *map_path, int *map_width, 
 	player->player_x = -1;
 	player->player_y = -1;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
-    player->move_speed = (float)(((float)TILE_PX / HEIGHT) * 4000);
+	player->move_speed = (float)(((float)TILE_PX / HEIGHT) * 4000);
 	player->rotation_speed = degrees2rad(2.5);
-    player->map_height = *map_height * TILE_PX;
+	player->map_height = *map_height * TILE_PX;
 	player->map_width = *map_width * TILE_PX;
-    save_player_coordinates(player);
+	save_player_coordinates(player);
 }
 
-void initialize_rays_struct(t_player *player, t_ray *rays)
+void	initialize_rays_struct(t_player *player, t_ray *rays)
 {
-    int     i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	while (i < WIDTH)
 	{
 		rays[i].map_img = player->map_img;
@@ -55,5 +56,5 @@ void initialize_rays_struct(t_player *player, t_ray *rays)
 		rays[i].vertical_wall = 0;
 		i++;
 	}
-    player->rays = rays;
+	player->rays = rays;
 }

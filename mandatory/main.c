@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/06 09:47:06 by oait-laa          #+#    #+#             */
+/*   Updated: 2024/10/06 09:47:52 by oait-laa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d_header.h"
 
-void free_2d_arr(char **map)
+void	free_2d_arr(char **map)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (map[i])
@@ -13,12 +25,7 @@ void free_2d_arr(char **map)
 	free(map);
 }
 
-void a()
-{
-	system("leaks cub3D");
-}
-
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	int			map_width;
 	int			map_height;
@@ -28,7 +35,6 @@ int main(int ac, char **av)
 	(void)ac;
 	map_width = 0;
 	map_height = 0;
-	atexit(a);
 	initialize_player_struct(&player, av[1], &map_width, &map_height);
 	initialize_rays_struct(&player, rays);
 	mlx_image_to_window(player.mlx, player.map_img, 0, 0);

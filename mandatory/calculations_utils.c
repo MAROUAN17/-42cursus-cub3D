@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:39:59 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/05 16:54:47 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/06 10:20:12 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	draw_wall(t_player *player)
 		ystart = (HEIGHT / 2) - ((int)player->rays[i].wall_height / 2);
 		if (ystart < 0)
 			ystart = 0;
-		draw_ceiling(player->map_img, i, ystart, player->ceiling_color, 1);
+		draw_ceiling(player->map_img, i, ystart, player->ceiling_color);
 		text_offset_x = calculate_offsetx_walls(player, i);
 		draw_walls(player, i, ystart, text_offset_x);
 		if (ystart + player->rays[i].wall_height < HEIGHT)
 			draw_floor(player->map_img, i,
-				ystart + player->rays[i].wall_height, player->floor_color, 1);
+				ystart + player->rays[i].wall_height, player->floor_color);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:37:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/05 17:03:17 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/06 10:24:19 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ float			calculate_smallest_distance(t_player *player, t_ray *ray,
 void			cast_rays(t_player *player);
 void			move_player(mlx_key_data_t keydata, void *player);
 void			render(void *v_player);
-void			draw_rectangle(mlx_image_t *img, float x, float y,
-					int color, float p);
 t_point			calculating_horizontal_intersections(t_player *player,
 					t_ray *ray);
 t_point			calculating_vertical_intersections(t_player *player,
@@ -115,8 +113,8 @@ t_point			finding_wall_horizontal(t_player *player, t_ray *ray,
 t_point			finding_wall_vertical(t_player *player, t_ray *ray,
 					float xstep, float ystep);
 void			draw_walls(t_player *player, int x, float y, int textOffsetX);
-void			draw_ceiling(mlx_image_t *img, int x, int y, int color, int w);
-void			draw_floor(mlx_image_t *img, int x, int y, int color, int w);
+void			draw_ceiling(mlx_image_t *img, int x, int y, int color);
+void			draw_floor(mlx_image_t *img, int x, int y, int color);
 char			**store_2d_array(t_player *player, char *map_path,
 					int *map_height, int *map_width);
 void			*free_memory(char **map, int r);
@@ -159,5 +157,7 @@ void			move(t_player *player, float angle);
 void			draw_wall(t_player *player);
 void			update_ray_facing(t_ray *ray);
 float			normalize_ray_angle(float ray_angle);
+int				store_texture(mlx_texture_t **texture,
+					xpm_t **xpm, char *line, int type);
 
 #endif
