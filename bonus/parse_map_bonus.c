@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:28:27 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/04 15:51:00 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:38:57 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 int	set_color(int *color, char *line, int *flag)
 {
-	int i;
-	int comma_count;
-	char **sep_str;
+	int		i;
+	int		comma_count;
+	char	**sep_str;
 
 	i = 0;
 	line += 2;
 	comma_count = count_comma(line);
 	if (comma_count != 2)
 		return (print_err("Error\nInvalid Color!\n"), 0);
-	while(*line == ' ')
+	while (*line == ' ')
 		line++;
 	if (*flag == 0)
 	{
@@ -32,16 +32,18 @@ int	set_color(int *color, char *line, int *flag)
 		if (!sep_str)
 			return (perror("Error\n"), 0);
 		if (count_2d_len(sep_str) != 3 || !translate_rgb(sep_str, color))
-			return (free_2d_arr(sep_str), print_err("Error\nInvalid Color!\n"), 0);
+			return (free_2d_arr(sep_str),
+				print_err("Error\nInvalid Color!\n"), 0);
 		return (free_2d_arr(sep_str), 1);
 	}
 	else
 		return (print_err("Error\nDuplicated Color!\n"), 0);
 }
+
 int	skip_lines(int n, int fd)
 {
-	int i;
-	char *line;
+	int		i;
+	char	*line;
 
 	i = 0;
 	while (i < n)
@@ -62,7 +64,7 @@ int	count_height(char *map_path, int *map_height, int *map_width, int skip_n)
 	int		width;
 
 	fd = open(map_path, O_RDONLY);
-	if (fd == -1) 
+	if (fd == -1)
 		return (0);
 	if (!skip_lines(skip_n, fd))
 		return (0);
@@ -84,7 +86,7 @@ int	count_height(char *map_path, int *map_height, int *map_width, int skip_n)
 
 int	fill_gaps(char **line, int width)
 {
-	char *tmp;
+	char	*tmp;
 
 	while ((int)ft_strlen(*line) < width)
 	{
@@ -97,7 +99,8 @@ int	fill_gaps(char **line, int width)
 	return (1);
 }
 
-char	**store_2d_array(t_player *player, char *map_path, int *map_height, int *map_width)
+char	**store_2d_array(t_player *player,
+			char *map_path, int *map_height, int *map_width)
 {
 	int		fd;
 	char	**d_map;
@@ -117,7 +120,7 @@ char	**store_2d_array(t_player *player, char *map_path, int *map_height, int *ma
 	if (!d_map)
 		return (close(fd), NULL);
 	close(fd);
-	if (check_map_valid(d_map ,player) == 0)
+	if (check_map_valid(d_map, player) == 0)
 		return (free_2d_arr(d_map), NULL);
 	return (d_map);
 }

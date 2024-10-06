@@ -6,65 +6,51 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/05 18:08:32 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:21:47 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_header_b.h"
 
-void draw_rectangle(mlx_image_t *img, float x, float y, int color, float p)
+void	check_save_player_coordinates(t_player *player, int x, int y)
 {
-	float i = 0;
-	float j = 0;
-
-	if (x < 0)
-		x = 0;
-	if (y < 0)
-		y = 0;
-	while (i < p)
+	if (player->player_x == -1 && player->player_y == -1
+		&& (player->map[y][x] == 'N' || player->map[y][x] == 'S'
+			|| player->map[y][x] == 'W' || player->map[y][x] == 'E'))
 	{
-		j = 0;
-		while (j < p)
-		{
-			mlx_put_pixel(img, x + j, y + i, color);
-			j++;
-		}
-		i++;
+		player->player_x = x * TILE_PX + (TILE_PX / 2);
+		player->player_y = y * TILE_PX + (TILE_PX / 2);
 	}
 }
 
 int	calculate_number_sprites(t_player *player)
 {
-	int x;
-	int y;
-	int num;
+	int	x;
+	int	y;
+	int	num;
 
-	x = 0;
 	y = 0;
 	num = 0;
-	while(player->map[y])
+	while (player->map[y])
 	{
 		x = 0;
 		while (player->map[y][x])
 		{
-			if (player->map[y][x] == 'N' || player->map[y][x] == 'S'
-				|| player->map[y][x] == 'E' || player->map[y][x] == 'W')
-			{
-				player->player_x = x * TILE_PX;
-				player->player_y = y * TILE_PX;
-			}
+			check_save_player_coordinates(player, x, y);
 			if (player->map[y][x] == 'I')
 				num++;
 			x++;
 		}
 		y++;
 	}
-	player->map_x_offset = (player->map_width / 2) - (int)player->player_x - 5 * TILE_PX;
-	player->map_y_offset = (player->map_height / 2) - (int)player->player_y - 5 * TILE_PX;
+	player->map_x_offset = (player->map_width / 2) - (int)
+		player->player_x - 5 * TILE_PX;
+	player->map_y_offset = (player->map_height / 2) - (int)
+		player->player_y - 5 * TILE_PX;
 	return (num);
 }
 
-void save_sprite_coordinates(t_player *player, int *index, int x, int y)
+void	save_sprite_coordinates(t_player *player, int *index, int x, int y)
 {
 	if (player->map[y][x] == 'I'
 		&& player->sprite[*index].x == -1
@@ -72,21 +58,24 @@ void save_sprite_coordinates(t_player *player, int *index, int x, int y)
 	{
 		player->sprite[*index].x = x * TILE_PX + (TILE_PX / 2);
 		player->sprite[*index].y = y * TILE_PX + (TILE_PX / 2);
-		draw_rectangle(player->map_img, (x * TILE_PX + player->map_x_offset) * MINIMAP_FACTOR, (y * TILE_PX + player->map_y_offset) * MINIMAP_FACTOR, 0xFFFFFFFF, TILE_PX * MINIMAP_FACTOR);
+		player->color = 0xFFFFFFFF;
+		draw_rectangle(player, (x * TILE_PX
+				+ player->map_x_offset) * player->minimap_factor, (y * TILE_PX
+				+ player->map_y_offset) * player->minimap_factor,
+			TILE_PX * player->minimap_factor);
 		(*index)++;
 	}
 }
 
-void	check_save_player_coordinates(t_player *player, int x, int y)
+void	draw_player_minimap(t_player *player)
 {
-	if (player->player_x == -1 && player->player_y == -1 && (player->map[y][x] == 'N' || player->map[y][x] == 'S' || player->map[y][x] == 'W' || player->map[y][x] == 'E'))
-	{	
-		player->player_x = x * TILE_PX + (TILE_PX / 2);
-		player->player_y = y * TILE_PX + (TILE_PX / 2);
-	}
+	player->color = 0xFF0000FF;
+	draw_rectangle(player, (player->player_x + player->map_x_offset)
+		* player->minimap_factor, (player->player_y + player->map_y_offset)
+		* player->minimap_factor, 40 * player->minimap_factor);
 }
 
-void render_minimap(t_player *player)
+void	render_minimap(t_player *player)
 {
 	int	x;
 	int	y;
@@ -111,6 +100,5 @@ void render_minimap(t_player *player)
 		}
 		y++;
 	}
-	draw_rectangle(player->map_img, (player->player_x + player->map_x_offset) * MINIMAP_FACTOR, (player->player_y + player->map_y_offset) * MINIMAP_FACTOR,
-		0xFF0000FF, 40 * MINIMAP_FACTOR);
+	draw_player_minimap(player);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:20:22 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/05 14:50:17 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:42:48 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	get_file_type(char *line)
 {
-	int len;
-	
+	int	len;
+
 	len = ft_strlen(line);
 	len--;
 	while (line[len] == ' ' && len > 0)
@@ -32,47 +32,10 @@ int	get_file_type(char *line)
 	return (0);
 }
 
-int	set_texture(mlx_texture_t **texture, xpm_t **xpm, char *line)
-{
-	int i;
-	int type;
-
-	i = 0;
-	line += 3;
-	while(*line == ' ' || *line == '\t')
-		line++;
-	type = get_file_type(line);
-	if (*texture == NULL)
-	{
-		if (type == 1)
-		{
-			*xpm = NULL;
-			*texture = mlx_load_png(line);
-			*texture = resize_texture(*texture, TILE_PX, TILE_PX);
-			if (!*texture)
-				return (print_err("Error\nInvalid Textures!\n"), 0);
-		}
-		else if (type == 2)
-		{
-			*xpm = mlx_load_xpm42(line);
-			if (!*xpm)
-				return (print_err("Error\nInvalid Textures!\n"), 0);
-			*texture = resize_texture(&(*xpm)->texture, TILE_PX, TILE_PX);
-			if (!*texture)
-				return (0);
-		}
-		else
-			return (print_err("Error\nInvalid Textures!\n"), 0);
-		return (1);
-	}
-	else
-		return (print_err("Error\nDuplicated Textures!\n"), 0);
-}
-
 int	check_identifier(t_player *player, char *line)
 {
-	static int f_flag;
-	static int c_flag;
+	static int	f_flag;
+	static int	c_flag;
 
 	if (ft_strncmp(line, "NO ", 3) == 0)
 		return (set_texture(&player->north_texture, &player->no_t, line));
@@ -99,10 +62,10 @@ int	check_identifier(t_player *player, char *line)
 
 int	check_lines(t_player *player, int fd)
 {
-	char *line;
-	char *tmp_ptr;
-	int	identifier;
-	int	count;
+	char	*line;
+	char	*tmp_ptr;
+	int		identifier;
+	int		count;
 
 	count = 0;
 	line = get_next_line(fd);
@@ -128,7 +91,7 @@ int	check_lines(t_player *player, int fd)
 
 int	get_textures(t_player *player, char *map_path)
 {
-	int fd;
+	int	fd;
 	int	count;
 
 	player->north_texture = NULL;

@@ -6,74 +6,44 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/05 16:11:32 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/06 17:16:57 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_header_b.h"
 
-//calculating sprite width and height in the projection
-void calculating_sprite_width_height(t_sprite *sprite, float d_projection, int *ystart, int *yend)
-{
-	sprite->pSpriteHeight = ((d_projection * sprite->texture->height) / sprite->distance) + ((sprite->texture->height % TILE_PX) * 2);
-	sprite->pSpriteWidth = ((d_projection * sprite->texture->width) / sprite->distance) + ((sprite->texture->width % TILE_PX) * 2);
-	*ystart = (HEIGHT / 2) - (sprite->pSpriteHeight / 2);
-	if (*ystart < 0)
-		*ystart = 0;
-	*yend = (HEIGHT / 2) + (sprite->pSpriteHeight / 2);
-	if (*yend > HEIGHT)
-		*yend = HEIGHT;
-} 
-
-//calculate the pixel index to render the correct pixel in the pixels array in the texture
-int calculate_pixel_index(t_sprite *sprite, int ystart, int textOffsetX)
-{
-	int     DTop;
-	int     indexC;
-	int     color;
-	int     textOffsetY;
-
-	color = 0;
-	DTop = ystart + (sprite->pSpriteHeight / 2) - (HEIGHT / 2);
-	textOffsetY = DTop * (sprite->texture->height / sprite->pSpriteHeight);    
-	indexC = ((textOffsetY * sprite->texture->width) + textOffsetX) * 4;
-	color = get_rgba(sprite->texture->pixels[indexC],
-		sprite->texture->pixels[indexC + 1], sprite->texture->pixels[indexC + 2],
-		sprite->texture->pixels[indexC + 3]);
-	return (color);
-}
-
 //the correct offset to render the correct pixel in the width of the texture
-int calculate_offsetX(t_sprite *sprite, int xstart)
+int	calculate_offsetx(t_sprite *sprite, int xstart)
 {
-	float  texelWidth;
-	int     textOffsetX;
+	float	texel_width;
+	int		textoffsetx;
 
-	texelWidth = (sprite->texture->width / sprite->pSpriteWidth);
-	textOffsetX = (xstart - sprite->spriteXstart) * texelWidth;
-	return (textOffsetX);
+	texel_width = (sprite->texture->width / sprite->psprite_width);
+	textoffsetx = (xstart - sprite->sprite_xstart) * texel_width;
+	return (textoffsetx);
 }
 
 //render the sprite to the projection
-void render_one_sprite(t_player *player, t_sprite *sprite, int ystart, int yend)
+void	render_one_sprite(t_player *player, t_sprite *sprite,
+			int ystart, int yend)
 {
 	int	xstart;
 	int	tmpy;
 	int	color;
-	int	textOffsetX;
+	int	textoffsetx;
 
-	xstart = sprite->spriteXstart;
+	xstart = sprite->sprite_xstart;
 	tmpy = ystart;
-	while (xstart < sprite->spriteXend)
+	while (xstart < sprite->sprite_xend)
 	{
-		textOffsetX = calculate_offsetX(sprite, xstart);
+		textoffsetx = calculate_offsetx(sprite, xstart);
 		ystart = tmpy;
 		while (ystart < yend)
 		{
 			if (ystart < HEIGHT && xstart < WIDTH && xstart >= 0 && ystart >= 0
 				&& sprite->distance < player->rays[xstart].distance_to_wall)
 			{
-				color = calculate_pixel_index(sprite, ystart, textOffsetX);
+				color = calculate_pixel_index(sprite, ystart, textoffsetx);
 				if (color)
 					mlx_put_pixel(player->map_img, xstart, ystart, color);
 			}
@@ -92,8 +62,10 @@ void	calculate_sprite_projection_and_render(t_player *player, int index)
 	ystart = 0;
 	yend = 0;
 	d_projection = (WIDTH / 2) / (tan(degrees2rad(FOV_ANGLE / 2)));
-	calculating_sprite_width_height(&player->sprite[index], d_projection, &ystart, &yend);
-	calculating_sprite_x(player, &player->sprite[index], d_projection, player->sprite[index].pSpriteWidth);
+	calculating_sprite_width_height(&player->sprite[index],
+		d_projection, &ystart, &yend);
+	calculating_sprite_x(player, &player->sprite[index], d_projection,
+		player->sprite[index].psprite_width);
 	render_one_sprite(player, &player->sprite[index], ystart, yend);
 }
 

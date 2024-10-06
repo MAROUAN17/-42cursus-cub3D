@@ -3,22 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   calculate_distance_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:48 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/20 14:01:49 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/06 11:06:28 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_header_b.h"
 
-float calculate_smallest_distance(t_player *player, t_ray *ray, t_point *wall1, t_point *wall2)
+float	calculate_smallest_distance(t_player *player,
+		t_ray *ray, t_point *wall1, t_point *wall2)
 {
-	float distance1 = 0;
-	float distance2 = 0;
+	float	distance1;
+	float	distance2;
 
-	distance1 = sqrt(pow(wall1->x - player->player_x, 2) + pow(wall1->y - player->player_y, 2));
-	distance2 = sqrt(pow(wall2->x - player->player_x, 2) + pow(wall2->y - player->player_y, 2));
+	distance1 = sqrt(pow(wall1->x - player->player_x, 2)
+			+ pow(wall1->y - player->player_y, 2));
+	distance2 = sqrt(pow(wall2->x - player->player_x, 2)
+			+ pow(wall2->y - player->player_y, 2));
 	if (distance2 < distance1)
 	{
 		ray->x = wall2->x;

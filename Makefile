@@ -4,14 +4,16 @@ LIBMLX = ./MLX42
 SRCS =  mandatory/main.c mandatory/walls_utils.c mandatory/calculate_distance.c mandatory/horizontal_intersection.c mandatory/vertical_intersection.c mandatory/finding_wall.c \
 	mandatory/calculations.c mandatory/player_movement.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c mandatory/parse_map.c \
 	mandatory/free_utils.c mandatory/parse_color.c mandatory/parse_textures.c mandatory/parse_elements.c mandatory/parse_utils.c \
-	mandatory/initialization.c mandatory/walls_utils2.c
+	mandatory/initialization.c mandatory/walls_utils2.c mandatory/calculations_utils.c
 OBJS = ${addprefix mandatory/obj/, ${SRCS:.c=.o}}
 
 SRCS_B =  bonus/initialization_bonus.c bonus/main_bonus.c bonus/walls_utils_bonus.c bonus/calculate_distance_bonus.c bonus/horizontal_intersection_bonus.c bonus/vertical_intersection_bonus.c bonus/finding_wall_bonus.c \
 	bonus/calculations_bonus.c bonus/minimap_bonus.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c bonus/parse_map_bonus.c \
 	bonus/free_utils_bonus.c bonus/parse_color_bonus.c bonus/parse_textures_bonus.c bonus/parse_elements_bonus.c \
 	bonus/sprite_bonus.c bonus/movement_bonus.c bonus/parse_utils_bonus.c bonus/sprite2_bonus.c bonus/doors_utils_bonus.c \
-	bonus/walls_utils2_bonus.c bonus/doors_utils2_bonus.c bonus/minimap_utils_bonus.c bonus/movement_bonus2.c
+	bonus/walls_utils2_bonus.c bonus/doors_utils2_bonus.c bonus/minimap_utils_bonus.c bonus/movement2_bonus.c bonus/rays_utils.c \
+	bonus/doors_utils3_bonus.c bonus/finding_wall2_bonus.c bonus/initialization2_bonus.c bonus/movement3_bonus.c \
+	bonus/parse_textures2_bonus.c bonus/sprite3_bonus.c
 OBJS_B = ${addprefix bonus/b_obj/, ${SRCS_B:.c=.o}}
 
 LIBFT = ./libft/libft.a

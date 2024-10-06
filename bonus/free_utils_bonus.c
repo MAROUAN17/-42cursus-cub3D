@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:39 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/03 10:46:06 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:12:41 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,9 @@ void	*free_memory(char **map, int r)
 	return (NULL);
 }
 
-void print_err(char *line)
+void	free_2d_arr(char **map)
 {
-	int i;
-
-	i = 0;
-	while (line[i])
-	{
-		write(2, &line[i], 1);
-		i++;
-	}
-}
-
-void free_2d_arr(char **map)
-{
-	int i;
+	int	i;
 
 	i = 0;
 	while (map[i])
@@ -43,6 +31,19 @@ void free_2d_arr(char **map)
 		i++;
 	}
 	free(map);
+}
+
+void	free_old_rays(t_ray *rays, int i)
+{
+	i--;
+	while (i >= 0)
+	{
+		free(rays[i].d_h_xintersept);
+		free(rays[i].d_h_yintersept);
+		free(rays[i].d_v_xintersept);
+		free(rays[i].d_v_yintersept);
+		i--;
+	}
 }
 
 void	destroy_textures(mlx_texture_t **c_textures, mlx_texture_t **d_textures)
@@ -58,7 +59,8 @@ void	destroy_textures(mlx_texture_t **c_textures, mlx_texture_t **d_textures)
 	mlx_delete_texture(d_textures[3]);
 }
 
-void	free_allocated_memory(t_player *player, mlx_texture_t **c_textures, mlx_texture_t **d_textures)
+void	free_allocated_memory(t_player *player,
+			mlx_texture_t **c_textures, mlx_texture_t **d_textures)
 {
 	int	i;
 
@@ -79,5 +81,5 @@ void	free_allocated_memory(t_player *player, mlx_texture_t **c_textures, mlx_tex
 	mlx_delete_texture(player->north_texture);
 	mlx_delete_texture(player->south_texture);
 	destroy_textures(c_textures, d_textures);
-    free_2d_arr(player->map);
+	free_2d_arr(player->map);
 }

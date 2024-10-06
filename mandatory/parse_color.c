@@ -6,16 +6,16 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:09:30 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/04 15:53:44 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/06 09:49:05 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_header.h"
 
-int count_comma(char *line)
+int	count_comma(char *line)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -27,9 +27,10 @@ int count_comma(char *line)
 	}
 	return (count);
 }
-int count_2d_len(char **sep_str)
+
+int	count_2d_len(char **sep_str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (sep_str[i])
@@ -37,9 +38,9 @@ int count_2d_len(char **sep_str)
 	return (i);
 }
 
-int num_length(char *str)
+int	num_length(char *str)
 {
-	int i;
+	int	i;
 	int	count;
 
 	i = 0;
@@ -58,11 +59,11 @@ int num_length(char *str)
 	return (count);
 }
 
-int translate_color(char *str, int *num)
+int	translate_color(char *str, int *num)
 {
-	int tmp_num;
+	int	tmp_num;
 	int	length;
-	
+
 	tmp_num = ft_atoi(str);
 	length = num_length(str);
 	if (length <= 3 && length > 0
@@ -74,7 +75,7 @@ int translate_color(char *str, int *num)
 }
 
 int	translate_rgb(char **sep_str, int *color)
-{	
+{
 	int	r;
 	int	g;
 	int	b;

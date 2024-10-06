@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:39 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/09/26 16:35:33 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/06 09:43:41 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*free_memory(char **map, int r)
 
 void	free_2d_array(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (array[i])
@@ -33,9 +33,9 @@ void	free_2d_array(char **array)
 	free(array);
 }
 
-void print_err(char *line)
+void	print_err(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
