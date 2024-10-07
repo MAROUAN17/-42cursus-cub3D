@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:10:50 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/05 16:57:16 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:49:42 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,11 @@ void	render(void *v_player)
 
 	player = (t_player *)v_player;
 	mlx_delete_image(player->mlx, player->map_img);
-	player->map_img = NULL;
 	player->map_img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
+	if (!player->map_img)
+		mlx_close_window(player->mlx);
+	if (mlx_image_to_window(player->mlx, player->map_img, 0, 0) == -1)
+		mlx_close_window(player->mlx);
 	if (player->w_key)
 		move(player, player->player_angle);
 	if (player->s_key)
@@ -108,5 +111,4 @@ void	render(void *v_player)
 				+ player->mlx->delta_time) * -1;
 	cast_rays(player);
 	draw_wall(player);
-	mlx_image_to_window(player->mlx, player->map_img, 0, 0);
 }

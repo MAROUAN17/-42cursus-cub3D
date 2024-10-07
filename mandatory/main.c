@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 09:47:06 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 09:47:52 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:00:58 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ int	main(int ac, char **av)
 	map_height = 0;
 	initialize_player_struct(&player, av[1], &map_width, &map_height);
 	initialize_rays_struct(&player, rays);
-	mlx_image_to_window(player.mlx, player.map_img, 0, 0);
+	if (mlx_image_to_window(player.mlx, player.map_img, 0, 0) == -1)
+	{
+		mlx_delete_image(player.mlx, player.map_img);
+		free_and_exit(&player);
+	}
 	mlx_key_hook(player.mlx, &move_player, &player);
 	mlx_loop_hook(player.mlx, &render, &player);
 	mlx_loop(player.mlx);

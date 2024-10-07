@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 17:16:57 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:06:42 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,9 @@ void	render_coins(t_player *player, int texIndex)
 			if (player->sprite[j].visible)
 			{
 				calculate_sprite_projection_and_render(player, j);
-				if (player->sprite[j].distance < 50)
+				if (player->sprite[j].distance < TILE_PX / 2)
 				{
+					printf("distance -> %f\n", player->sprite[j].distance);
 					player->sprite[j].collected = 1;
 					player->nbr_collected++;
 				}

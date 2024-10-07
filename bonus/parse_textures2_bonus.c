@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures2_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:40:14 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 16:43:27 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:09:17 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	set_texture(mlx_texture_t **texture, xpm_t **xpm, char *line)
 
 	i = 0;
 	line += 3;
-	while (*line == ' ' || *line == '\t')
+	while (*line == ' ')
 		line++;
 	type = get_file_type(line);
 	if (*texture == NULL)

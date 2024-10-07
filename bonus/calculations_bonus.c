@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 18:20:38 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:03:22 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	render(void *v_player)
 	handle_door(player);
 	move_player(player);
 	cast_rays_draw(player);
-	render_coins(player, tex_index);
 	check_door_intersections(player);
+	render_coins(player, tex_index);
 	render_minimap(player);
 	tex_index++;
 	player->door_index++;

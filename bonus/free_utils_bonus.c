@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:39 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 16:12:41 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 13:48:04 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	free_old_rays(t_ray *rays, int i)
 		free(rays[i].d_v_yintersept);
 		i--;
 	}
+	free(rays);
 }
 
 void	destroy_textures(mlx_texture_t **c_textures, mlx_texture_t **d_textures)

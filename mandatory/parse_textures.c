@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:20:22 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 10:00:16 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:09:27 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	set_texture(mlx_texture_t **texture, xpm_t **xpm, char *line)
 
 	i = 0;
 	line += 3;
-	while (*line == ' ' || *line == '\t')
+	while (*line == ' ')
 		line++;
 	type = get_file_type(line);
 	if (*texture == NULL)
@@ -88,11 +88,11 @@ int	check_lines(t_player *player, int fd)
 	count = 0;
 	line = get_next_line(fd);
 	if (!line)
-		return (perror("Error\n"), 0);
+		return (perror("Error\n"), close(fd), -1);
 	while (line)
 	{
 		tmp_ptr = line;
-		while (*tmp_ptr == ' ' || *tmp_ptr == '\t')
+		while (*tmp_ptr == ' ')
 			tmp_ptr++;
 		identifier = check_identifier(player, tmp_ptr);
 		if (identifier == 0)

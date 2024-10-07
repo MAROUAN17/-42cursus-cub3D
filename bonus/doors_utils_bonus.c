@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doors_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 10:40:53 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 14:38:09 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:42:54 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void	draw_door(t_player *player, float x, float y, int i)
 				text_offsetx = (int)y % player->door_sprite[j].texture->width;
 			else
 				text_offsetx = (int)x % player->door_sprite[j].texture->width;
+			if (player->door_sprite[j].open_door == 0)
+				player->rays[i].distance_to_wall = player->rays[i].distance_to_door;
 			draw_rectangle_3d(player, i, ystart, text_offsetx);
 		}
 		j++;

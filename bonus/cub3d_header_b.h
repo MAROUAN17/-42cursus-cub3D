@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_header_b.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:41:39 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 17:33:46 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:26:10 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ void			mouse_rotation(t_player *player);
 mlx_texture_t	*resize_texture(mlx_texture_t *texture,
 					int new_width, int new_height);
 void			free_2d_arr(char **map);
-void			initialize_player_struct(t_player *player,
+int				initialize_player_struct(t_player *player,
 					char *map_path, int *map_width, int *map_height);
 int				initialize_rays_struct(t_player *player);
 int				initialize_sprites_struct(t_player *player,
@@ -260,3 +260,8 @@ int				calculate_pixel_index(t_sprite *sprite, int ystart,
 					int textOffsetX);
 void			calculating_sprite_width_height(t_sprite *sprite,
 					float d_projection, int *ystart, int *yend);
+int				init_door(mlx_texture_t **d_textures);
+void			destroy_door(mlx_texture_t **d_textures);
+void			free_and_exit(t_player *player);
+void			destroy_map_textures(t_player *player);
+void			draw_coin_minimap(t_player *player);

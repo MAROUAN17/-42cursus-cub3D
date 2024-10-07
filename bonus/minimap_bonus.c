@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/07 10:55:18 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:29:19 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,22 @@ void	save_sprite_coordinates(t_player *player, int *index, int x, int y)
 {
 	if (player->map[y][x] == 'I'
 		&& player->sprite[*index].x == -1
-		&& player->sprite[*index].x == -1)
+		&& player->sprite[*index].y == -1)
 	{
-		player->sprite[*index].x = x * TILE_PX + (TILE_PX / 2);
-		player->sprite[*index].y = y * TILE_PX + (TILE_PX / 2);
-		player->color = 0xFFFFFFFF;
+		player->sprite[*index].x = x * TILE_PX + (TILE_PX / 4);
+		player->sprite[*index].y = y * TILE_PX + (TILE_PX / 4);
+		player->color = 0x00FF0000;
 		if (((player->player_x / TILE_PX) - 10 <= x
 			&& (player->player_x / TILE_PX) + 10 >= x)
 			&& ((player->player_y / TILE_PX) - 10 <= y
 			&& (player->player_y / TILE_PX) + 10 >= y))
-			draw_rectangle(player, (x * TILE_PX
-					+ player->map_x_offset) * player->minimap_factor, (y * TILE_PX
-					+ player->map_y_offset) * player->minimap_factor,
-				TILE_PX * player->minimap_factor);
+		{
+			if (player->sprite[*index].collected == 0)
+				draw_rectangle(player, (player->sprite[*index].x
+						+ player->map_x_offset) * player->minimap_factor, (player->sprite[*index].y
+						+ player->map_y_offset) * player->minimap_factor,
+					(TILE_PX / 2) * player->minimap_factor);
+		}
 		(*index)++;
 	}
 }
@@ -104,5 +107,6 @@ void	render_minimap(t_player *player)
 		}
 		y++;
 	}
+	draw_coin_minimap(player);
 	draw_player_minimap(player);
 }

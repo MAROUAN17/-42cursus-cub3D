@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:46:04 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 16:14:31 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:07:53 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	initialize_all(t_player *player, char *map_path, mlx_texture_t **c_textures,
 
 	map_width = 0;
 	map_height = 0;
-	initialize_player_struct(player, map_path, &map_width, &map_height);
+	if (initialize_player_struct(player, map_path, &map_width, &map_height))
+		return (1);
 	player->minimap_factor = ((float)(HEIGHT / 100) / TILE_PX);
 	if (initialize_rays_struct(player))
 		return (1);
@@ -36,24 +37,29 @@ int	initialize_all(t_player *player, char *map_path, mlx_texture_t **c_textures,
 int	initialize_animation_textures(mlx_texture_t **c_textures,
 		mlx_texture_t **d_textures)
 {
-	d_textures[0] = resize_texture(mlx_load_png("./textures/MetalDoor1.png"),
-			TILE_PX, TILE_PX);
-	d_textures[1] = resize_texture(mlx_load_png("./textures/MetalDoor2.png"),
-			TILE_PX, TILE_PX);
-	d_textures[2] = resize_texture(mlx_load_png("./textures/MetalDoor3.png"),
-			TILE_PX, TILE_PX);
-	d_textures[3] = resize_texture(mlx_load_png("./textures/MetalDoor4.png"),
-			TILE_PX, TILE_PX);
-	if (!d_textures[0] || !d_textures[1] || !d_textures[2] || !d_textures[3])
+	if (init_door(d_textures))
 		return (1);
 	c_textures[0] = mlx_load_png("./textures/MonedaD1.png");
+	if (!c_textures[0])
+		return (destroy_door(d_textures), 1);
 	c_textures[1] = mlx_load_png("./textures/MonedaD2.png");
+	if (!c_textures[1])
+		return (mlx_delete_texture(c_textures[0]), destroy_door(d_textures), 1);
 	c_textures[2] = mlx_load_png("./textures/MonedaD3.png");
+	if (!c_textures[2])
+		return (mlx_delete_texture(c_textures[0]),
+			mlx_delete_texture(c_textures[1]), destroy_door(d_textures), 1);
 	c_textures[3] = mlx_load_png("./textures/MonedaD4.png");
+	if (!c_textures[3])
+		return (mlx_delete_texture(c_textures[0]),
+			mlx_delete_texture(c_textures[1]),
+			mlx_delete_texture(c_textures[2]), destroy_door(d_textures), 1);
 	c_textures[4] = mlx_load_png("./textures/MonedaD5.png");
-	if (!c_textures[0] || !c_textures[1] || !c_textures[2]
-		|| !c_textures[3] || !c_textures[4])
-		return (1);
+	if (!c_textures[4])
+		return (mlx_delete_texture(c_textures[0]),
+			mlx_delete_texture(c_textures[1]),
+			mlx_delete_texture(c_textures[2]),
+			mlx_delete_texture(c_textures[3]), destroy_door(d_textures), 1);
 	return (0);
 }
 
@@ -69,19 +75,18 @@ void	initialize_map_img(t_player *player)
 	}
 }
 
-void	initialize_player_struct(t_player *player,
+int	initialize_player_struct(t_player *player,
 			char *map_path, int *map_width, int *map_height)
 {
 	player->map = store_2d_array(player, map_path, map_height, map_width);
 	if (!player->map)
+	{
+		destroy_map_textures(player);
 		exit(1);
+	}
 	player->mlx = mlx_init(WIDTH, HEIGHT, "cub3D_bonus", false);
 	if (!player->mlx)
-	{
-		free_2d_arr(player->map);
-		perror(strerror(mlx_errno));
-		exit(EXIT_FAILURE);
-	}
+		free_and_exit(player);
 	initialize_map_img(player);
 	player->turn_left = 0;
 	player->turn_right = 0;
@@ -97,6 +102,7 @@ void	initialize_player_struct(t_player *player,
 	player->rotation_speed = degrees2rad(2.5);
 	player->map_height = *map_height * TILE_PX;
 	player->map_width = *map_width * TILE_PX;
+	return (0);
 }
 
 int	alloc_d_rays(t_player *player, t_ray *rays, int i)

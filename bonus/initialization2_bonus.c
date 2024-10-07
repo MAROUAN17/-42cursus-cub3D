@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization2_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:08:23 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 16:14:57 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:14:30 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,36 @@ int	initialize_door_sprites(t_player *player,
 	}
 	player->door_sprite = sprite;
 	return (0);
+}
+
+int	init_door(mlx_texture_t **d_textures)
+{
+	d_textures[0] = resize_texture(mlx_load_png("./textures/MetalDoor1.png"),
+			TILE_PX, TILE_PX);
+	if (!d_textures[0])
+		return (1);
+	d_textures[1] = resize_texture(mlx_load_png("./textures/MetalDoor2.png"),
+			TILE_PX, TILE_PX);
+	if (!d_textures[1])
+		return (mlx_delete_texture(d_textures[0]), 1);
+	d_textures[2] = resize_texture(mlx_load_png("./textures/MetalDoor3.png"),
+			TILE_PX, TILE_PX);
+	if (!d_textures[2])
+		return (mlx_delete_texture(d_textures[0]),
+			mlx_delete_texture(d_textures[1]), 1);
+	d_textures[3] = resize_texture(mlx_load_png("./textures/MetalDoor4.png"),
+			TILE_PX, TILE_PX);
+	if (!d_textures[3])
+		return (mlx_delete_texture(d_textures[0]),
+			mlx_delete_texture(d_textures[1]),
+			mlx_delete_texture(d_textures[2]), 1);
+	return (0);
+}
+
+void	destroy_door(mlx_texture_t **d_textures)
+{
+	mlx_delete_texture(d_textures[0]);
+	mlx_delete_texture(d_textures[1]);
+	mlx_delete_texture(d_textures[2]);
+	mlx_delete_texture(d_textures[3]);
 }
