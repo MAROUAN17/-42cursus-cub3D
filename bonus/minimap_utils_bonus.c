@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 14:40:24 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 18:35:47 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:21:48 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	draw_map_elements(t_player *player, int x, int y)
 				y_out * player->minimap_factor,
 				TILE_PX * player->minimap_factor);
 		}
-		else
+		else if (player->map[y][x] == '0')
 		{
 			player->color = 0xFFFFFFFF;
 			draw_rectangle(player, x_out * player->minimap_factor,

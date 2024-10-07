@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:08:23 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 16:14:57 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:10:08 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	initialize_sprites_struct(t_player *player, mlx_texture_t **textures)
 		return (perror("malloc failed\n"), 1);
 	while (j < player->total_sprites)
 	{
+		player->sprite[j].id = j;
 		player->sprite[j].psprite_width = 0;
 		player->sprite[j].psprite_height = 0;
 		player->sprite[j].sprite_xstart = 0;

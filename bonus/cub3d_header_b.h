@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:41:39 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 17:33:46 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:09:10 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_point
 
 typedef struct s_sprite
 {
+	int				id;
 	float			x;
 	float			y;
 	int				visible;
@@ -260,3 +261,5 @@ int				calculate_pixel_index(t_sprite *sprite, int ystart,
 					int textOffsetX);
 void			calculating_sprite_width_height(t_sprite *sprite,
 					float d_projection, int *ystart, int *yend);
+void			draw_sprites(t_player *player, int x_out,
+					int y_out, int sprIndex);
