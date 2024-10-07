@@ -1,0 +1,15 @@
+EA ./textures/test.png
+WE ./textures/test.png
+NO ./textures/test.png
+SO ./textures/test.png
+
+
+C 25,204,0
+
+
+
+F 23,169,20
+
+ 1
+1N1111
+ 1

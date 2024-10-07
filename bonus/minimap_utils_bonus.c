@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 14:40:24 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 16:22:51 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:35:47 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	draw_rectangle(t_player *player, float x, float y, float p)
 		x = 0;
 	if (y < 0)
 		y = 0;
-	while (i < p)
+	while (i < p && y + i < HEIGHT)
 	{
 		j = 0;
-		while (j < p)
+		while (j < p && x + j < WIDTH)
 		{
 			mlx_put_pixel(player->map_img, x + j, y + i, player->color);
 			j++;
