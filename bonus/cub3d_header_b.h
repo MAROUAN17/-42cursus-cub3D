@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:41:39 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/07 16:09:10 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:12:42 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void			mouse_rotation(t_player *player);
 mlx_texture_t	*resize_texture(mlx_texture_t *texture,
 					int new_width, int new_height);
 void			free_2d_arr(char **map);
-void			initialize_player_struct(t_player *player,
+int				initialize_player_struct(t_player *player,
 					char *map_path, int *map_width, int *map_height);
 int				initialize_rays_struct(t_player *player);
 int				initialize_sprites_struct(t_player *player,
@@ -203,7 +203,6 @@ void			free_allocated_memory(t_player *player,
 					mlx_texture_t **textures, mlx_texture_t **d_textures);
 int				calculate_number_sprites(t_player *player);
 int				is_open_door(t_player *player, int check_x, int check_y);
-void			check_door_intersections(t_player *player);
 void			draw_door(t_player *player, float x, float y, int i);
 float			get_smallest_door_distance(t_player *player, t_ray *ray, int j);
 float			calculate_correct_wall_distance(t_player *player, int i);
@@ -261,5 +260,9 @@ int				calculate_pixel_index(t_sprite *sprite, int ystart,
 					int textOffsetX);
 void			calculating_sprite_width_height(t_sprite *sprite,
 					float d_projection, int *ystart, int *yend);
-void			draw_sprites(t_player *player, int x_out,
-					int y_out, int sprIndex);
+int				init_door(mlx_texture_t **d_textures);
+void			free_and_exit(t_player *player);
+void			destroy_map_textures(t_player *player);
+void			draw_coin_minimap(t_player *player);
+void			destroy_t_door(mlx_texture_t **d_textures);
+void			destroy_t_coins(mlx_texture_t **c_textures);

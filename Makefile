@@ -13,7 +13,7 @@ SRCS_B =  bonus/initialization_bonus.c bonus/main_bonus.c bonus/walls_utils_bonu
 	bonus/sprite_bonus.c bonus/movement_bonus.c bonus/parse_utils_bonus.c bonus/sprite2_bonus.c bonus/doors_utils_bonus.c \
 	bonus/walls_utils2_bonus.c bonus/doors_utils2_bonus.c bonus/minimap_utils_bonus.c bonus/movement2_bonus.c bonus/rays_utils.c \
 	bonus/doors_utils3_bonus.c bonus/finding_wall2_bonus.c bonus/initialization2_bonus.c bonus/movement3_bonus.c \
-	bonus/parse_textures2_bonus.c bonus/sprite3_bonus.c
+	bonus/parse_textures2_bonus.c bonus/sprite3_bonus.c bonus/free_utils2_bonus.c
 OBJS_B = ${addprefix bonus/b_obj/, ${SRCS_B:.c=.o}}
 
 LIBFT = ./libft/libft.a

@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:37:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 10:24:19 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:55:08 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,6 @@ void			update_ray_facing(t_ray *ray);
 float			normalize_ray_angle(float ray_angle);
 int				store_texture(mlx_texture_t **texture,
 					xpm_t **xpm, char *line, int type);
+void			free_and_exit(t_player *player);
 
 #endif

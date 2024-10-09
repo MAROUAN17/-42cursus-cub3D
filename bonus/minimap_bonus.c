@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:09 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/07 16:22:25 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:21:21 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,19 @@ void	save_sprite_coordinates(t_player *player, int *index, int x, int y)
 	{
 		player->sprite[*index].x = x * TILE_PX + (TILE_PX / 2);
 		player->sprite[*index].y = y * TILE_PX + (TILE_PX / 2);
+		player->color = 0x00FF0000;
 		if (((player->player_x / TILE_PX) - 10 <= x
-			&& (player->player_x / TILE_PX) + 10 >= x)
+				&& (player->player_x / TILE_PX) + 10 >= x)
 			&& ((player->player_y / TILE_PX) - 10 <= y
-			&& (player->player_y / TILE_PX) + 10 >= y))
-			draw_sprites(player, player->sprite[*index].x + player->map_x_offset,
-				player->sprite[*index].y + player->map_y_offset, *index);
+				&& (player->player_y / TILE_PX) + 10 >= y))
+		{
+			if (player->sprite[*index].collected == 0)
+				draw_rectangle(player, (player->sprite[*index].x
+						+ player->map_x_offset) * player->minimap_factor,
+					(player->sprite[*index].y + player->map_y_offset)
+					* player->minimap_factor,
+					(TILE_PX / 2) * player->minimap_factor);
+		}
 		(*index)++;
 	}
 }
@@ -93,13 +100,14 @@ void	render_minimap(t_player *player)
 		x = 0;
 		while (player->map[y][x])
 		{
+			draw_map_elements(player, x, y);
 			save_sprite_coordinates(player, &index, x, y);
 			if (player->map[y][x] == 'D')
 				save_door_cord(player, x, y, &d_index);
-			draw_map_elements(player, x, y);
 			x++;
 		}
 		y++;
 	}
+	draw_coin_minimap(player);
 	draw_player_minimap(player);
 }

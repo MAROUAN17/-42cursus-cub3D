@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:45:51 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 16:24:45 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:29:14 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	is_open_door(t_player *player, int check_x, int check_y)
 	{
 		if (check_x == player->door_sprite[i].x / TILE_PX
 			&& check_y == (player->door_sprite[i].y) / TILE_PX
-			&& player->door_sprite[i].open_door)
+			&& player->door_sprite[i].open_door
+			&& !player->door_sprite[i].start_a)
 			return (1);
 		i++;
 	}
@@ -52,10 +53,10 @@ int	is_open_door(t_player *player, int check_x, int check_y)
 
 int	is_inside_door(t_player *player, int i)
 {
-	if ((int)player->player_x / TILE_PX == (int)
-		player->door_sprite[i].x / TILE_PX
-		&& (int)player->player_y / TILE_PX == (int)
-		player->door_sprite[i].y / TILE_PX)
+	if (((int)player->player_x / TILE_PX == (int)
+			player->door_sprite[i].x / TILE_PX
+			&& (int)player->player_y / TILE_PX == (int)
+			player->door_sprite[i].y / TILE_PX))
 		return (1);
 	return (0);
 }

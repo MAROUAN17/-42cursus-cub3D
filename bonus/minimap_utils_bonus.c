@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 14:40:24 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/07 15:21:48 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:00:35 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,25 @@ void	draw_map_elements(t_player *player, int x, int y)
 				y_out * player->minimap_factor,
 				TILE_PX * player->minimap_factor);
 		}
-		else if (player->map[y][x] == '0')
+		else
 		{
 			player->color = 0xFFFFFFFF;
 			draw_rectangle(player, x_out * player->minimap_factor,
 				y_out * player->minimap_factor,
 				TILE_PX * player->minimap_factor);
 		}
+	}
+}
+
+void	draw_coin_minimap(t_player *player)
+{
+	int	i;
+
+	i = 0;
+	while (i < player->total_sprites)
+	{
+		if (player->sprite[i].collected == 0)
+			render_sprites_minimap(player, i);
+		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:12:22 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/07 15:42:10 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:32:22 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ void	change_sprite_index(t_player *player, int i, int texIndex)
 
 void	draw_sprites(t_player *player, int x_out, int y_out, int sprIndex)
 {
-	// player->color = 0xFFFFFFFF;
-	// draw_rectangle(player, x_out * player->minimap_factor, y_out
-	// 		* player->minimap_factor, TILE_PX * player->minimap_factor);
 	if (player->sprite[sprIndex].visible)
 	{
 		player->color = 0x00FF00FF;
@@ -70,9 +67,9 @@ void	calculating_sprite_width_height(t_sprite *sprite,
 			float d_projection, int *ystart, int *yend)
 {
 	sprite->psprite_height = ((d_projection * sprite->texture->height)
-			/ sprite->distance) + ((sprite->texture->height % TILE_PX) * 2);
+			/ sprite->distance);
 	sprite->psprite_width = ((d_projection * sprite->texture->width)
-			/ sprite->distance) + ((sprite->texture->width % TILE_PX) * 2);
+			/ sprite->distance);
 	*ystart = (HEIGHT / 2) - (sprite->psprite_height / 2);
 	if (*ystart < 0)
 		*ystart = 0;

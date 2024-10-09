@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:08:23 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/07 16:10:08 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:26:37 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,47 @@ int	initialize_sprites_struct(t_player *player, mlx_texture_t **textures)
 int	initialize_door_sprites(t_player *player,
 		mlx_texture_t **textures)
 {
-	t_sprite	*sprite;
 	int			j;
 
 	j = 0;
-	sprite = malloc(sizeof(t_sprite) * player->doors_count);
-	if (!sprite)
+	player->door_sprite = malloc(sizeof(t_sprite) * player->doors_count);
+	if (!player->door_sprite)
 		return (1);
 	while (j < player->doors_count)
 	{
-		sprite[j].collected = 0;
-		sprite[j].open_door = 0;
-		sprite[j].start_a = 0;
-		sprite[j].x = 0;
-		sprite[j].y = 0;
-		sprite[j].texture = textures[0];
-		sprite[j].visible = 0;
-		sprite[j].an_textures = textures;
+		player->door_sprite[j].collected = 0;
+		player->door_sprite[j].open_door = 0;
+		player->door_sprite[j].start_a = 0;
+		player->door_sprite[j].x = 0;
+		player->door_sprite[j].y = 0;
+		player->door_sprite[j].texture = textures[0];
+		player->door_sprite[j].visible = 0;
+		player->door_sprite[j].an_textures = textures;
 		j++;
 	}
-	player->door_sprite = sprite;
+	return (0);
+}
+
+int	init_door(mlx_texture_t **d_textures)
+{
+	d_textures[0] = resize_texture(mlx_load_png("./textures/MetalDoor1.png"),
+			TILE_PX, TILE_PX);
+	if (!d_textures[0])
+		return (1);
+	d_textures[1] = resize_texture(mlx_load_png("./textures/MetalDoor2.png"),
+			TILE_PX, TILE_PX);
+	if (!d_textures[1])
+		return (mlx_delete_texture(d_textures[0]), 1);
+	d_textures[2] = resize_texture(mlx_load_png("./textures/MetalDoor3.png"),
+			TILE_PX, TILE_PX);
+	if (!d_textures[2])
+		return (mlx_delete_texture(d_textures[0]),
+			mlx_delete_texture(d_textures[1]), 1);
+	d_textures[3] = resize_texture(mlx_load_png("./textures/MetalDoor4.png"),
+			TILE_PX, TILE_PX);
+	if (!d_textures[3])
+		return (mlx_delete_texture(d_textures[0]),
+			mlx_delete_texture(d_textures[1]),
+			mlx_delete_texture(d_textures[2]), 1);
 	return (0);
 }

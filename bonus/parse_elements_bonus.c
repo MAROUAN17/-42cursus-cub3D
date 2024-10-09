@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 16:37:35 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/08 10:31:38 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	check_line_chars(char *line, int *p_counter, int i, t_player *player)
 	else if (line[i] == 'S')
 		player->player_angle = (M_PI / 2);
 	else if (line[i] == 'W')
-		player->player_angle = 2 * (M_PI / 2);
+		player->player_angle = M_PI;
 	else if (line[i] == 'E')
 		player->player_angle = 0;
 	return (1);

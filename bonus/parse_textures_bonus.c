@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:20:22 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 16:42:48 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:08:41 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	check_lines(t_player *player, int fd)
 	while (line)
 	{
 		tmp_ptr = line;
-		while (*tmp_ptr == ' ' || *tmp_ptr == '\t')
+		while (*tmp_ptr == ' ')
 			tmp_ptr++;
 		identifier = check_identifier(player, tmp_ptr);
 		if (identifier == 0)

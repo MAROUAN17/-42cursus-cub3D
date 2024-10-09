@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 11:52:01 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 16:57:49 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:39:45 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	calculate_ray(t_player *player, float start_angle,
 			player->rays[i].vertical_wall, player->rays[i].x,
 			player->rays[i].y);
 	draw_ray_projection(player, i);
+	handle_door_intersect(player, i);
 }
 
 void	cast_rays_draw(t_player *player)

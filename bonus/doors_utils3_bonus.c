@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 11:55:12 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 17:25:05 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:43:44 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	handle_animation_door(t_player *player, int i)
 		&& player->door_sprite[i].open_door == 0)
 	{
 		player->door_sprite[i].texture
-			= player->door_sprite[i].an_textures[player->door_index / 10];
-		if (player->door_index == 30)
+			= player->door_sprite[i].an_textures[player->door_index / 5];
+		if (player->door_index == 15)
 		{
 			player->door_sprite[i].open_door = 1;
 			player->door_sprite[i].start_a = 0;
@@ -29,11 +29,11 @@ void	handle_animation_door(t_player *player, int i)
 		&& player->door_sprite[i].open_door)
 	{
 		player->door_sprite[i].texture
-			= player->door_sprite[i].an_textures[3 - (player->door_index / 10)];
-		if (player->door_index == 30)
+			= player->door_sprite[i].an_textures[3 - (player->door_index / 5)];
+		if (player->door_index == 15)
 		{
-			player->door_sprite[i].open_door = 0;
 			player->door_sprite[i].start_a = 0;
+			player->door_sprite[i].open_door = 0;
 		}
 	}
 }

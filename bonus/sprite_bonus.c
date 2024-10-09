@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/07 16:33:49 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:37:48 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,6 @@ void	sort_sprites(t_player *player)
 	}
 }
 
-void display_coins(t_player *player)
-{
-	int j = 0;
-	while (j < player->total_sprites)
-	{
-		printf("coin distance -> %d\n", player->sprite[j].id);
-		j++;
-	}
-}
-
 void	render_coins(t_player *player, int texIndex)
 {
 	int	j;
@@ -121,7 +111,7 @@ void	render_coins(t_player *player, int texIndex)
 			if (player->sprite[j].visible)
 			{
 				calculate_sprite_projection_and_render(player, j);
-				if (player->sprite[j].distance < 50)
+				if (player->sprite[j].distance < TILE_PX / 2)
 				{
 					player->sprite[j].collected = 1;
 					player->nbr_collected++;

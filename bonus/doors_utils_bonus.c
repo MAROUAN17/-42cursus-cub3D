@@ -6,7 +6,7 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 10:40:53 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/07 15:18:05 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:39:43 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,6 @@ void	handle_multi_d_intersects(t_player *player, int i, int j)
 	draw_door(player, player->rays[i].d_x, player->rays[i].d_y, i);
 }
 
-void	check_door_intersections(t_player *player)
-{
-	int		i;
-
-	i = 0;
-	while (i < WIDTH)
-	{
-		handle_door_intersect(player, i);
-		i++;
-	}
-}
-
 int	check_visible_door(t_player *player, float x, float y, int j)
 {
 	visible_sprite_d(player, player->door_sprite, j);
@@ -68,6 +56,13 @@ int	check_visible_door(t_player *player, float x, float y, int j)
 		&& x <= player->door_sprite[j].x + TILE_PX
 		&& y >= player->door_sprite[j].y
 		&& y <= player->door_sprite[j].y + TILE_PX);
+}
+
+void	check_open_door(t_player *player, int i, int j)
+{
+	if (player->door_sprite[j].open_door == 0)
+		player->rays[i].distance_to_wall
+			= player->rays[i].distance_to_door;
 }
 
 void	draw_door(t_player *player, float x, float y, int i)
@@ -91,8 +86,7 @@ void	draw_door(t_player *player, float x, float y, int i)
 				text_offsetx = (int)y % player->door_sprite[j].texture->width;
 			else
 				text_offsetx = (int)x % player->door_sprite[j].texture->width;
-			if (player->door_sprite[j].open_door == 0)
-                player->rays[i].distance_to_wall = player->rays[i].distance_to_door;
+			check_open_door(player, i, j);
 			draw_rectangle_3d(player, i, ystart, text_offsetx);
 		}
 		j++;
