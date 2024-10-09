@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 09:49:43 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:11:13 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	check_valid_line(char *line, char *top_line,
 	i--;
 	while (line[i] == ' ' && i > 0)
 		i--;
-	if (line[i] != '1')
+	if (line[i] != '1' && line[i] != ' ')
 		return (0);
 	return (1);
 }
