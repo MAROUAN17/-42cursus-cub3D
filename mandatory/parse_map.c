@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:28:27 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/09 10:45:01 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/12 13:40:58 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	count_height(char *map_path, int *map_height, int *map_width, int skip_n)
 		return (close(fd), 0);
 	line = get_next_line(fd);
 	if (!line)
-		return (0);
+		return (close(fd), 0);
 	while (line)
 	{
 		width = ft_strlen(line);

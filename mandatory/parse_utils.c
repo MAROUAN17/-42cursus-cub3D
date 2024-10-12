@@ -6,7 +6,7 @@
 /*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 11:49:57 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 10:07:51 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/12 11:44:58 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,10 @@ int	compare_to_upper_line(char *line, char *top_line)
 		if ((line[i] == ' ' && top_line[i] != '1' && top_line[i] != ' ')
 			|| (line[i] == '0' && top_line[i] == ' ')
 			|| ((line[i] == 'N' || line[i] == 'S' || line[i] == 'W'
-					|| line[i] == 'E' || line[i] == 'D' || line[i] == 'I')
+					|| line[i] == 'E')
 				&& (top_line[i] == ' '))
 			|| ((top_line[i] == 'N' || top_line[i] == 'S' || top_line[i] == 'W'
-					|| top_line[i] == 'E' || top_line[i] == 'D'
-					|| top_line[i] == 'I')
+					|| top_line[i] == 'E')
 				&& (line[i] == ' ')))
 			return (1);
 		i++;

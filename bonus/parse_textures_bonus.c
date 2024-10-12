@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:20:22 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/09 11:37:59 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/12 13:37:47 by oait-laa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	check_lines(t_player *player, int fd)
 	count = 0;
 	line = get_next_line(fd);
 	if (!line)
-		return (perror("Error\n"), 0);
+		return (perror("Error\n"), close(fd), 0);
 	while (line)
 	{
 		tmp_ptr = line;
