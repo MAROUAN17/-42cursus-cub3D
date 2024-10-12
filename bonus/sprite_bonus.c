@@ -6,13 +6,12 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:11:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/08 13:37:48 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:54:30 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_header_b.h"
+#include "cub3d_header_bonus.h"
 
-//the correct offset to render the correct pixel in the width of the texture
 int	calculate_offsetx(t_sprite *sprite, int xstart)
 {
 	float	texel_width;
@@ -23,7 +22,6 @@ int	calculate_offsetx(t_sprite *sprite, int xstart)
 	return (textoffsetx);
 }
 
-//render the sprite to the projection
 void	render_one_sprite(t_player *player, t_sprite *sprite,
 			int ystart, int yend)
 {

@@ -6,11 +6,11 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:31:43 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 16:35:32 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:37:59 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./cub3d_header_b.h"
+#include "./cub3d_header_bonus.h"
 
 void	key_press(mlx_key_data_t keydata, t_player *player)
 {

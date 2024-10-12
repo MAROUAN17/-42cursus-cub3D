@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_header_b.h                                   :+:      :+:    :+:   */
+/*   cub3d_header_bonus.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:41:39 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/08 15:12:42 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:44:49 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <math.h>
-#include <limits.h>
-#include "../MLX42/include/MLX42/MLX42.h"
+#ifndef CUB3D_HEADER_BONUS_H
+# define CUB3D_HEADER_BONUS_H
 
-#define HEIGHT 1000
-#define WIDTH 1800
-#define FOV_ANGLE 60
-#define TILE_PX 64
+# include <stdlib.h>
+# include <stdio.h>
+# include <string.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <math.h>
+# include "../MLX42/include/MLX42/MLX42.h"
+
+# define HEIGHT 1000
+# define WIDTH 1800
+# define FOV_ANGLE 60
+# define TILE_PX 64
 
 typedef struct s_point
 {
@@ -154,7 +156,6 @@ t_point			finding_wall_horizontal(t_player *player, t_ray *ray,
 					float xstep, float ystep);
 t_point			finding_wall_vertical(t_player *player, t_ray *ray,
 					float xstep, float ystep);
-void			draw_walls(t_player *player, int x, int y);
 void			render_minimap(t_player *player);
 void			draw_ceiling(mlx_image_t *img, int x,
 					int y, int color);
@@ -181,7 +182,6 @@ void			visible_sprite_c(t_player *player, t_sprite *sprite, int index);
 void			calculate_distance_coins(t_player *player);
 void			calculate_sprite_projection_and_render(t_player *player,
 					int index);
-void			render_sprites(t_player *player, int texIndex);
 void			check_change_position(t_player *player, float angle);
 void			rotate_player(t_player *player, float rotationAngle);
 float			normalize_ray_angle(float ray_angle);
@@ -225,9 +225,6 @@ void			movement_key_pressing(mlx_key_data_t keydata, t_player *player);
 void			render_coins(t_player *player, int texIndex);
 void			handle_multi_d_intersects(t_player *player, int i, int j);
 void			visible_sprite_d(t_player *player, t_sprite *sprite, int index);
-int				check_corner2(t_player *player, float new_x, float new_y);
-void			render_one_sprite2(t_player *player, t_sprite *sprite,
-					int ystart, int yend);
 int				ft_isdigit(int c);
 int				compare_to_upper_line(char *line, char *top_line);
 char			**fill_map(int fd, int *map_height, int *map_width);
@@ -266,3 +263,5 @@ void			destroy_map_textures(t_player *player);
 void			draw_coin_minimap(t_player *player);
 void			destroy_t_door(mlx_texture_t **d_textures);
 void			destroy_t_coins(mlx_texture_t **c_textures);
+
+#endif

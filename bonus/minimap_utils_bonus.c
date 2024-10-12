@@ -6,11 +6,11 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 14:40:24 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/07 17:00:35 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:37:59 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_header_b.h"
+#include "cub3d_header_bonus.h"
 
 void	draw_rectangle(t_player *player, float x, float y, float p)
 {

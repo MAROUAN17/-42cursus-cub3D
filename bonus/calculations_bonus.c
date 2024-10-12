@@ -6,11 +6,11 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:38 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/08 14:43:54 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:37:59 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_header_b.h"
+#include "cub3d_header_bonus.h"
 
 void	render(void *v_player)
 {

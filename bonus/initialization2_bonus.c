@@ -6,11 +6,11 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:08:23 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/08 15:26:37 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:37:59 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./cub3d_header_b.h"
+#include "./cub3d_header_bonus.h"
 
 int	initialize_rays_struct(t_player *player)
 {

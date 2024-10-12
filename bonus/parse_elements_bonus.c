@@ -6,11 +6,11 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 11:17:46 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/08 10:31:38 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:37:59 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_header_b.h"
+#include "cub3d_header_bonus.h"
 
 int	check_top_bot_borders(char *line, char *comp_line)
 {

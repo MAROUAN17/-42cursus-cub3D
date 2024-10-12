@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:10:50 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/07 11:49:42 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:27:21 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ void	move(t_player *player, float angle)
 	check_y = (player->player_y + new_y) / TILE_PX;
 	if (!check_corner(player, new_y))
 		return ;
-	if (player->map[check_y][check_x] != '1')
+	if (player->map[check_y][(int)player->player_x / TILE_PX] != '1'
+		&& player->map[(int)player->player_y / TILE_PX][check_x] != '1'
+		&& player->map[check_y][check_x] != '1')
 	{
 		player->player_x += new_x;
 		player->player_y += new_y;

@@ -6,11 +6,11 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:44:30 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/06 17:19:50 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:54:32 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./cub3d_header_b.h"
+#include "./cub3d_header_bonus.h"
 
 void	calculate_distance_coins(t_player *player)
 {
@@ -62,7 +62,6 @@ void	visible_sprite_d(t_player *player, t_sprite *sprite, int index)
 		sprite[index].visible = 0;
 }
 
-//calculating sprite start and sprite end in the projection
 void	calculating_sprite_x(t_player *player, t_sprite *sprite,
 			float d_projection, float psprite_width)
 {

@@ -46,14 +46,14 @@ mandatory/obj/%.o: %.c mandatory/cub3d_header.h
 	@mkdir -p $(dir $@)
 	${CC} ${CFLAGS} -o $@ -c $< ${HEADERS}
 
-bonus/b_obj/%.o: %.c ./bonus/cub3d_header_b.h
+bonus/b_obj/%.o: %.c ./bonus/cub3d_header_bonus.h
 	@mkdir -p $(dir $@)
 	${CC} ${CFLAGS} -o $@ -c $< ${HEADERS}
 
 ${NAME}: ${OBJ_LIBFT} ${OBJS} ${LIBFT} ${NEXT_LINE_H}
 	${CC} ${CFLAGS} ${OBJS} ${LIBS} ${LIBFT} ${HEADERS} -o ${NAME}
 
-bonus: libmlx ${OBJ_LIBFT} ${OBJS_B} ${LIBFT} ${NEXT_LINE_H} bonus/cub3d_header_b.h
+bonus: libmlx ${OBJ_LIBFT} ${OBJS_B} ${LIBFT} ${NEXT_LINE_H} bonus/cub3d_header_bonus.h
 	${CC} ${CFLAGS} ${OBJS_B} ${LIBS} ${LIBFT} ${HEADERS} -o ${NAME_B}
 
 clean:

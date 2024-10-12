@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_header.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:37:54 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/07 11:55:08 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:47:16 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <math.h>
-# include <limits.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 
 # define HEIGHT 1000
 # define WIDTH 1800
 # define FOV_ANGLE 60
-# define TILE_PX 640
+# define TILE_PX 64
 
 typedef struct s_point
 {

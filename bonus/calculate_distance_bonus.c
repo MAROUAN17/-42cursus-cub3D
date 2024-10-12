@@ -6,11 +6,11 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:01:48 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/06 11:06:28 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:38:16 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_header_b.h"
+#include "cub3d_header_bonus.h"
 
 float	calculate_smallest_distance(t_player *player,
 		t_ray *ray, t_point *wall1, t_point *wall2)

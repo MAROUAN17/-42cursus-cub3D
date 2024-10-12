@@ -6,11 +6,11 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 11:55:12 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/08 14:43:44 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:37:59 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./cub3d_header_b.h"
+#include "./cub3d_header_bonus.h"
 
 void	handle_animation_door(t_player *player, int i)
 {

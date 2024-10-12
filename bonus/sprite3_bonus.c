@@ -6,11 +6,11 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:12:22 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/08 13:32:22 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:54:38 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./cub3d_header_b.h"
+#include "./cub3d_header_bonus.h"
 
 void	change_sprite_index(t_player *player, int i, int texIndex)
 {
@@ -62,7 +62,6 @@ void	render_sprites_minimap(t_player *player, int sprIndex)
 		draw_sprites(player, x_out, y_out, sprIndex);
 }
 
-//calculating sprite width and height in the projection
 void	calculating_sprite_width_height(t_sprite *sprite,
 			float d_projection, int *ystart, int *yend)
 {
@@ -78,8 +77,6 @@ void	calculating_sprite_width_height(t_sprite *sprite,
 		*yend = HEIGHT;
 }
 
-//calculate the pixel index to render the correct pixel
-//in the pixels array in the texture
 int	calculate_pixel_index(t_sprite *sprite,
 		int ystart, int textOffsetX)
 {

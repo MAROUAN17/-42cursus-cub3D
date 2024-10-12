@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures2_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-laa <oait-laa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:40:14 by maglagal          #+#    #+#             */
-/*   Updated: 2024/10/07 15:09:17 by oait-laa         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:37:59 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./cub3d_header_b.h"
+#include "./cub3d_header_bonus.h"
 
 int	which_type(mlx_texture_t **texture, xpm_t **xpm,
 			char *line, int type)

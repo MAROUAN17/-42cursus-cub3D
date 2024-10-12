@@ -6,11 +6,11 @@
 /*   By: maglagal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:02:04 by oait-laa          #+#    #+#             */
-/*   Updated: 2024/10/08 15:05:26 by maglagal         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:37:59 by maglagal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_header_b.h"
+#include "cub3d_header_bonus.h"
 
 void	print_err(char *line)
 {
@@ -44,11 +44,6 @@ void	free_and_exit(t_player *player)
 	exit(EXIT_FAILURE);
 }
 
-void	a(void)
-{
-	system("leaks cub3D_bonus");
-}
-
 int	main(int ac, char **av)
 {
 	t_player		player;
@@ -56,7 +51,6 @@ int	main(int ac, char **av)
 	mlx_texture_t	*d_textures[4];
 
 	(void)ac;
-	atexit(a);
 	if (initialize_all(&player, av[1], c_textures, d_textures))
 		return (EXIT_FAILURE);
 	mlx_image_to_window(player.mlx, player.map_img, 0, 0);
